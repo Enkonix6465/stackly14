@@ -86,20 +86,17 @@ const AboutUs = () => {
     {
         name: "Dr. Priya Sharma",
         role: "Founder & CEO",
-        bio: "Pediatric nutrition specialist with 20+ years fighting childhood hunger",
-        image: "/images/priya.jpg"
+        bio: "Pediatric nutrition specialist with 20+ years fighting childhood hunger"
     },
     {
         name: "Rahul Kapoor",
         role: "Program Director",
-        bio: "Leads our school meal initiatives across 5 states",
-        image: "/images/rahul.jpg"
+        bio: "Leads our school meal initiatives across 5 states"
     },
     {
         name: "Ananya Patel",
         role: "Community Outreach",
-        bio: "Connects with local communities to identify needs",
-        image: "/images/Aananya.jpg"
+        bio: "Connects with local communities to identify needs"
     },
   ];
 
@@ -107,7 +104,6 @@ const AboutUs = () => {
     <>
         {/* Hero Section */}
         <section className={`hero ${theme === 'dark' ? 'dark-theme' : ''}`}>
-            <video className="hero-video" src="/Images/home2.mp4" autoPlay loop muted playsInline />
             <div className="hero-overlay">
                 <h1 className={theme === 'dark' ? 'text-white' : ''}>Join Hands for a Brighter Tomorrow.</h1>
                 <p className={theme === 'dark' ? 'text-gray-300' : ''}>We believe that real change begins when we come together.</p>
@@ -151,9 +147,9 @@ const AboutUs = () => {
         <div className={`mission-vision-container ${theme === 'dark' ? 'dark-theme' : ''}`}>
             {/* Mission Section */}
             <div className={`split-section mission-section ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                <div className="section-image-container">
+                {/* <div className="section-image-container">
                     <img src="/Images/our-mission.jpg" alt="Children receiving meals" />
-                </div>
+                </div> */}
                 <div className={`section-content-container ${theme === 'dark' ? 'dark-theme' : ''}`}>
                     <div className="section-header">
                         <h2 className={theme === 'dark' ? 'text-white' : ''}>Our Mission</h2>
@@ -192,9 +188,9 @@ const AboutUs = () => {
                         </ul>
                     </div>
                 </div>
-                <div className="section-image-container">
+                {/* <div className="section-image-container">
                     <img src="/Images/vision.jpg" alt="Happy children learning" />
-                </div>
+                </div> */}
             </div>
         </div>
         
@@ -214,9 +210,9 @@ const AboutUs = () => {
                 <div className="team-grid-container">
                     {teamMembers.map((member, index) => (
                         <div key={index} className={`team-card ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                            <div className="team-image-wrapper">
+                            {/* <div className="team-image-wrapper">
                                 <img src={member.image} alt={member.name} />
-                            </div>
+                            </div> */}
                             <div className="team-info">
                                 <h3 className={theme === 'dark' ? 'text-white' : ''}>{member.name}</h3>
                                 <p className={`role ${theme === 'dark' ? 'text-blue-300' : ''}`}>{member.role}</p>

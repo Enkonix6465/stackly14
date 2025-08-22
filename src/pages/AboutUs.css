@@ -213,12 +213,6 @@
     width: 50%;
 }
 
-.section-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    padding: 20px;
-}
 
 .section-content-container {
     display: flex;
@@ -388,16 +382,7 @@
     overflow: hidden;
 }
 
-.team-image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
 
-.team-card:hover .team-image-wrapper img {
-    transform: scale(1.05);
-}
 
 .team-info {
     padding: 1.5rem;

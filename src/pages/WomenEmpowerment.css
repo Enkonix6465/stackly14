@@ -12,7 +12,6 @@
 
 /* Section 1: Hero Banner */
 .empowerment-hero {
-    background-image: url(/images/.woman-back.jpg);
   opacity: 0.7;
     height: 80vh;
     display: flex;
@@ -23,9 +22,7 @@
     padding: 0 2rem;
 }
 
-.dark .empowerment-hero {
-     background-image: url('/images/woman-back.jpg');
-}
+
 
 .hero-content-women h1 {
     font-size: 3.5rem;
@@ -401,19 +398,6 @@
     flex-wrap: wrap;
 }
 
-.image-side-women,
-.content-side-women {
-    flex: 1 1 50%;
-    box-sizing: border-box;
-    padding: 1rem;
-}
-
-.image-side-women img {
-    width: 100%;
-    height: 80vh;
-    object-fit: cover;
-    display: block;
-}
 
 .emotional-appeal-women h2 {
     color: #00CAE0;

@@ -12,7 +12,7 @@
 
 /* Hero Section */
 .elder-hero {
-    background-image: url(/images/.elderly-care.jpg);
+  
     height: 80vh;
     display: flex;
     align-items: center;
@@ -24,7 +24,6 @@
 
 .dark .elder-hero {
     background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-        url('C:\Users\DELL\Desktop\funds\charity\public\Images\elderly-care.jpg') center/cover;
 }
 
 .hero-content h1 {
@@ -62,17 +61,6 @@
     min-height: 500px;
 }
 
-.image-side-elder {
-    flex: 1;
-    background-size: cover;
-    background-position: center;
-}
-
-.image-side-elder img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
 
 .content-side-elder {
     flex: 1;
@@ -378,11 +366,6 @@
     opacity: 1;
 }
 
-.story-image {
-    flex: 1;
-    background-size: cover;
-    background-position: center;
-}
 
 .story-content {
     flex: 1;

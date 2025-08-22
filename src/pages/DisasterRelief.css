@@ -39,11 +39,7 @@
   position: relative;
   height: 80vh;
   min-height: 500px;
-  background-image: url(/images/.disaster-relief.jpg);
-  background-image: url(/images/disaster-relief.jpg);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  
   display: flex;
   align-items: center;
   color: white;
@@ -97,12 +93,6 @@
   padding: 2rem;
 }
 
-.image-side-disaster img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-}
 
 .emotional-appeal-disaster h2 {
   color: var(--dark-text);

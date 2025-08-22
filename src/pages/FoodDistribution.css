@@ -56,7 +56,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url(/images/food-drive.jpg);
   opacity: 0.7;
 }
 
@@ -103,19 +102,6 @@
   background-color: var(--background);
 }
 
-.image-side-food,
-.content-side-food {
-  flex: 1 1 50%;
-  box-sizing: border-box;
-  padding: 2rem;
-}
-
-.image-side-food img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-}
 
 .emotional-appeal-food h2 {
   color: var(--text);
@@ -196,7 +182,6 @@
   height: auto;
   min-height: 500px;
   color: #fff;
-  background: url('C:\Users\DELL\Desktop\funds\charity\public\Images\free-food.jpg') center/cover no-repeat;
 }
 
 .food-distribution-overview.with-bg .overlay {
@@ -322,12 +307,6 @@
   flex: 1;
 }
 
-.image-col img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
 
 .content-col h2 {
   color: var(--text);

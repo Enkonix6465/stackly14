@@ -57,18 +57,6 @@ body {
   color: white;
 }
 
-.hero-image-healthcare {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url(/images/healthcare.png);
-  opacity: 0.7;
-  background-size: cover;
-  z-index: 1;
-  animation: zoomEffect 15s infinite alternate;
-}
 
 .hero-overlay-healthcare {
   position: absolute;
@@ -123,18 +111,6 @@ body {
   color: var(--text-color);
 }
 
-.image-side-health,
-.content-side-health {
-  flex: 1 1 50%;
-  box-sizing: border-box;
-  padding: 1rem;
-}
-
-.image-side-health img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
 
 .emotional-appeal-health h2 {
   color: var(--text-color);
@@ -287,12 +263,6 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.card-image {
-  height: 200px;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
 
 .card-content {
   padding: 1.5rem;
@@ -358,12 +328,6 @@ body {
   to { transform: translateY(0); opacity: 1; }
 }
 
-.modal-image {
-  height: 100%;
-  min-height: 400px;
-  background-size: cover;
-  background-position: top;
-}
 
 .modal-text {
   padding: 3rem;

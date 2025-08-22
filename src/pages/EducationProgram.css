@@ -75,10 +75,7 @@ h2 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url(/images/.education-program.jpg);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+
   z-index: -1;
 }
 
@@ -232,23 +229,8 @@ h2 {
 }
 
 .feature-image {
-  flex: 1;
-  height: 400px;
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  /* image styles removed */
 }
-
-.rectangular-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.feature-image:hover .rectangular-img {
-  transform: scale(1.05);
 }
 
 /* Section 4: Stats Parallax */
@@ -257,7 +239,6 @@ h2 {
   height: 400px;
   display: flex;
   align-items: center;
-  background: url('C:\Users\DELL\Desktop\funds\charity\public\Images\edu-pro.jpg') center/cover fixed;
   color: white;
   text-align: center;
   overflow: hidden;
