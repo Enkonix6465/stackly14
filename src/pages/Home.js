@@ -3,26 +3,26 @@ import { LanguageContext } from "../components/Header";
 import "./Home.css";
 import { useNavigate } from 'react-router-dom';
 
-const data = [
-  {
-    name: 'James Pattinson',
-    text: '“Lobortis leo pretium facilisis amet nisi at nec. Scelerisque risus tortor donec ipsum consequat semper consequat adipiscing ultrices.”',
-    rating: 4,
-    imgSrc: 'Images/test1.jpg',
-  },
-  {
-    name: 'Greg Stuart',
-    text: '“Vestibulum, cum nam non amet consectetur morbi senectus condimentum eget. Ultricies integer nunc neque accumsan laoreet. Viverra nibh ultrices.”',
-    rating: 5,
-    imgSrc: 'Images/test2.jpg',
-  },
-  {
-    name: 'Trevor Mitchell',
-    text: '“Ut tristique viverra sed porttitor senectus. A facilisis metus pretium id habitant lorem. Velit vel bibendum eget aliquet sem nec, id sed. Tincidunt.”',
-    rating: 3,
-    imgSrc: 'Images/test3.jpg',
-  },
-];
+// const data = [
+//   {
+//     name: 'James Pattinson',
+//     text: '“Lobortis leo pretium facilisis amet nisi at nec. Scelerisque risus tortor donec ipsum consequat semper consequat adipiscing ultrices.”',
+//     rating: 4,
+//     imgSrc: 'Images/test1.jpg',
+//   },
+//   {
+//     name: 'Greg Stuart',
+//     text: '“Vestibulum, cum nam non amet consectetur morbi senectus condimentum eget. Ultricies integer nunc neque accumsan laoreet. Viverra nibh ultrices.”',
+//     rating: 5,
+//     imgSrc: 'Images/test2.jpg',
+//   },
+//   {
+//     name: 'Trevor Mitchell',
+//     text: '“Ut tristique viverra sed porttitor senectus. A facilisis metus pretium id habitant lorem. Velit vel bibendum eget aliquet sem nec, id sed. Tincidunt.”',
+//     rating: 3,
+//     imgSrc: 'Images/test3.jpg',
+//   },
+// ];
 
 const programs = [
   {
