@@ -351,7 +351,7 @@ const itemVariants = {
 const Services = () => {
    
   const [theme, setTheme] = useState('light');
-  const { language, setLanguage } = useContext(LanguageContext);
+  const { language } = useContext(LanguageContext);
   const navigate = useNavigate();
 
   // Load theme preference from localStorage on component mount

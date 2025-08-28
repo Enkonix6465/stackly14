@@ -78,14 +78,14 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAvatarDropdownOpen, setIsAvatarDropdownOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHomeDropdownOpen, setIsHomeDropdownOpen] = useState(false);
-  const homeDropdownTimeout = React.useRef();
+  
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
-  const servicesDropdownTimeout = React.useRef();
+  
   const [theme, setTheme] = useState('light');
   const [userInitials, setUserInitials] = useState('AD');
-  const [userData, setUserData] = useState({ firstname: '', lastname: '', email: '' });
+  const [setUserData] = useState({ firstname: '', lastname: '', email: '' });
 
   // Language context
   const { language, setLanguage } = useContext(LanguageContext);
@@ -142,17 +142,17 @@ const Header = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  // const toggleMobileMenu = () => {
+  //   setIsMobileMenuOpen(!isMobileMenuOpen);
+  // };
 
-  const toggleHomeDropdown = () => {
-    setIsHomeDropdownOpen(!isHomeDropdownOpen);
-  };
+  // const toggleHomeDropdown = () => {
+  //   setIsHomeDropdownOpen(!isHomeDropdownOpen);
+  // };
 
-  const toggleServicesDropdown = () => {
-    setIsServicesDropdownOpen(!isServicesDropdownOpen);
-  };
+  // const toggleServicesDropdown = () => {
+  //   setIsServicesDropdownOpen(!isServicesDropdownOpen);
+  // };
 
   const handleLogout = () => {
     localStorage.removeItem('firstname');
@@ -165,7 +165,7 @@ const Header = () => {
   };
 
   // Check if on admin dashboard (adjust path as needed)
-  const isAdmin = location.pathname.startsWith('/admindashboard');
+  // const isAdmin = location.pathname.startsWith('/admindashboard');
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 w-full transition-colors duration-300 ${theme === 'dark' ? 'bg-[#181818] border-b border-[#222]' : 'bg-white border-b border-gray-200'}`}>
