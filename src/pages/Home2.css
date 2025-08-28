@@ -56,6 +56,29 @@ body.theme-dark .new-card h3{
 body.theme-dark .partners-title{
   color:black
 }
+body.theme-dark .card-section{
+  background-color:transparent;
+}
+
+/* Dark mode for card-section background */
+.theme-dark .card-section {
+  background: #111 !important;
+}
+
+/* Dark mode for each card */
+.theme-dark .custom-card,
+.theme-dark .card {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #222 !important;
+}
+
+/* Dark mode for card text */
+.theme-dark .custom-card .card-title,
+.theme-dark .custom-card .card-text {
+  color: #fff !important;
+}
+
 /* Hero Section */
 .hero-home2 {
   position: relative;

@@ -1,9 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom'; // <-- add useLocation
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
+// Language Context
+export const LanguageContext = createContext();
+
+export const LanguageProvider = ({ children }) => {
+  const [language, setLanguage] = useState('en');
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+};
+
+// 2. Translations object
+const translations = {
+  en: {
+    home: "Home",
+    home2: "Home 2",
+    about: 'About Us',
+    services: 'Services',
+    allServices: 'All Services',
+    education: 'Education Programs',
+    healthcare: 'Healthcare Initiatives',
+    food: 'Food Distribution',
+    disaster: 'Disaster Relief',
+    women: 'Women Empowerment',
+    elderly: 'Elderly Care',
+    blog: 'Blog',
+    contact: 'Contact Us',
+    logout: 'Logout',
+    adminDashboard: 'Admin Dashboard',
+    userDashboard: 'User Dashboard',
+    language: 'Language',
+  },
+  ar: {
+    home: "الرئيسية",
+    home2: "الرئيسية 2",
+    about: 'حول',
+    services: 'الخدمات',
+    allServices: 'كل الخدمات',
+    education: 'برامج التعليم',
+    healthcare: 'مبادرات الرعاية الصحية',
+    food: 'توزيع الطعام',
+    disaster: 'الإغاثة من الكوارث',
+    women: 'تمكين المرأة',
+    elderly: 'رعاية المسنين',
+    blog: 'مدونة',
+    contact: 'اتصل بنا',
+    logout: 'تسجيل خروج',
+    adminDashboard: 'لوحة تحكم المسؤول',
+    userDashboard: 'لوحة تحكم المستخدم',
+    language: 'اللغة',
+  },
+  he: {
+    home: "בית",
+    home2: "בית 2",
+    about: 'אודות',
+    services: 'שירותים',
+    allServices: 'כל השירותים',
+    education: 'תוכניות חינוך',
+    healthcare: 'יוזמות בריאות',
+    food: 'הפצת מזון',
+    disaster: 'סיוע באסון',
+    women: 'העצמת נשים',
+    elderly: 'טיפול בקשישים',
+    blog: 'בלוג',
+    contact: 'צור קשר',
+    logout: 'התנתק',
+    adminDashboard: 'לוח מנהל',
+    userDashboard: 'לוח משתמש',
+    language: 'שפה',
+  }
+};
 
 const Header = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // <-- get current route
+  const location = useLocation();
   const [isAvatarDropdownOpen, setIsAvatarDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHomeDropdownOpen, setIsHomeDropdownOpen] = useState(false);
@@ -11,9 +84,12 @@ const Header = () => {
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
   const servicesDropdownTimeout = React.useRef();
   const [theme, setTheme] = useState('light');
-  const [userInitials, setUserInitials] = useState('AD'); // Default to AD
+  const [userInitials, setUserInitials] = useState('AD');
   const [userData, setUserData] = useState({ firstname: '', lastname: '', email: '' });
-  
+
+  // Language context
+  const { language, setLanguage } = useContext(LanguageContext);
+
   // Get user data from localStorage
   useEffect(() => {
     const user= localStorage.getItem('loggedInUserEmail')
@@ -92,301 +168,132 @@ const Header = () => {
   const isAdmin = location.pathname.startsWith('/admindashboard');
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 w-full !fixed !top-0 !left-0 !right-0 !z-50 transition-colors duration-300
-        ${theme === 'dark' ? 'bg-[#000] border-b border-[#141B25]' : 'bg-white border-b border-gray-200'}`}
-    >
-      <div className="w-full px-4  sm:px-6 lg:px-8">
+    <header className={`fixed top-0 left-0 right-0 z-50 w-full transition-colors duration-300 ${theme === 'dark' ? 'bg-[#181818] border-b border-[#222]' : 'bg-white border-b border-gray-200'}`}>
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex pl-4 sm:pl-6 lg:pl-14 items-center">
-            <button onClick={() => !isAdmin && navigate('/home1')} className="focus:outline-none" disabled={isAdmin}>
+            <button onClick={() => navigate('/home1')} className="focus:outline-none">
               <img src="/Images/logo111.png" alt="STACKLY" className="h-6 sm:h-8 w-auto" />
             </button>
           </div>
 
-          {/* Right side - Navigation and Icons */}
-          {!isAdmin && (
-            <div className="hidden min-[480px]:flex items-center space-x-8">
-              {/* Home Dropdown */}
-
-              <div
-                className="relative"
-                onMouseEnter={() => {
-                  if (homeDropdownTimeout.current) clearTimeout(homeDropdownTimeout.current);
-                  setIsHomeDropdownOpen(true);
-                }}
-                onMouseLeave={() => {
-                  homeDropdownTimeout.current = setTimeout(() => setIsHomeDropdownOpen(false), 200);
-                }}
-              >
-                <button
-                  onClick={() => navigate('/home')}
-                  className={`flex items-center ${theme === 'dark' ? 'text-white' : 'text-black'} hover:text-[#00BFFF] transition-colors duration-200`}
-                  aria-haspopup="true"
-                  aria-expanded={isHomeDropdownOpen}
-                >
-                  Home
-                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {isHomeDropdownOpen && (
-                  <div className={`absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg border py-2 ${theme === 'dark' ? 'bg-[#1E2A38] border-[#141B25]' : 'bg-white border-gray-200'}`}>
-                    <Link to="/home" className={`block px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#22304a]' : 'text-gray-800 hover:bg-gray-100'}`} onClick={() => setIsHomeDropdownOpen(false)}>Home 1</Link>
-                    <Link to="/home2" className={`block px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#22304a]' : 'text-gray-800 hover:bg-gray-100'}`} onClick={() => setIsHomeDropdownOpen(false)}>Home 2</Link>
-                  </div>
-                )}
-              </div>
-
-
-              <Link
-                to="/Aboutus"
-                className={`${theme === 'dark' ? 'text-white' : 'text-black'} hover:text-[#00BFFF] transition-colors duration-200`}
-              >
-                About Us
-              </Link>
-
-              {/* Services Dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => {
-                  if (servicesDropdownTimeout.current) clearTimeout(servicesDropdownTimeout.current);
-                  setIsServicesDropdownOpen(true);
-                }}
-                onMouseLeave={() => {
-                  servicesDropdownTimeout.current = setTimeout(() => setIsServicesDropdownOpen(false), 200);
-                }}
-              >
-                <button
-                  onClick={() => navigate('/services')}
-                  className={`flex items-center ${theme === 'dark' ? 'text-white' : 'text-black'} hover:text-[#00BFFF] transition-colors duration-200`}
-                  aria-haspopup="true"
-                  aria-expanded={isServicesDropdownOpen}
-                >
-                  Services
-                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {isServicesDropdownOpen && (
-                  <div className={`absolute top-full left-0 mt-2 w-48 rounded-md shadow-lg border py-2 ${theme === 'dark' ? 'bg-[#1E2A38] border-[#141B25]' : 'bg-white border-gray-200'}`}>
-                    <Link to="/services" className={`block px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#22304a]' : 'text-gray-800 hover:bg-gray-100'}`} onClick={() => setIsServicesDropdownOpen(false)}>All Services</Link>
-                    <Link to="/education-programs" className={`block px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#22304a]' : 'text-gray-800 hover:bg-gray-100'}`} onClick={() => setIsServicesDropdownOpen(false)}>Education Programs</Link>
-                    <Link to="/healthcare-initiatives" className={`block px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#22304a]' : 'text-gray-800 hover:bg-gray-100'}`} onClick={() => setIsServicesDropdownOpen(false)}>Healthcare Initiatives</Link>
-                    <Link to="/food-distribution" className={`block px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#22304a]' : 'text-gray-800 hover:bg-gray-100'}`} onClick={() => setIsServicesDropdownOpen(false)}>Food Distribution</Link>
-                    <Link to="/disaster-relief" className={`block px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#22304a]' : 'text-gray-800 hover:bg-gray-100'}`} onClick={() => setIsServicesDropdownOpen(false)}>Disaster Relief</Link>
-                    <Link to="/women-empowerment" className={`block px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#22304a]' : 'text-gray-800 hover:bg-gray-100'}`} onClick={() => setIsServicesDropdownOpen(false)}>Women Empowerment</Link>
-                    <Link to="/elderly-care" className={`block px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#22304a]' : 'text-gray-800 hover:bg-gray-100'}`} onClick={() => setIsServicesDropdownOpen(false)}>Elderly Care</Link>
-                  </div>
-                )}
-              </div>
-              
-            
-              <Link
-                to="/blog"
-                className={`${theme === 'dark' ? 'text-white' : 'text-black'} hover:text-[#00BFFF] transition-colors duration-200`}
-              >
-                Blog
-              </Link>
-
-              <Link
-                to="/contact"
-                className={`${theme === 'dark' ? 'text-white' : 'text-black'} hover:text-[#00BFFF] transition-colors duration-200`}
-              >
-                Contact Us
-              </Link>
-
-              {/* Dark Mode Toggle */}
+          {/* Navigation */}
+          <nav className="flex items-center space-x-8">
+            {/* Home with dropdown symbol */}
+            <div className="relative inline-block">
               <button
-                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-colors duration-200 ${theme === 'dark' ? 'bg-gray-800 border-gray-700 hover:bg-gray-700' : 'bg-blue-100 border-blue-300 hover:bg-blue-200'}`}
-                onClick={toggleTheme}
-                aria-label="Toggle dark mode"
+                className={`flex items-center ${theme === 'dark' ? "text-white" : "text-black"}`}
+                onClick={() => setIsHomeDropdownOpen(!isHomeDropdownOpen)}
+                aria-haspopup="true"
+                aria-expanded={isHomeDropdownOpen}
+                style={{ fontWeight: location.pathname === "/home" ? "bold" : "normal" }}
               >
-                {theme === 'dark' ? (
-                  <svg className="w-5 h-5 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8.66-8.66h-1M4.34 12H3m15.07 4.93l-.71-.71M6.34 6.34l-.71-.71m12.02 12.02l-.71-.71M6.34 17.66l-.71-.71M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                ) : (
-                  <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                  </svg>
-                )}
+                <span onClick={() => navigate('/home')}>{translations[language].home}</span>
+                <span className="ml-1">▼</span>
               </button>
-
-              {/* Avatar with Logout Dropdown */}
-              <div className="relative">
-                <button
-                  className="w-10 h-10 rounded-full bg-[#00bfff] flex items-center justify-center text-white font-semibold focus:outline-none"
-                  onClick={() => setIsAvatarDropdownOpen((v) => !v)}
+              {isHomeDropdownOpen && (
+                <div
+                  className={`absolute ${theme === 'dark' ? "bg-[#222] text-white" : "bg-white text-black"} border mt-2 rounded shadow-lg z-10`}
+                  style={{ minWidth: "120px" }}
                 >
-                  {userInitials}
-                </button>
-                {isAvatarDropdownOpen && (
-                  <div className={`absolute right-0 mt-2 w-40 rounded-md shadow-lg border py-2 z-50 ${theme === 'dark' ? 'bg-[#1E2A38] border-[#141B25]' : 'bg-white border-gray-200'}`}> 
-                    {userData.email === 'admin@enkonix.in' ? (
-                      <button
-                        className={`block w-full text-left px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#00bfff]' : 'text-gray-800 hover:bg-blue-100'}`}
-                        onClick={() => { setIsAvatarDropdownOpen(false); navigate('/admindashboard'); }}
-                      >
-                        Admin Dashboard
-                      </button>
-                    ) : userData.email ? (
-                      <button
-                        className={`block w-full text-left px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#00bfff]' : 'text-gray-800 hover:bg-blue-100'}`}
-                        onClick={() => { setIsAvatarDropdownOpen(false); navigate('/userdashboard'); }}
-                      >
-                        User Dashboard
-                      </button>
-                    ) : null}
-                    <button
-                      className={`block w-full text-left px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#00bfff]' : 'text-gray-800 hover:bg-blue-100'}`}
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Mobile icons - Only visible on very small screens */}
-          <div className="flex items-center space-x-4 min-[480px]:hidden">
-            {/* Dark Mode Toggle (Mobile) */}
-            <button
-              className={`w-10 h-10 rounded-full border flex items-center justify-center transition-colors duration-200 ${theme === 'dark' ? 'bg-gray-800 border-gray-700 hover:bg-gray-700' : 'bg-blue-100 border-blue-300 hover:bg-blue-200'}`}
-              onClick={toggleTheme}
-              aria-label="Toggle dark mode"
-            >
-              {theme === 'dark' ? (
-                <svg className="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m8.66-8.66h-1M4.34 12H3m15.07 4.93l-.71-.71M6.34 6.34l-.71-.71m12.02 12.02l-.71-.71M6.34 17.66l-.71-.71M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              )}
-            </button>
-
-            {/* Avatar with Logout Dropdown (Mobile) */}
-            <div className="relative">
-              <button
-                className="w-10 h-10 rounded-full bg-[#00BFFF] flex items-center justify-center text-white font-semibold focus:outline-none"
-                onClick={() => setIsAvatarDropdownOpen((v) => !v)}
-              >
-                {userInitials}
-              </button>
-              {isAvatarDropdownOpen && (
-                <div className={`absolute right-0 mt-2 w-32 rounded-md shadow-lg border py-2 z-50 ${theme === 'dark' ? 'bg-[#1E2A38] border-[#141B25]' : 'bg-white border-gray-200'}`}>
-                  {userData.email === 'admin@enkonix.in' ? (
-                    <button
-                      className={`block w-full text-left px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#00bfff]' : 'text-gray-800 hover:bg-blue-100'}`}
-                      onClick={() => { setIsAvatarDropdownOpen(false); navigate('/admindashboard'); }}
-                    >
-                      Admin Dashboard
-                    </button>
-                  ) : userData.email ? (
-                    <button
-                      className={`block w-full text-left px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#00bfff]' : 'text-gray-800 hover:bg-blue-100'}`}
-                      onClick={() => { setIsAvatarDropdownOpen(false); navigate('/userdashboard'); }}
-                    >
-                      User Dashboard
-                    </button>
-                  ) : null}
-                  <button
-                    className={`block w-full text-left px-4 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#00bfff]' : 'text-gray-800 hover:bg-blue-100'}`}
-                    onClick={handleLogout}
+                  <Link
+                    to="/home"
+                    className="block px-4 py-2"
+                    onClick={() => setIsHomeDropdownOpen(false)}
                   >
-                    Logout
-                  </button>
+                    {translations[language].home}
+                  </Link>
+                  <Link
+                    to="/home2"
+                    className="block px-4 py-2"
+                    onClick={() => setIsHomeDropdownOpen(false)}
+                  >
+                    {translations[language].home2}
+                  </Link>
                 </div>
               )}
             </div>
 
-            {/* Mobile menu button */}
-            <button
-              onClick={toggleMobileMenu}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200 ${theme === 'dark' ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-100 hover:bg-gray-200'}`}
+            {/* About Us */}
+            <Link to="/aboutus" className={theme === 'dark' ? "text-white" : "text-black"}>{translations[language].about}</Link>
+
+            {/* Services with dropdown symbol */}
+            <div className="relative inline-block">
+              <button
+                className={`flex items-center ${theme === 'dark' ? "text-white" : "text-black"}`}
+                onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)}
+                aria-haspopup="true"
+                aria-expanded={isServicesDropdownOpen}
+              >
+                <span>{translations[language].services}</span>
+                <span className="ml-1">▼</span>
+              </button>
+              {isServicesDropdownOpen && (
+                <div className={`absolute ${theme === 'dark' ? "bg-[#222] text-white" : "bg-white text-black"} border mt-2 rounded shadow-lg z-10`}>
+                  <Link to="/services" className="block px-4 py-2" onClick={() => setIsServicesDropdownOpen(false)}>{translations[language].allServices}</Link>
+                  <Link to="/education-programs" className="block px-4 py-2" onClick={() => setIsServicesDropdownOpen(false)}>{translations[language].education}</Link>
+                  <Link to="/healthcare-initiatives" className="block px-4 py-2" onClick={() => setIsServicesDropdownOpen(false)}>{translations[language].healthcare}</Link>
+                  <Link to="/food-distribution" className="block px-4 py-2" onClick={() => setIsServicesDropdownOpen(false)}>{translations[language].food}</Link>
+                  <Link to="/disaster-relief" className="block px-4 py-2" onClick={() => setIsServicesDropdownOpen(false)}>{translations[language].disaster}</Link>
+                  <Link to="/women-empowerment" className="block px-4 py-2" onClick={() => setIsServicesDropdownOpen(false)}>{translations[language].women}</Link>
+                  <Link to="/elderly-care" className="block px-4 py-2" onClick={() => setIsServicesDropdownOpen(false)}>{translations[language].elderly}</Link>
+                </div>
+              )}
+            </div>
+            <Link to="/blog" className={theme === 'dark' ? "text-white" : "text-black"}>{translations[language].blog}</Link>
+            <Link to="/contact" className={theme === 'dark' ? "text-white" : "text-black"}>{translations[language].contact}</Link>
+          </nav>
+
+          {/* Right side controls */}
+          <div className="flex items-center space-x-4">
+            {/* Language Dropdown */}
+            <select
+              value={language}
+              onChange={e => setLanguage(e.target.value)}
+              className="border rounded px-2 py-1"
+              aria-label="Select language"
             >
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+              <option value="en">English</option>
+              <option value="ar">العربية</option>
+              <option value="he">עברית</option>
+            </select>
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-full ${theme === 'dark' ? "bg-[#222] text-white hover:bg-[#333]" : "bg-gray-100 text-black hover:bg-gray-200"}`}
+              aria-label="Toggle theme"
+            >
+              {theme === 'light' ? (
+                <span role="img" aria-label="Dark mode">🌙</span>
+              ) : (
+                <span role="img" aria-label="Light mode">☀️</span>
+              )}
             </button>
-          </div>
-        </div>
 
-        {/* Mobile Navigation Menu - Only visible on very small screens */}
-        {isMobileMenuOpen && (
-          <div className={`min-[480px]:hidden border-t ${theme === 'dark' ? 'border-[#141B25] bg-[#000]' : 'border-gray-200 bg-white'}`}>
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {/* Mobile Home Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={toggleHomeDropdown}
-                  className={`flex items-center justify-between w-full px-3 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#1E2A38]' : 'text-gray-800 hover:bg-gray-100'} rounded-md`}
-                >
-                  <span>Home</span>
-                  <svg className={`w-4 h-4 transition-transform duration-200 ${isHomeDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {isHomeDropdownOpen && (
-                  <div className="pl-4 space-y-1">
-                    <Link to="/" className={`block px-3 py-2 ${theme === 'dark' ? 'text-gray-300 hover:bg-[#1E2A38]' : 'text-gray-600 hover:bg-gray-100'} rounded-md`} onClick={() => { setIsHomeDropdownOpen(false); setIsMobileMenuOpen(false); }}>Home 1</Link>
-                    <Link to="/home2" className={`block px-3 py-2 ${theme === 'dark' ? 'text-gray-300 hover:bg-[#1E2A38]' : 'text-gray-600 hover:bg-gray-100'} rounded-md`} onClick={() => { setIsHomeDropdownOpen(false); setIsMobileMenuOpen(false); }}>Home 2</Link>
-                  </div>
-                )}
-              </div>
-
-              <Link 
-                to="/Aboutus" 
-                className={`block px-3 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#1E2A38]' : 'text-gray-800 hover:bg-gray-100'} rounded-md`} 
-                onClick={() => setIsMobileMenuOpen(false)}
+            {/* Avatar Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsAvatarDropdownOpen(!isAvatarDropdownOpen)}
+                className="w-10 h-10 rounded-full bg-blue-400 text-white flex items-center justify-center font-bold"
+                aria-label="User menu"
               >
-                About Us
-              </Link>
-
-              {/* Mobile Services Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={toggleServicesDropdown}
-                  className={`flex items-center justify-between w-full px-3 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#1E2A38]' : 'text-gray-800 hover:bg-gray-100'} rounded-md`}
-                >
-                  <span>Services</span>
-                  <svg className={`w-4 h-4 transition-transform duration-200 ${isServicesDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {isServicesDropdownOpen && (
-                  <div className="pl-4 space-y-1">
-                    <Link to="/services" className={`block px-4 py-2 ${theme === 'dark' ? 'text-gray-300 hover:bg-[#1E2A38]' : 'text-gray-800 hover:bg-gray-100'} rounded-md`} onClick={() => { setIsServicesDropdownOpen(false); setIsMobileMenuOpen(false); }}>All Services</Link>
-                    <Link to="/education-programs" className={`block px-4 py-2 ${theme === 'dark' ? 'text-gray-300 hover:bg-[#1E2A38]' : 'text-gray-800 hover:bg-gray-100'} rounded-md`} onClick={() => { setIsServicesDropdownOpen(false); setIsMobileMenuOpen(false); }}>Education Programs</Link>
-                    <Link to="/healthcare-initiatives" className={`block px-4 py-2 ${theme === 'dark' ? 'text-gray-300 hover:bg-[#1E2A38]' : 'text-gray-800 hover:bg-gray-100'} rounded-md`} onClick={() => { setIsServicesDropdownOpen(false); setIsMobileMenuOpen(false); }}>Healthcare Initiatives</Link>
-                    <Link to="/food-distribution" className={`block px-4 py-2 ${theme === 'dark' ? 'text-gray-300 hover:bg-[#1E2A38]' : 'text-gray-800 hover:bg-gray-100'} rounded-md`} onClick={() => { setIsServicesDropdownOpen(false); setIsMobileMenuOpen(false); }}>Food Distribution</Link>
-                  </div>
-                )}
-              </div>
-
-              <Link 
-                to="/blog" 
-                className={`block px-3 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#1E2A38]' : 'text-gray-800 hover:bg-gray-100'} rounded-md`} 
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Blog
-              </Link>
-
-              <Link 
-                to="/contact" 
-                className={`block px-3 py-2 ${theme === 'dark' ? 'text-white hover:bg-[#1E2A38]' : 'text-gray-800 hover:bg-gray-100'} rounded-md`} 
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Contact Us
-              </Link>
+                {userInitials}
+              </button>
+              {isAvatarDropdownOpen && (
+                <div className={`absolute right-0 mt-2 w-40 ${theme === 'dark' ? "bg-[#222] text-white" : "bg-white text-black"} border rounded shadow-lg z-10`}>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                  >
+                    {translations[language].logout}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
-        )}
+        </div>
       </div>
     </header>
   );

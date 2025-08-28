@@ -1,66 +1,135 @@
-import  { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import './HealthcareInitiative.css'
+import { LanguageContext } from '../components/Header'; // adjust path if needed
 
-const programs = [
-    {
+const healthcareTranslations = {
+  en: {
+    heroTitle: "Healthcare for All",
+    heroSubtitle: "Join our mission to bring quality medical care to underserved communities. Every donation helps save lives and build healthier futures.",
+    promoTitle: "Healing Hands for Those in Need Your Help Saves Lives!",
+    promoDesc: "Every day, countless individuals suffer without access to basic medical care… But you can change that. Every day, vulnerable individuals—children left untreated, elders enduring unbearable pain, families struggling in silence—are denied access to basic medical care. But together, we can change that narrative. Your support ignites a chain of hope: delivering life-saving treatments, essential medicines, and heartfelt comfort to those who need it most. Your generosity doesn't just offer relief—it breathes life back into suffering souls. Donate today, and be the healing hand that transforms lives.",
+    donateBtn: "Donate Now",
+    programsTitle: "Our Healthcare Programs",
+    programsSubtitle: "Comprehensive solutions for diverse medical needs",
+    programs: [
+      {
         icon: '🚑',
         title: 'Emergency Medical Response',
         desc: '24/7 mobile units providing urgent care in crisis situations'
-    },
-    {
+      },
+      {
         icon: '🩺',
         title: 'Chronic Disease Management',
         desc: 'Ongoing care for diabetes, hypertension, and other conditions'
-    },
-    {
+      },
+      {
         icon: '💉',
         title: 'Vaccination Drives',
         desc: 'Community immunization programs for preventable diseases'
-    },
-    {
+      },
+      {
         icon: '🧠',
         title: 'Mental Health Support',
         desc: 'Counseling and psychiatric services for underserved populations'
-    }
-];
+      }
+    ],
+    volunteerTitle: "Heroes Behind the Scenes",
+    volunteerDesc: "Meet the dedicated individuals powering our healthcare mission",
+    volunteerCta: "Nominate a Healthcare Hero",
+    ctaTitle: "Ready to Make an Impact?",
+    ctaDesc: "Join us in transforming lives through education",
+    ctaDonate: "Donate Now",
+    ctaVolunteer: "Volunteer"
+  },
+  ar: {
+    heroTitle: "الرعاية الصحية للجميع",
+    heroSubtitle: "انضم إلى مهمتنا لتقديم رعاية طبية عالية الجودة للمجتمعات المحرومة. كل تبرع يساعد في إنقاذ الأرواح وبناء مستقبل أكثر صحة.",
+    promoTitle: "أيادي الشفاء لمن يحتاجونها - مساعدتك تنقذ الأرواح!",
+    promoDesc: "يعاني الكثيرون يومياً دون الحصول على الرعاية الطبية الأساسية… لكن يمكنك تغيير ذلك. كل يوم، يُحرم الأطفال من العلاج، ويعاني كبار السن من الألم، وتكافح الأسر بصمت. معاً يمكننا تغيير هذا الواقع. دعمك يخلق سلسلة أمل: علاج منقذ للحياة، أدوية ضرورية، وراحة قلبية لمن هم في أمس الحاجة. كرمك لا يوفر الراحة فقط، بل يمنح الحياة من جديد. تبرع اليوم وكن اليد الشافية التي تغير الحياة.",
+    donateBtn: "تبرع الآن",
+    programsTitle: "برامجنا الصحية",
+    programsSubtitle: "حلول شاملة لاحتياجات طبية متنوعة",
+    programs: [
+      {
+        icon: '🚑',
+        title: 'الاستجابة الطبية الطارئة',
+        desc: 'وحدات متنقلة تقدم الرعاية العاجلة على مدار الساعة'
+      },
+      {
+        icon: '🩺',
+        title: 'إدارة الأمراض المزمنة',
+        desc: 'رعاية مستمرة لمرضى السكري وارتفاع ضغط الدم وغيرها'
+      },
+      {
+        icon: '💉',
+        title: 'حملات التطعيم',
+        desc: 'برامج تطعيم مجتمعية ضد الأمراض القابلة للوقاية'
+      },
+      {
+        icon: '🧠',
+        title: 'دعم الصحة النفسية',
+        desc: 'استشارات وخدمات نفسية للمجتمعات المحرومة'
+      }
+    ],
+    volunteerTitle: "أبطال خلف الكواليس",
+    volunteerDesc: "تعرف على الأفراد المخلصين الذين يدعمون مهمتنا الصحية",
+    volunteerCta: "رشح بطل رعاية صحية",
+    ctaTitle: "جاهز لصنع تأثير؟",
+    ctaDesc: "انضم إلينا في تغيير الحياة من خلال التعليم",
+    ctaDonate: "تبرع الآن",
+    ctaVolunteer: "تطوع"
+  },
+  he: {
+    heroTitle: "בריאות לכולם",
+    heroSubtitle: "הצטרפו למשימה שלנו להביא טיפול רפואי איכותי לקהילות מוחלשות. כל תרומה מצילה חיים ובונה עתיד בריא יותר.",
+    promoTitle: "ידיים מרפאות לנזקקים - עזרתך מצילה חיים!",
+    promoDesc: "בכל יום סובלים אנשים רבים ללא גישה לטיפול רפואי בסיסי… אבל אתה יכול לשנות זאת. ילדים שלא מקבלים טיפול, קשישים שסובלים מכאב, משפחות שנאבקות בשקט. יחד נוכל לשנות את הסיפור הזה. התמיכה שלך יוצרת שרשרת תקווה: טיפולים מצילי חיים, תרופות חיוניות ונחמה אמיתית למי שזקוק לה ביותר. הנדיבות שלך לא רק מעניקה הקלה – היא מחזירה חיים לנפשות סובלות. תרום היום והיה היד המרפאה שמביאה שינוי.",
+    donateBtn: "תרום עכשיו",
+    programsTitle: "התוכניות הבריאותיות שלנו",
+    programsSubtitle: "פתרונות מקיפים לצרכים רפואיים מגוונים",
+    programs: [
+      {
+        icon: '🚑',
+        title: 'תגובה רפואית דחופה',
+        desc: 'יחידות ניידות המספקות טיפול דחוף מסביב לשעון'
+      },
+      {
+        icon: '🩺',
+        title: 'ניהול מחלות כרוניות',
+        desc: 'טיפול מתמשך בסוכרת, לחץ דם גבוה ועוד'
+      },
+      {
+        icon: '💉',
+        title: 'מבצעי חיסונים',
+        desc: 'תוכניות חיסון קהילתיות נגד מחלות שניתן למנוע'
+      },
+      {
+        icon: '🧠',
+        title: 'תמיכה בבריאות הנפש',
+        desc: 'ייעוץ ושירותים פסיכיאטריים לאוכלוסיות מוחלשות'
+      }
+    ],
+    volunteerTitle: "גיבורים מאחורי הקלעים",
+    volunteerDesc: "הכירו את האנשים המסורים שמניעים את משימת הבריאות שלנו",
+    volunteerCta: "המלץ על גיבור בריאות",
+    ctaTitle: "מוכן להשפיע?",
+    ctaDesc: "הצטרף אלינו לשינוי חיים באמצעות חינוך",
+    ctaDonate: "תרום עכשיו",
+    ctaVolunteer: "התנדב"
+  }
+};
 
 const HealthcareInitiatives = () => {
-    const [, setTheme] = useState('light');
+    const { language } = useContext(LanguageContext);
     const [activeVolunteer, setActiveVolunteer] = useState(null);
     const navigate = useNavigate();
 
-    // Load theme preference from localStorage on component mount
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            setTheme(savedTheme);
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        }
-    }, []);
+    const t = healthcareTranslations[language] || healthcareTranslations.en;
 
-    // Listen for theme changes from Header component
+    // Animation for text elements - corrected class name
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const handleThemeChange = () => {
-                const newTheme = localStorage.getItem('theme') || 'light';
-                setTheme(newTheme);
-                document.documentElement.setAttribute('data-theme', newTheme);
-            };
-            
-            window.addEventListener('theme-changed', handleThemeChange);
-            window.addEventListener('storage', handleThemeChange);
-            
-            return () => {
-                window.removeEventListener('theme-changed', handleThemeChange);
-                window.removeEventListener('storage', handleThemeChange);
-            };
-        }
-    }, []);
-
-    useEffect(() => {
-        // Animation for text elements - corrected class name
         const heroContent = document.querySelector('.hero-content-healthcare');
         if (heroContent) {
             heroContent.style.opacity = 1;
@@ -107,7 +176,7 @@ const HealthcareInitiatives = () => {
         }
     ];
 
- 
+
 
     const slideUp = {
         hidden: { y: 50, opacity: 0 },
@@ -126,18 +195,24 @@ const HealthcareInitiatives = () => {
     return (
         <>
             {/* Hero Section */}
-            <section className="hero-section-healthcare">
-                <div className="hero-image-healthcare"></div>
+            <div
+                className="hero-section"
+                style={{
+                    backgroundImage: "url('/Images/healthcare.png')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat"
+                }}
+            >
                 <div className="hero-overlay-healthcare"></div>
                 <div className="hero-content-healthcare">
-                    <h1 className="hero-title-healthcare">Healthcare for All</h1>
+                    <h1 className="hero-title-healthcare">{t.heroTitle}</h1>
                     <p className="hero-subtitle-healthcare">
-                        Join our mission to bring quality medical care to underserved communities.
-                        Every donation helps save lives and build healthier futures.
+                        {t.heroSubtitle}
                     </p>
                 </div>
-            </section>
-            
+            </div>
+
             {/* Second section */}
             <div className="promo-container-health">
                 <div className="image-side-health">
@@ -145,15 +220,9 @@ const HealthcareInitiatives = () => {
                 </div>
                 <div className="content-side-health">
                     <div className="section emotional-appeal-healthcare">
-                        <h2>Healing Hands for Those in Need Your Help Saves Lives!</h2>
-                        <p style={{textAlign:"justify"}}>Every day, countless individuals suffer without access to basic medical care…
-                            <em>But you can change that.</em> 
-                            Every day, vulnerable individuals—children left untreated, 
-                            elders enduring unbearable pain, families struggling in silence—are denied access to basic medical care. 
-                            
-                            But together, we can change that narrative. Your support ignites a chain of hope: delivering life-saving treatments, essential medicines, 
-                            and heartfelt comfort to those who need it most. Your generosity doesn't just offer relief—it breathes life back into suffering souls. Donate today, and be the healing hand that transforms lives.</p>
-                        <button className="donate-button-health" onClick={()=>handleGetStarted("/contact")}>Donate Now</button>
+                        <h2 style={{color:"black"}}>{t.promoTitle}</h2>
+                        <p style={{ textAlign: "justify",color:"black" }}>{t.promoDesc}</p>
+                        <button className="donate-button-health" onClick={() => handleGetStarted("/contact")}>{t.donateBtn}</button>
                     </div>
                 </div>
             </div>
@@ -161,11 +230,11 @@ const HealthcareInitiatives = () => {
             {/* Programs Section */}
             <section className="programs-section-health">
                 <div className="container-health">
-                    <h2>Our Healthcare Programs</h2>
-                    <p className="subtitle-health" style={{textAlign:"center"}}>Comprehensive solutions for diverse medical needs</p>
+                    <h2>{t.programsTitle}</h2>
+                    <p className="subtitle-health" style={{ textAlign: "center" }}>{t.programsSubtitle}</p>
 
                     <div className="programs-grid-health">
-                        {programs.map((program, index) => (
+                        {t.programs.map((program, index) => (
                             <div
                                 key={index}
                                 className="program-card-health"
@@ -175,18 +244,18 @@ const HealthcareInitiatives = () => {
                                 <div className="program-icon-health">{program.icon}</div>
                                 <h3>{program.title}</h3>
                                 <p>{program.desc}</p>
-                                <button className="learn-more" onClick={()=>handleGetStarted("/contact")}>Learn More →</button>
+                                <button className="learn-more" onClick={() => handleGetStarted("/contact")}>Learn More →</button>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
-            
+
             {/* Volunteer Spotlight Section */}
             <section className="volunteer-spotlight">
                 <div className="section-header">
-                    <h2>Heroes Behind the Scenes</h2>
-                    <p>Meet the dedicated individuals powering our healthcare mission</p>
+                    <h2>{t.volunteerTitle}</h2>
+                    <p>{t.volunteerDesc}</p>
                 </div>
 
                 <div className="volunteer-row">
@@ -220,15 +289,15 @@ const HealthcareInitiatives = () => {
                                 <div className="impact-stat">
                                     <span>{activeVolunteer.stats}</span>
                                 </div>
-                                <button className="volunteer-cta"  onClick={()=>handleGetStarted("/contact")}>
-                                    Nominate a Healthcare Hero
+                                <button className="volunteer-cta" onClick={() => handleGetStarted("/contact")}>
+                                    {t.volunteerCta}
                                 </button>
                             </div>
                         </div>
                     </div>
                 )}
             </section>
-            
+
             {/* CTA Section */}
             <motion.section
                 className="animated-cta"
@@ -241,26 +310,26 @@ const HealthcareInitiatives = () => {
             >
                 <div className="cta-bg"></div>
                 <div className="container">
-                    <motion.h2 variants={slideUp}>Ready to Make an Impact?</motion.h2>
-                    <motion.p variants={slideUp}>Join us in transforming lives through education</motion.p>
+                    <motion.h2 variants={slideUp}>{t.ctaTitle}</motion.h2>
+                    <motion.p variants={slideUp}>{t.ctaDesc}</motion.p>
                     <div className="cta-buttons">
                         <motion.button
                             className="cta-btn primary"
                             variants={scaleUp}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={()=>handleGetStarted("/contact")}
+                            onClick={() => handleGetStarted("/contact")}
                         >
-                            Donate Now
+                            {t.ctaDonate}
                         </motion.button>
                         <motion.button
                             className="cta-btn secondary"
                             variants={scaleUp}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={()=>handleGetStarted("/contact")}
+                            onClick={() => handleGetStarted("/contact")}
                         >
-                            Volunteer
+                            {t.ctaVolunteer}
                         </motion.button>
                     </div>
                 </div>

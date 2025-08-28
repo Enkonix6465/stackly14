@@ -35,7 +35,10 @@
   color:#fff;
 }
 [data-theme="dark"] .emotional-appeal-healthcare h2,p{
-  color:#000000;
+  color:#ffffff;
+}
+[data-theme="dark"] .emotional-appeal-healthcare{
+  background-color: black;
 }
 /* Apply theme variables to elements */
 body {
@@ -63,7 +66,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center;
+  
   background-size: cover;
   z-index: 1;
   animation: zoomEffect 15s infinite alternate;
@@ -479,6 +482,66 @@ body {
 .cta-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Theme Adjustments */
+.theme-dark .hero-content-healthcare{
+  color: #fff;
+}
+.theme-dark .hero-content-healthcare,
+.theme-dark .hero-content-healthcare h1,
+.theme-dark .hero-content-healthcare p,
+.theme-dark .hero-title-healthcare,
+.theme-dark .hero-subtitle-healthcare {
+  color: #fff !important;
+}
+.theme-dark .card-section,
+.theme-dark .stats-parallax,
+.theme-dark .testimonials-section,
+.theme-dark .zigzag-feature,
+.theme-dark .partners-section,
+.theme-dark .upcoming-programs-section-home2,
+.theme-dark .contact-section,
+.theme-dark .content-side-health,
+.theme-dark .container {
+  background: #111 !important;
+  color: #fff !important;
+}
+
+.theme-dark h1,
+.theme-dark h2,
+.theme-dark h3,
+.theme-dark p,
+.theme-dark .card-title,
+.theme-dark .card-text,
+.theme-dark .author {
+  color: #fff !important;
+}
+.theme-dark .volunteer-spotlight h2 {
+  color: #fff ;
+
+}
+[data-theme="dark"] .volunteer-spotlight h2{
+  color: #fff ;
+}
+[data-theme="dark"] .volunteer-spotlight p{
+  color: #fff ;
+}
+[data-theme="dark"] .volunteer-card,
+[data-theme="dark"] .volunteer-card .card-content,
+[data-theme="dark"] .volunteer-modal,
+[data-theme="dark"] .modal-text {
+  background: #181818 !important;
+  color: #fff !important;
+}
+
+[data-theme="dark"] .volunteer-card h3,
+[data-theme="dark"] .volunteer-card p,
+[data-theme="dark"] .volunteer-card .stats-badge,
+[data-theme="dark"] .volunteer-modal h3,
+[data-theme="dark"] .volunteer-modal p,
+[data-theme="dark"] .volunteer-modal .impact-stat {
+  color: #fff !important;
 }
 
 /* Responsive adjustments */

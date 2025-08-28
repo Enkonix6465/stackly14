@@ -31,7 +31,7 @@
   color: var(--dark-text);
   background-color: var(--background);
   transition: background-color 0.3s ease, color 0.3s ease;
-  min-height: 100vh;
+  height: 30vh;
 }
 
 /* Hero Section Styles */
@@ -39,7 +39,7 @@
   position: relative;
   height: 80vh;
   min-height: 500px;
-  background-image: url('C:\Users\DELL\Desktop\funds\charity\public\Images\disaster-relief.jpg');
+/* background-image: url('/Images/disaster-relief.jpg'); */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -142,7 +142,7 @@
 /* Campaigns Section */
 .campaigns-section {
   background-color: var(--section-bg);
-  padding: 4rem 0;
+  padding: 1rem 0;
 }
 
 .campaigns-container {
@@ -354,7 +354,7 @@
 /* Services Section */
 .relief-services-container {
   background-color: var(--section-bg);
-  padding: 40px 20px;
+  padding: 10px 20px;
 }
 
 .section-header {

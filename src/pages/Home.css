@@ -13,11 +13,13 @@ body.dark-mode {
   background-color: #000 !important;
   color: #fff !important;
 }
-
+.programs-section .dark{
+  background-color: #000
+}
 .program-card.dark,
 .stat-card-home1.dark,
 .testimonial-card-home1.dark {
-  background-color: #222 !important;
+  background-color: #000 !important;
   color: #fff !important;
 }
 
@@ -112,6 +114,7 @@ body.dark-mode {
 .second-content {
   max-width: 50%;
   margin: 10px 0;
+  
 }
 
 .second-con-greeting {
@@ -437,6 +440,22 @@ body.dark-mode {
   font-size: 1rem;
   text-align: justify;
   margin-bottom: 1.5rem;
+}
+
+/* Ensure text is black in light mode */
+.second-content,
+.second-con-greeting,
+.sec-hero-title,
+.sec-hero-description {
+  color: #000;
+}
+
+/* Override to white in dark mode */
+.second-container.dark .second-content,
+.second-container.dark .second-con-greeting,
+.second-container.dark .sec-hero-title,
+.second-container.dark .sec-hero-description {
+  color: #fff;
 }
 
 /* Responsive Design */

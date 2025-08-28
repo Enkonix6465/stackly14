@@ -1,4 +1,6 @@
-import   { useState, useEffect } from 'react';
+import { useContext } from 'react';
+import { LanguageContext } from '../components/Header'; // adjust path if needed
+import { useState, useEffect } from 'react';
 import './Services.css';
 import { motion } from 'framer-motion';
 import 'swiper/css';
@@ -7,74 +9,329 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom';
 
-const services = [
-  {
-    id: 1,
-    title: "Education Programs",
-    icon: "📚",
-    description: "Providing quality education to underprivileged children through our network of schools and learning centers.",
-    path: "/education-programs",
+const servicesTranslations = {
+  en: {
+    heroTitle: "Small Acts, Big Impact – Together We Can Change Lives.",
+    heroDesc: "Every act of kindness, no matter how small, creates ripples of hope.",
+    servicesHeader: "Our Humanitarian Services",
+    servicesDesc: "We're committed to making a difference through these vital programs",
+    services: [
+      {
+        id: 1,
+        title: "Education Programs",
+        icon: "📚",
+        description: "Providing quality education to underprivileged children through our network of schools and learning centers.",
+        path: "/education-programs",
+      },
+      {
+        id: 2,
+        title: "Healthcare Initiatives",
+        icon: "🏥",
+        description: "Free medical camps, vaccination drives, and health awareness programs in rural areas.",
+        path: "/healthcare-initiatives",
+      },
+      {
+        id: 3,
+        title: "Food Distribution",
+        icon: "🍲",
+        description: "Daily meal programs and nutrition support for families in need across communities.",
+        path: "/food-distribution",
+      },
+      {
+        id: 4,
+        title: "Disaster Relief",
+        icon: "🚨",
+        description: "Rapid response teams providing emergency aid during natural calamities and crises.",
+        path: "/disaster-relief",
+      },
+      {
+        id: 5,
+        title: "Women Empowerment",
+        icon: "💪",
+        description: "Vocational training and micro-finance programs to help women become financially independent.",
+        path: "/women-empowerment",
+      },
+      {
+        id: 6,
+        title: "Elderly Care",
+        icon: "👵",
+        description: "Supporting senior citizens with healthcare, companionship, and daily necessities.",
+        path: "/elderly-care",
+      },
+    ],
+    impactHeader: "Lives We've Touched",
+    impactDesc: "Real stories from people whose lives have been transformed",
+    stories: [
+      {
+        id: 1,
+        quote: "Thanks to the education program, my daughter is now the first in our family to attend school regularly.",
+        author: "Rahul, Father of 3",
+        location: "Mumbai, India",
+        image: "Images/edu-daug.jpg",
+      },
+      {
+        id: 2,
+        quote: "The medical camp saved my husband's life when he had a severe infection and we couldn't afford treatment.",
+        author: "Priya, Caregiver",
+        location: "Rural Uttar Pradesh",
+        image: "Images/old.jpg",
+      },
+      {
+        id: 3,
+        quote: "After the vocational training, I started my own tailoring business and now support my entire family.",
+        author: "Sunita, Entrepreneur",
+        location: "Delhi, India",
+        image: "Images/woman.jpg",
+      },
+    ],
+    metricHeader: "Service Impact Breakdown",
+    metric: [
+      {
+        category: "Nutrition",
+        programs: ["Food pantry", "Community kitchen"],
+        costPerBeneficiary: "$3.20",
+        monthlyReach: "1,200 people",
+        cta: "Fund a Week of Meals"
+      },
+      {
+        category: "Healthcare",
+        programs: ["Mobile clinic", "Vaccination drives"],
+        costPerBeneficiary: "$45",
+        monthlyReach: "350 patients",
+        cta: "Sponsor a Clinic"
+      },
+      {
+        category: "Education",
+        programs: ["Tutoring", "School supplies"],
+        costPerBeneficiary: "$18",
+        monthlyReach: "200 students",
+        cta: "Support a Learner"
+      }
+    ],
+    volunteerHeader: "Volunteer With Us",
+    volunteerDesc: "Whether you can spare a few hours or a few days, your time makes a real impact. Help distribute food, teach children, support health camps, or simply lend a hand. Every action counts.",
+    volunteerBenefits: [
+      "👐 Build real-world impact in local communities",
+      "📚 Gain hands-on experience and training",
+      "💬 Connect with like-minded changemakers"
+    ],
+    volunteerBtn: "Join Our Volunteer Team"
   },
-  {
-    id: 2,
-    title: "Healthcare Initiatives",
-    icon: "🏥",
-    description: "Free medical camps, vaccination drives, and health awareness programs in rural areas.",
-    path: "/healthcare-initiatives",
+  ar: {
+    heroTitle: "أعمال صغيرة، تأثير كبير – معًا يمكننا تغيير الحياة.",
+    heroDesc: "كل عمل لطف، مهما كان صغيرًا، يخلق موجات من الأمل.",
+    servicesHeader: "خدماتنا الإنسانية",
+    servicesDesc: "نلتزم بإحداث فرق من خلال هذه البرامج الحيوية",
+    services: [
+      {
+        id: 1,
+        title: "برامج التعليم",
+        icon: "📚",
+        description: "توفير التعليم الجيد للأطفال المحرومين من خلال شبكة المدارس ومراكز التعلم.",
+        path: "/education-programs",
+      },
+      {
+        id: 2,
+        title: "مبادرات الرعاية الصحية",
+        icon: "🏥",
+        description: "معسكرات طبية مجانية، حملات تطعيم، وبرامج توعية صحية في المناطق الريفية.",
+        path: "/healthcare-initiatives",
+      },
+      {
+        id: 3,
+        title: "توزيع الغذاء",
+        icon: "🍲",
+        description: "برامج الوجبات اليومية ودعم التغذية للأسر المحتاجة في المجتمعات.",
+        path: "/food-distribution",
+      },
+      {
+        id: 4,
+        title: "الإغاثة من الكوارث",
+        icon: "🚨",
+        description: "فرق استجابة سريعة تقدم المساعدة الطارئة أثناء الكوارث الطبيعية والأزمات.",
+        path: "/disaster-relief",
+      },
+      {
+        id: 5,
+        title: "تمكين المرأة",
+        icon: "💪",
+        description: "برامج التدريب المهني والتمويل الصغير لمساعدة النساء على الاستقلال المالي.",
+        path: "/women-empowerment",
+      },
+      {
+        id: 6,
+        title: "رعاية كبار السن",
+        icon: "👵",
+        description: "دعم كبار السن بالرعاية الصحية، الصحبة، والاحتياجات اليومية.",
+        path: "/elderly-care",
+      },
+    ],
+    impactHeader: "حياة لمسناها",
+    impactDesc: "قصص حقيقية من أشخاص تغيرت حياتهم",
+    stories: [
+      {
+        id: 1,
+        quote: "بفضل برنامج التعليم، أصبحت ابنتي أول من يحضر المدرسة بانتظام في عائلتنا.",
+        author: "راهول، أب لثلاثة أطفال",
+        location: "مومباي، الهند",
+        image: "Images/edu-daug.jpg",
+      },
+      {
+        id: 2,
+        quote: "أنقذ المخيم الطبي حياة زوجي عندما أصيب بعدوى شديدة ولم نستطع تحمل تكاليف العلاج.",
+        author: "برية، مقدمة رعاية",
+        location: "ريف أوتار براديش",
+        image: "Images/old.jpg",
+      },
+      {
+        id: 3,
+        quote: "بعد التدريب المهني، بدأت عملي الخاص بالخياطة وأدعم الآن أسرتي بالكامل.",
+        author: "سنيتا، رائدة أعمال",
+        location: "دلهي، الهند",
+        image: "Images/woman.jpg",
+      },
+    ],
+    metricHeader: "تفصيل تأثير الخدمة",
+    metric: [
+      {
+        category: "التغذية",
+        programs: ["مخزن الطعام", "مطبخ المجتمع"],
+        costPerBeneficiary: "$3.20",
+        monthlyReach: "1,200 شخص",
+        cta: "مول أسبوع من الوجبات"
+      },
+      {
+        category: "الرعاية الصحية",
+        programs: ["عيادة متنقلة", "حملات التطعيم"],
+        costPerBeneficiary: "$45",
+        monthlyReach: "350 مريض",
+        cta: "ادعم عيادة"
+      },
+      {
+        category: "التعليم",
+        programs: ["دروس خصوصية", "مستلزمات مدرسية"],
+        costPerBeneficiary: "$18",
+        monthlyReach: "200 طالب",
+        cta: "ادعم متعلمًا"
+      }
+    ],
+    volunteerHeader: "تطوع معنا",
+    volunteerDesc: "سواء كنت تستطيع تخصيص بضع ساعات أو أيام، وقتك يحدث فرقًا حقيقيًا. ساعد في توزيع الطعام، تعليم الأطفال، دعم المخيمات الصحية، أو ببساطة قدم يد العون. كل عمل له قيمة.",
+    volunteerBenefits: [
+      "👐 اصنع تأثيرًا حقيقيًا في المجتمعات المحلية",
+      "📚 اكتسب خبرة وتدريب عملي",
+      "💬 تواصل مع صانعي التغيير"
+    ],
+    volunteerBtn: "انضم لفريق المتطوعين"
   },
-  {
-    id: 3,
-    title: "Food Distribution",
-    icon: "🍲",
-    description: "Daily meal programs and nutrition support for families in need across communities.",
-    path: "/food-distribution",
-  },
-  {
-    id: 4,
-    title: "Disaster Relief",
-    icon: "🚨",
-    description: "Rapid response teams providing emergency aid during natural calamities and crises.",
-    path: "/disaster-relief",
-  },
-  {
-    id: 5,
-    title: "Women Empowerment",
-    icon: "💪",
-    description: "Vocational training and micro-finance programs to help women become financially independent.",
-    path: "/women-empowerment",
-  },
-  {
-    id: 6,
-    title: "Elderly Care",
-    icon: "👵",
-    description: "Supporting senior citizens with healthcare, companionship, and daily necessities.",
-    path: "/elderly-care",
-  },
-];
-
-const stories = [
-  {
-    id: 1,
-    quote: "Thanks to the education program, my daughter is now the first in our family to attend school regularly.",
-    author: "Rahul, Father of 3",
-    location: "Mumbai, India",
-    image: "Images/edu-daug.jpg",
-  },
-  {
-    id: 2,
-    quote: "The medical camp saved my husband's life when he had a severe infection and we couldn't afford treatment.",
-    author: "Priya, Caregiver",
-    location: "Rural Uttar Pradesh",
-    image: "Images/old.jpg",
-  },
-  {
-    id: 3,
-    quote: "After the vocational training, I started my own tailoring business and now support my entire family.",
-    author: "Sunita, Entrepreneur",
-    location: "Delhi, India",
-    image: "Images/woman.jpg",
-  },
-];
+  he: {
+    heroTitle: "מעשים קטנים, השפעה גדולה – יחד נוכל לשנות חיים.",
+    heroDesc: "כל מעשה טוב לב, קטן ככל שיהיה, יוצר גלי תקווה.",
+    servicesHeader: "השירותים ההומניטריים שלנו",
+    servicesDesc: "אנחנו מחויבים לעשות שינוי באמצעות תוכניות חיוניות אלו",
+    services: [
+      {
+        id: 1,
+        title: "תוכניות חינוך",
+        icon: "📚",
+        description: "מתן חינוך איכותי לילדים מוחלשים באמצעות רשת בתי ספר ומרכזי לימוד.",
+        path: "/education-programs",
+      },
+      {
+        id: 2,
+        title: "יוזמות בריאות",
+        icon: "🏥",
+        description: "מחנות רפואיים חינם, מבצעי חיסונים ותוכניות מודעות לבריאות באזורים כפריים.",
+        path: "/healthcare-initiatives",
+      },
+      {
+        id: 3,
+        title: "חלוקת מזון",
+        icon: "🍲",
+        description: "תוכניות ארוחות יומיות ותמיכה תזונתית למשפחות נזקקות בקהילות.",
+        path: "/food-distribution",
+      },
+      {
+        id: 4,
+        title: "סיוע באסונות",
+        icon: "🚨",
+        description: "צוותי תגובה מהירה המספקים סיוע חירום בעת אסונות טבע ומשברים.",
+        path: "/disaster-relief",
+      },
+      {
+        id: 5,
+        title: "העצמת נשים",
+        icon: "💪",
+        description: "הכשרה מקצועית ותוכניות מימון זעיר לנשים לעצמאות כלכלית.",
+        path: "/women-empowerment",
+      },
+      {
+        id: 6,
+        title: "טיפול בקשישים",
+        icon: "👵",
+        description: "תמיכה בקשישים עם בריאות, חברות וצרכים יומיומיים.",
+        path: "/elderly-care",
+      },
+    ],
+    impactHeader: "חיים שנגענו בהם",
+    impactDesc: "סיפורים אמיתיים מאנשים שחייהם השתנו",
+    stories: [
+      {
+        id: 1,
+        quote: "בזכות תוכנית החינוך, בתי היא הראשונה במשפחה שלנו שמגיעה לבית הספר באופן קבוע.",
+        author: "רהול, אב לשלושה",
+        location: "מומבאי, הודו",
+        image: "Images/edu-daug.jpg",
+      },
+      {
+        id: 2,
+        quote: "המחנה הרפואי הציל את חיי בעלי כשהיה לו זיהום קשה ולא יכולנו להרשות לעצמנו טיפול.",
+        author: "פריה, מטפלת",
+        location: "אוטר פראדש הכפרית",
+        image: "Images/old.jpg",
+      },
+      {
+        id: 3,
+        quote: "אחרי ההכשרה המקצועית, פתחתי עסק תפירה משלי וכעת אני מפרנסת את כל משפחתי.",
+        author: "סוניטה, יזמית",
+        location: "דלהי, הודו",
+        image: "Images/woman.jpg",
+      },
+    ],
+    metricHeader: "פירוט השפעת השירות",
+    metric: [
+      {
+        category: "תזונה",
+        programs: ["מזווה מזון", "מטבח קהילתי"],
+        costPerBeneficiary: "$3.20",
+        monthlyReach: "1,200 אנשים",
+        cta: "ממן שבוע של ארוחות"
+      },
+      {
+        category: "בריאות",
+        programs: ["מרפאה ניידת", "מבצעי חיסונים"],
+        costPerBeneficiary: "$45",
+        monthlyReach: "350 מטופלים",
+        cta: "תמוך במרפאה"
+      },
+      {
+        category: "חינוך",
+        programs: ["הדרכה", "ציוד לבית הספר"],
+        costPerBeneficiary: "$18",
+        monthlyReach: "200 תלמידים",
+        cta: "תמוך בלומד"
+      }
+    ],
+    volunteerHeader: "התנדב איתנו",
+    volunteerDesc: "בין אם יש לך כמה שעות או כמה ימים, הזמן שלך עושה שינוי אמיתי. עזור בחלוקת מזון, לימוד ילדים, תמיכה במחנות בריאות או פשוט עזור. כל פעולה נחשבת.",
+    volunteerBenefits: [
+      "👐 צור השפעה אמיתית בקהילות מקומיות",
+      "📚 קבל ניסיון והכשרה מעשית",
+      "💬 התחבר לעושי שינוי"
+    ],
+    volunteerBtn: "הצטרף לצוות המתנדבים"
+  }
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -86,45 +343,15 @@ const containerVariants = {
   },
 };
 
-const services3 = [
-  {
-    category: "Nutrition",
-    programs: ["Food pantry", "Community kitchen"],
-    costPerBeneficiary: "$3.20",
-    monthlyReach: "1,200 people",
-    cta: "Fund a Week of Meals"
-  },
-  {
-    category: "Healthcare",
-    programs: ["Mobile clinic", "Vaccination drives"],
-    costPerBeneficiary: "$45",
-    monthlyReach: "350 patients",
-    cta: "Sponsor a Clinic"
-  },
-  {
-    category: "Education",
-    programs: ["Tutoring", "School supplies"],
-    costPerBeneficiary: "$18",
-    monthlyReach: "200 students",
-    cta: "Support a Learner"
-  }
-];
-
 const itemVariants = {
-  hidden: { y: 50, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
 const Services = () => {
    
   const [theme, setTheme] = useState('light');
+  const { language, setLanguage } = useContext(LanguageContext);
   const navigate = useNavigate();
 
   // Load theme preference from localStorage on component mount
@@ -157,14 +384,23 @@ const Services = () => {
     navigate(path);
   };
 
+  const fallbackLanguage = ['en', 'ar', 'he'].includes(language) ? language : 'en';
+  const translation = servicesTranslations[fallbackLanguage] || servicesTranslations['en'] || {};
+
+  const services = Array.isArray(translation?.services) ? translation.services : [];
+  const stories = Array.isArray(translation?.stories) ? translation.stories : [];
+  const services3 = Array.isArray(translation?.metric) ? translation.metric : [];
+
+  console.log({ language, translation, services, stories, services3 });
+
   return (
     <>
       {/* Hero Section */}
       <section className={`hero-services ${theme === 'dark' ? 'dark' : ''}`}>
         <video className="hero-video-services" src="/Images/services.mp4" autoPlay loop muted playsInline />
         <div className="hero-overlay-services">
-          <h1 className={theme === 'dark' ? 'text-white' : ''}>Small Acts, Big Impact – Together We Can Change Lives.</h1>
-          <p className={theme === 'dark' ? 'text-white' : ''}>Every act of kindness, no matter how small, creates ripples of hope.</p>
+          <h1 className={theme === 'dark' ? 'text-white' : ''}>{translation.heroTitle}</h1>
+          <p className={theme === 'dark' ? 'text-white' : ''}>{translation.heroDesc}</p>
         </div>
       </section>
 
@@ -178,8 +414,8 @@ const Services = () => {
             viewport={{ once: true }}
             className="services-header"
           >
-            <h2 className={theme === 'dark' ? 'text-white' : ''}>Our Humanitarian Services</h2>
-            <p className={theme === 'dark' ? 'text-white' : ''}>We're committed to making a difference through these vital programs</p>
+            <h2 className={theme === 'dark' ? 'text-white' : ''}>{translation.servicesHeader}</h2>
+            <p className={theme === 'dark' ? 'text-white' : ''}>{translation.servicesDesc}</p>
           </motion.div>
 
           <motion.div
@@ -216,8 +452,8 @@ const Services = () => {
             viewport={{ once: true }}
             className="section-header"
           >
-            <h2 className={theme === 'dark' ? 'text-white' : ''}>Lives We've Touched</h2>
-            <p className={theme === 'dark' ? 'text-white' : ''}>Real stories from people whose lives have been transformed</p>
+            <h2 className={theme === 'dark' ? 'text-white' : ''}>{translation.impactHeader}</h2>
+            <p className={theme === 'dark' ? 'text-white' : ''}>{translation.impactDesc}</p>
           </motion.div>
 
           <motion.div
@@ -266,7 +502,7 @@ const Services = () => {
 
       {/* Metric Comparison Section */}
       <section className={`metric-comparison ${theme === 'dark' ? 'dark' : ''}`}>
-        <h2 style={{ textAlign: "center", color: theme === 'dark' ? 'white' : 'inherit' }}>Service Impact Breakdown</h2>
+        <h2 style={{ textAlign: "center", color: theme === 'dark' ? 'white' : 'inherit' }}>{translation.metricHeader}</h2>
         <table>
           <thead>
             <tr>
@@ -305,16 +541,16 @@ const Services = () => {
       <section className={`volunteer-section ${theme === 'dark' ? 'dark' : ''}`}>
         <div className="volunteer-container">
           <div className="volunteer-text">
-            <h2 className={theme === 'dark' ? 'text-black' : ''}>Volunteer With Us</h2>
+            <h2 className={theme === 'dark' ? 'text-black' : ''}>{translation.volunteerHeader}</h2>
             <p className={theme === 'dark' ? 'text-black' : ''}>
-              Whether you can spare a few hours or a few days, your time makes a real impact. Help distribute food, teach children, support health camps, or simply lend a hand. Every action counts.
+              {translation.volunteerDesc}
             </p>
             <ul className="volunteer-benefits">
-              <li className={theme === 'dark' ? 'text-black' : ''}>👐 Build real-world impact in local communities</li>
-              <li className={theme === 'dark' ? 'text-black' : ''}>📚 Gain hands-on experience and training</li>
-              <li className={theme === 'dark' ? 'text-black' : ''}>💬 Connect with like-minded changemakers</li>
+              {translation.volunteerBenefits.map((benefit, index) => (
+                <li key={index} className={theme === 'dark' ? 'text-black' : ''}>{benefit}</li>
+              ))}
             </ul>
-            <button className="volunteer-button" onClick={handleNavigate('/contact')}>Join Our Volunteer Team</button>
+            <button className="volunteer-button" onClick={handleNavigate('/contact')}>{translation.volunteerBtn}</button>
           </div>
           <div className="volunteer-image">
             <img src="/images/rahul.jpg" alt="Volunteers working" />

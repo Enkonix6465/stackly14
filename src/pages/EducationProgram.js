@@ -1,9 +1,9 @@
-
 import { motion } from 'framer-motion';
 import { FaBookOpen, FaUserGraduate, FaChalkboard } from 'react-icons/fa';
 import './EducationProgram.css';
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { LanguageContext } from '../components/Header'; // Adjust path if needed
 
 const EducationProgram = () => {
     const navigate = useNavigate();
@@ -18,7 +18,7 @@ const EducationProgram = () => {
       if (typeof window !== 'undefined') {
         const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
-        
+
         // Apply theme class to body
         document.body.className = savedTheme;
       }
@@ -43,6 +43,10 @@ const EducationProgram = () => {
       }
     }, []);
     
+    // Language context
+    const { language } = useContext(LanguageContext);
+    const t = educationTranslations[language] || educationTranslations['en'];
+
     // Animation variants
     const fadeIn = {
         hidden: { opacity: 0 },
@@ -50,7 +54,7 @@ const EducationProgram = () => {
     };
 
     const slideUp = {
-        hidden: { y: 50, opacity: 0 },
+        hidden: { y: 30, opacity: 0 },
         visible: { y: 0, opacity: 1, transition: { duration: 0.6 } }
     };
 
@@ -64,18 +68,23 @@ const EducationProgram = () => {
             {/* Section 1: Diagonal Hero */}
             <motion.section
                 className="diagonal-hero"
+                style={{
+                  backgroundImage: "url('/Images/edu-pro.jpg')",
+                  backgroundSize: "cover", // <-- Add missing closing quote and comma
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat"
+                }}
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
             >
                 <div className="diagonal-bg"></div>
                 <div className="hero-content">
-                    <motion.h1 variants={slideUp}>Education Empowerment</motion.h1>
                     <motion.p variants={slideUp} transition={{ delay: 0.2 }}>
-                        Breaking barriers through innovative learning solutions
+                        {t.heroDesc}
                     </motion.p>
                     <motion.div variants={slideUp} transition={{ delay: 0.4 }}>
-                        <button className="hero-cta" onClick={() => handleGetStarted("/services")}>Learn About Our Impact</button>
+                        <button className="hero-cta" onClick={() => handleGetStarted("/services")}>{t.heroBtn}</button>
                     </motion.div>
                 </div>
             </motion.section>
@@ -91,29 +100,17 @@ const EducationProgram = () => {
                 }}
             >
                 <div className="container">
-                    <motion.h2 variants={slideUp}>Our Core Programs</motion.h2>
+                    <motion.h2 variants={slideUp}>{t.coreProgramsTitle}</motion.h2>
                     <div className="cards-grid">
-                        <motion.div className="icon-card" variants={scaleUp}>
-                            <div className="icon-wrapper">
-                                <FaBookOpen />
-                            </div>
-                            <h3>Literacy Initiative</h3>
-                            <p>Adult and child literacy programs with proven results</p>
-                        </motion.div>
-                        <motion.div className="icon-card" variants={scaleUp}>
-                            <div className="icon-wrapper">
-                                <FaUserGraduate />
-                            </div>
-                            <h3>Scholarships</h3>
-                            <p>Supporting promising students through higher education</p>
-                        </motion.div>
-                        <motion.div className="icon-card" variants={scaleUp}>
-                            <div className="icon-wrapper">
-                                <FaChalkboard />
-                            </div>
-                            <h3>Teacher Training</h3>
-                            <p>Professional development for educators in underserved areas</p>
-                        </motion.div>
+                        {t.programs.map((program, index) => (
+                            <motion.div className="icon-card" variants={scaleUp} key={index}>
+                                <div className="icon-wrapper">
+                                    {program.icon}
+                                </div>
+                                <h3>{program.title}</h3>
+                                <p>{program.desc}</p>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             </motion.section>
@@ -129,12 +126,12 @@ const EducationProgram = () => {
                         variants={slideUp}
                     >
                         <div className="feature-text">
-                            <h2>Digital Learning Labs</h2>
-                            <p>We've established 25 tech-enabled learning centers across rural communities, providing access to computers, internet, and digital literacy training.</p>
+                            <h2>{t.digitalTitle}</h2>
+                            <p>{t.digitalDesc}</p>
                             <ul>
-                                <li>Interactive learning software</li>
-                                <li>Remote classroom capabilities</li>
-                                <li>After-hours access for adults</li>
+                                {t.digitalList.map((item, index) => (
+                                    <li key={index}>{item}</li>
+                                ))}
                             </ul>
                         </div>
                         <div className="feature-image">
@@ -153,12 +150,12 @@ const EducationProgram = () => {
                         variants={slideUp}
                     >
                         <div className="feature-text">
-                            <h2>Vocational Pathways</h2>
-                            <p>Our career-focused programs equip students with marketable skills for immediate employment opportunities.</p>
+                            <h2>{t.vocationalTitle}</h2>
+                            <p>{t.vocationalDesc}</p>
                             <ul>
-                                <li>Certified technical training</li>
-                                <li>Apprenticeship placements</li>
-                                <li>Entrepreneurship workshops</li>
+                                {t.vocationalList.map((item, index) => (
+                                    <li key={index}>{item}</li>
+                                ))}
                             </ul>
                         </div>
                         <div className="feature-image">
@@ -172,44 +169,8 @@ const EducationProgram = () => {
                 </div>
             </section>
 
-            {/* Section 4: Stats Parallax */}
-            <motion.section
-                className="stats-parallax"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-            >
-                <div className="parallax-overlay"></div>
-                <div className="container">
-                    <div className="stats-grid">
-                        <motion.div
-                            className="stat-item"
-                            whileHover={{ scale: 1.05 }}
-                        >
-                            <h3>1,850+</h3>
-                            <p>Students Enrolled</p>
-                        </motion.div>
-                        <motion.div
-                            className="stat-item"
-                            whileHover={{ scale: 1.05 }}
-                        >
-                            <h3>92%</h3>
-                            <p>Graduation Rate</p>
-                        </motion.div>
-                        <motion.div
-                            className="stat-item"
-                            whileHover={{ scale: 1.05 }}
-                        >
-                            <h3>36</h3>
-                            <p>Communities Served</p>
-                        </motion.div>
-                    </div>
-                </div>
-            </motion.section>
-
-            {/* Section 5: Testimonial Cards */}
-            <section className="testimonial-section">
+            {/* Section 4: Testimonials */}
+            <section className="testimonials-section">
                 <div className="container">
                     <motion.h2
                         initial="hidden"
@@ -217,7 +178,7 @@ const EducationProgram = () => {
                         viewport={{ once: true }}
                         variants={slideUp}
                     >
-                        Success Stories
+                        {t.testimonialsTitle}
                     </motion.h2>
                     <div className="testimonial-cards">
                         <motion.div
@@ -226,13 +187,16 @@ const EducationProgram = () => {
                             whileInView="visible"
                             viewport={{ once: true }}
                             variants={{
-                                hidden: { x: -50, opacity: 0 },
-                                visible: { x: 0, opacity: 1, transition: { duration: 0.6 } }
+                              hidden: { x: -50, opacity: 0 },
+                              visible: { x: 0, opacity: 1, transition: { duration: 0.6 } }
                             }}
                         >
-                            <div className="testimonial-content">
-                                <p>"This program gave me the skills to start my own business and support my family."</p>
-                                <div className="author">- Jamal, Age 24</div>
+                            <div
+                              className="testimonial-content"
+                              style={{ color: theme === 'light' ? 'black' : 'white' }}
+                            >
+                                <p>"{t.testimonials[0].text}"</p>
+                                <div className="author">{t.testimonials[0].author}</div>
                             </div>
                         </motion.div>
                         <motion.div
@@ -242,9 +206,12 @@ const EducationProgram = () => {
                             viewport={{ once: true }}
                             variants={scaleUp}
                         >
-                            <div className="testimonial-content">
-                                <p>"After learning to read at 42, I can now help my grandchildren with their homework. This changed our whole family."</p>
-                                <div className="author">- Maria, Adult Literacy Graduate</div>
+                            <div
+                              className="testimonial-content"
+                              style={{ color: theme === 'light' ? 'black' : 'white' }}
+                            >
+                                <p>"{t.testimonials[1].text}"</p>
+                                <div className="author">{t.testimonials[1].author}</div>
                             </div>
                         </motion.div>
                         <motion.div
@@ -253,20 +220,23 @@ const EducationProgram = () => {
                             whileInView="visible"
                             viewport={{ once: true }}
                             variants={{
-                                hidden: { x: 50, opacity: 0 },
-                                visible: { x: 0, opacity: 1, transition: { duration: 0.6 } }
+                              hidden: { x: 50, opacity: 0 },
+                              visible: { x: 0, opacity: 1, transition: { duration: 0.6 } }
                             }}
                         >
-                            <div className="testimonial-content">
-                                <p>"The vocational training led directly to my first full-time job with benefits."</p>
-                                <div className="author">- Aisha, Age 19</div>
+                            <div
+                              className="testimonial-content"
+                              style={{ color: theme === 'light' ? 'black' : 'white' }}
+                            >
+                                <p>"{t.testimonials[2].text}"</p>
+                                <div className="author">{t.testimonials[2].author}</div>
                             </div>
                         </motion.div>
                     </div>
                 </div>
             </section>
 
-            {/* Section 6: Animated CTA */}
+            {/* Section 5: Animated CTA */}
             <motion.section
                 className="animated-cta"
                 initial="hidden"
@@ -278,8 +248,8 @@ const EducationProgram = () => {
             >
                 <div className="cta-bg"></div>
                 <div className="container">
-                    <motion.h2 variants={slideUp}>Ready to Make an Impact?</motion.h2>
-                    <motion.p variants={slideUp}>Join us in transforming lives through education</motion.p>
+                    <motion.h2 variants={slideUp}>{t.ctaTitle}</motion.h2>
+                    <motion.p variants={slideUp}>{t.ctaDesc}</motion.p>
                     <div className="cta-buttons">
                         <motion.button
                             className="cta-btn primary"
@@ -288,22 +258,206 @@ const EducationProgram = () => {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => handleGetStarted("/contact")}
                         >
-                            Donate Now
+                            {t.donateBtn}
                         </motion.button>
                         <motion.button
-                            className="cta-btn secondary"
+                            className="cta-btn primary"
                             variants={scaleUp}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={() => handleGetStarted("/contact")}
                         >
-                            Volunteer
+                            {t.volunteerBtn}
                         </motion.button>
                     </div>
                 </div>
             </motion.section>
+
+            {/* Your Custom Section */}
+            <div
+                className="your-section-class"
+                style={{
+                  backgroundImage: "url('/Images/your-image.jpg')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat"
+                }}
+            >
+                {/* Section content here */}
+            </div>
         </div>
     );
 };
 
 export default EducationProgram;
+
+const educationTranslations = {
+  en: {
+    heroTitle: "Education Empowerment",
+    heroDesc: "Breaking barriers through innovative learning solutions",
+    heroBtn: "Learn About Our Impact",
+    coreProgramsTitle: "Our Core Programs",
+    programs: [
+      {
+        icon: <FaBookOpen />,
+        title: "Literacy Initiative",
+        desc: "Adult and child literacy programs with proven results"
+      },
+      {
+        icon: <FaUserGraduate />,
+        title: "Scholarships",
+        desc: "Supporting promising students through higher education"
+      },
+      {
+        icon: <FaChalkboard />,
+        title: "Teacher Training",
+        desc: "Professional development for educators in underserved areas"
+      }
+    ],
+    digitalTitle: "Digital Learning Labs",
+    digitalDesc: "We've established 25 tech-enabled learning centers across rural communities, providing access to computers, internet, and digital literacy training.",
+    digitalList: [
+      "Interactive learning software",
+      "Remote classroom capabilities",
+      "After-hours access for adults"
+    ],
+    vocationalTitle: "Vocational Pathways",
+    vocationalDesc: "Our career-focused programs equip students with marketable skills for immediate employment opportunities.",
+    vocationalList: [
+      "Certified technical training",
+      "Apprenticeship placements",
+      "Entrepreneurship workshops"
+    ],
+    testimonialsTitle: "Success Stories",
+    testimonials: [
+      {
+        text: "This program gave me the skills to start my own business and support my family.",
+        author: "- Jamal, Age 24"
+      },
+      {
+        text: "After learning to read at 42, I can now help my grandchildren with their homework. This changed our whole family.",
+        author: "- Maria, Adult Literacy Graduate"
+      },
+      {
+        text: "The vocational training led directly to my first full-time job with benefits.",
+        author: "- Aisha, Age 19"
+      }
+    ],
+    ctaTitle: "Ready to Make an Impact?",
+    ctaDesc: "Join us in transforming lives through education",
+    donateBtn: "Donate Now",
+    volunteerBtn: "Volunteer"
+  },
+  ar: {
+    heroTitle: "تمكين التعليم",
+    heroDesc: "كسر الحواجز من خلال حلول التعلم المبتكرة",
+    heroBtn: "تعرف على تأثيرنا",
+    coreProgramsTitle: "برامجنا الأساسية",
+    programs: [
+      {
+        icon: <FaBookOpen />,
+        title: "مبادرة محو الأمية",
+        desc: "برامج محو الأمية للكبار والأطفال بنتائج مثبتة"
+      },
+      {
+        icon: <FaUserGraduate />,
+        title: "المنح الدراسية",
+        desc: "دعم الطلاب الواعدين في التعليم العالي"
+      },
+      {
+        icon: <FaChalkboard />,
+        title: "تدريب المعلمين",
+        desc: "تطوير مهني للمعلمين في المناطق المحرومة"
+      }
+    ],
+    digitalTitle: "مختبرات التعلم الرقمية",
+    digitalDesc: "أنشأنا 25 مركز تعلم مزود بالتقنية في المجتمعات الريفية، يوفر الوصول إلى الحواسيب والإنترنت وتدريب على المهارات الرقمية.",
+    digitalList: [
+      "برمجيات تعليمية تفاعلية",
+      "قدرات الفصول الدراسية عن بعد",
+      "إتاحة بعد ساعات العمل للكبار"
+    ],
+    vocationalTitle: "مسارات التدريب المهني",
+    vocationalDesc: "برامجنا المهنية تجهز الطلاب بمهارات سوق العمل لفرص التوظيف الفوري.",
+    vocationalList: [
+      "تدريب تقني معتمد",
+      "تدريبات مهنية",
+      "ورش ريادة الأعمال"
+    ],
+    testimonialsTitle: "قصص النجاح",
+    testimonials: [
+      {
+        text: "هذا البرنامج منحني المهارات لبدء عملي الخاص ودعم أسرتي.",
+        author: "- جمال، 24 سنة"
+      },
+      {
+        text: "بعد أن تعلمت القراءة في سن 42، أستطيع الآن مساعدة أحفادي في واجباتهم. هذا غيّر عائلتنا بالكامل.",
+        author: "- ماريا، خريجة محو الأمية للكبار"
+      },
+      {
+        text: "التدريب المهني قادني مباشرة إلى أول وظيفة بدوام كامل مع مزايا.",
+        author: "- عائشة، 19 سنة"
+      }
+    ],
+    ctaTitle: "جاهز لصنع تأثير؟",
+    ctaDesc: "انضم إلينا في تغيير الحياة من خلال التعليم",
+    donateBtn: "تبرع الآن",
+    volunteerBtn: "تطوع"
+  },
+  he: {
+    heroTitle: "העצמת חינוך",
+    heroDesc: "שוברים מחסומים באמצעות פתרונות לימוד חדשניים",
+    heroBtn: "למד על ההשפעה שלנו",
+    coreProgramsTitle: "התוכניות המרכזיות שלנו",
+    programs: [
+      {
+        icon: <FaBookOpen />,
+        title: "יוזמת אוריינות",
+        desc: "תוכניות אוריינות לילדים ומבוגרים עם תוצאות מוכחות"
+      },
+      {
+        icon: <FaUserGraduate />,
+        title: "מלגות לימודים",
+        desc: "תמיכה בסטודנטים מצטיינים להשכלה גבוהה"
+      },
+      {
+        icon: <FaChalkboard />,
+        title: "הכשרת מורים",
+        desc: "פיתוח מקצועי למורים באזורים מוחלשים"
+      }
+    ],
+    digitalTitle: "מעבדות לימוד דיגיטליות",
+    digitalDesc: "הקמנו 25 מרכזי לימוד טכנולוגיים בקהילות כפריות, עם גישה למחשבים, אינטרנט והכשרה דיגיטלית.",
+    digitalList: [
+      "תוכנה לימודית אינטראקטיבית",
+      "יכולות כיתה מרחוק",
+      "גישה למבוגרים בשעות הערב"
+    ],
+    vocationalTitle: "מסלולי הכשרה מקצועית",
+    vocationalDesc: "התוכניות המקצועיות שלנו מעניקות לתלמידים מיומנויות לשוק העבודה ולמשרות מיידיות.",
+    vocationalList: [
+      "הכשרה טכנית מוסמכת",
+      "השמות התמחות",
+      "סדנאות יזמות"
+    ],
+    testimonialsTitle: "סיפורי הצלחה",
+    testimonials: [
+      {
+        text: "התוכנית נתנה לי את הכלים לפתוח עסק ולפרנס את משפחתי.",
+        author: "- ג'מאל, בן 24"
+      },
+      {
+        text: "אחרי שלמדתי לקרוא בגיל 42, אני יכולה לעזור לנכדים עם שיעורי הבית. זה שינה את כל המשפחה.",
+        author: "- מריה, בוגרת אוריינות למבוגרים"
+      },
+      {
+        text: "ההכשרה המקצועית הובילה אותי ישירות לעבודה הראשונה שלי במשרה מלאה עם הטבות.",
+        author: "- עאישה, בת 19"
+      }
+    ],
+    ctaTitle: "מוכן להשפיע?",
+    ctaDesc: "הצטרף אלינו לשינוי חיים באמצעות חינוך",
+    donateBtn: "תרום עכשיו",
+    volunteerBtn: "התנדב"
+  }
+};
