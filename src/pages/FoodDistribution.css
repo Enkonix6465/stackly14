@@ -56,6 +56,7 @@
   left: 0;
   width: 100%;
   height: 100%;
+  background: url('C:\Users\DELL\Desktop\funds\charity\public\Images\food back.jpg') center/cover no-repeat;
   opacity: 0.7;
 }
 
@@ -102,6 +103,19 @@
   background-color: var(--background);
 }
 
+.image-side-food,
+.content-side-food {
+  flex: 1 1 50%;
+  box-sizing: border-box;
+  padding: 2rem;
+}
+
+.image-side-food img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
 
 .emotional-appeal-food h2 {
   color: var(--text);
@@ -174,6 +188,20 @@
   font-weight: bold;
 }
 
+.stats-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 32px; /* Optional: space between items */
+}
+
+.stat-item {
+    flex: 1;
+    text-align: center;
+    min-width: 0;
+}
+
 /* Third section */
 .food-distribution-overview.with-bg {
   position: relative;
@@ -182,6 +210,7 @@
   height: auto;
   min-height: 500px;
   color: #fff;
+
 }
 
 .food-distribution-overview.with-bg .overlay {
@@ -228,7 +257,7 @@
 
 /* Programs Section */
 .programs-section {
-  padding: 60px 0;
+  padding: 10px 0;
   width: 100%;
   background-color: var(--section-bg);
 }
@@ -288,7 +317,7 @@
 
 /* CTA Section */
 .food-drive-section {
-  padding: 80px 0;
+  padding: 10px 0;
   background-color: var(--section-bg);
 }
 
@@ -307,6 +336,12 @@
   flex: 1;
 }
 
+.image-col img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
 
 .content-col h2 {
   color: var(--text);

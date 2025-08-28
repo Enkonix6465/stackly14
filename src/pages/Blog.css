@@ -20,6 +20,15 @@
 }
 
 /* Ensure video is not affected by dark mode */
+.hero-video-blog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
 
 /* Hero overlay should not be affected by dark mode */
 .hero-overlay-blog {
@@ -142,6 +151,11 @@
   box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
 }
 
+.card-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
 
 .card-content {
   padding: 20px;
@@ -206,6 +220,17 @@
   overflow: hidden;
 }
 
+.parallax-bg {
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 100%;
+  height: 140%;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.1);
+  filter: brightness(0.7);
+}
 
 .story-content {
   position: relative;

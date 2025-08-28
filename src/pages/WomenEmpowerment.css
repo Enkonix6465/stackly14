@@ -12,17 +12,34 @@
 
 /* Section 1: Hero Banner */
 .empowerment-hero {
-  opacity: 0.7;
-    height: 80vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+        
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: white;
     padding: 0 2rem;
+    position: relative;
 }
 
+.dark .empowerment-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+        url('C:\Users\DELL\Desktop\funds\charity\public\Images\women-back.jpg') center/cover;
+}
 
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); /* semi-transparent black */
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
 
 .hero-content-women h1 {
     font-size: 3.5rem;
@@ -398,6 +415,19 @@
     flex-wrap: wrap;
 }
 
+.image-side-women,
+.content-side-women {
+    flex: 1 1 50%;
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+.image-side-women img {
+    width: 100%;
+    height: 80vh;
+    object-fit: cover;
+    display: block;
+}
 
 .emotional-appeal-women h2 {
     color: #00CAE0;

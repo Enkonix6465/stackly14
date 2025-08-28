@@ -1,6 +1,8 @@
 import './DisasterRelief.css';
 
-import { useState,useEffect } from 'react';
+import { useState,useEffect, useContext } from 'react';
+import { LanguageContext } from '../components/Header'; // adjust path if needed
+
 const campaignsData = [
     {
         id: 1,
@@ -38,8 +40,165 @@ const servicesData = [
     { id: 4, icon: "🍲", title: "Food Relief", description: "Emergency food packages" }
 ];
 
+const disasterTranslations = {
+  en: {
+    heroTitle: "Rapid Response to Global Disasters",
+    heroSubtitle: "Delivering life-saving aid within 72 hours of emergencies worldwide",
+    promoTitle: "Rising Together – Hope, Help, and Healing in Every Crisis.",
+    promoDesc: `In times of disaster, we rise together—bringing hope to the despairing, help to the vulnerable, and healing to the broken. Every crisis demands courage, compassion, and collective action. Whether it’s delivering emergency supplies, rebuilding shattered communities, or offering a shoulder to lean on, we stand united in our mission to restore light where darkness falls. Because when we rise together, no challenge is too great, and no heart is left behind.
+we believe that no one should face disaster alone. Our teams work tirelessly to provide immediate relief—food, clean water, medical aid, and safe shelter—to those hardest hit. But our mission doesn’t end there. We stay for the long haul, helping communities rebuild stronger, restore hope, and heal from trauma.`,
+    promoBtn: "Donate Now",
+    campaignsTitle: "Active Relief Campaigns",
+    campaignsSubtitle: "Your support makes these relief efforts possible",
+    campaignUrgent: "Urgent",
+    campaignBtn: "Support This Cause",
+    approachTitle: "A New Approach to Disaster Relief: ",
+    approachSpan: "Compassion in Action",
+    approachCards: [
+      {
+        number: "1",
+        title: "Rapid Response That Saves Lives",
+        desc: "When catastrophe strikes, every minute counts. Our emergency teams deploy within hours, delivering:",
+        list: [
+          "Life-saving supplies (food, clean water, medical kits)",
+          "Emergency shelter for displaced families",
+          "Search & rescue operations in crisis zones"
+        ]
+      },
+      {
+        number: "2",
+        title: "Rebuilding for Resilience",
+        desc: "After the initial crisis, the real work begins. We partner with communities to:",
+        list: [
+          "Repair homes, schools, and hospitals—stronger than before",
+          "Restore livelihoods through job training and small-business support",
+          "Strengthen infrastructure to withstand future disasters"
+        ]
+      },
+      {
+        number: "3",
+        title: "Healing Beyond the Physical",
+        desc: "Disasters leave invisible scars. Our long-term programs provide:",
+        list: [
+          "Mental health support for trauma survivors",
+          "Community-led recovery plans to empower local voices",
+          "Disaster preparedness training to reduce future risks"
+        ]
+      }
+    ],
+    servicesTitle: "Our Relief Services",
+    servicesSubtitle: "Comprehensive aid for disaster-affected communities",
+    impactTitle: "Why It Works",
+    impactDesc: `This isn't just relief—it's dignity, hope, and lasting change. By combining speed, sustainability, and innovation, we don't just rebuild communities—we help them rise stronger.`,
+    impactBtn: "Join Us in Redefining Disaster Response"
+  },
+  ar: {
+    heroTitle: "استجابة سريعة للكوارث العالمية",
+    heroSubtitle: "تقديم المساعدة المنقذة للحياة خلال 72 ساعة من الطوارئ حول العالم",
+    promoTitle: "ننهض معًا – الأمل والمساعدة والشفاء في كل أزمة.",
+    promoDesc: `في أوقات الكوارث، ننهض معًا—نجلب الأمل لليائسين، والمساعدة للضعفاء، والشفاء للمجروحين. كل أزمة تتطلب الشجاعة والرحمة والعمل الجماعي. سواء كان ذلك بتقديم الإمدادات الطارئة، أو إعادة بناء المجتمعات المنهارة، أو تقديم الدعم النفسي، نقف متحدين في مهمتنا لإعادة النور حيث يسود الظلام. لأننا عندما ننهض معًا، لا يوجد تحدٍ كبير ولا قلب يُترك خلفنا.
+نؤمن أن لا أحد يجب أن يواجه الكارثة وحده. يعمل فريقنا بلا كلل لتقديم الإغاثة الفورية—الغذاء، المياه النظيفة، المساعدة الطبية، والمأوى الآمن—للمتضررين بشدة. لكن مهمتنا لا تنتهي هنا. نبقى لفترة طويلة، نساعد المجتمعات على إعادة البناء بقوة، واستعادة الأمل، والشفاء من الصدمات.`,
+    promoBtn: "تبرع الآن",
+    campaignsTitle: "حملات الإغاثة النشطة",
+    campaignsSubtitle: "دعمك يجعل جهود الإغاثة هذه ممكنة",
+    campaignUrgent: "عاجل",
+    campaignBtn: "ادعم هذه القضية",
+    approachTitle: "نهج جديد للإغاثة من الكوارث: ",
+    approachSpan: "الرحمة في العمل",
+    approachCards: [
+      {
+        number: "1",
+        title: "استجابة سريعة تنقذ الأرواح",
+        desc: "عندما تضرب الكارثة، كل دقيقة مهمة. فرقنا الطارئة تنتشر خلال ساعات، وتقدم:",
+        list: [
+          "إمدادات منقذة للحياة (غذاء، مياه نظيفة، معدات طبية)",
+          "مأوى طارئ للأسر المشردة",
+          "عمليات البحث والإنقاذ في مناطق الأزمة"
+        ]
+      },
+      {
+        number: "2",
+        title: "إعادة البناء من أجل الصمود",
+        desc: "بعد الأزمة الأولية، يبدأ العمل الحقيقي. نتعاون مع المجتمعات لـ:",
+        list: [
+          "إصلاح المنازل والمدارس والمستشفيات—أقوى من قبل",
+          "استعادة سبل العيش من خلال التدريب المهني ودعم الأعمال الصغيرة",
+          "تعزيز البنية التحتية لمواجهة الكوارث المستقبلية"
+        ]
+      },
+      {
+        number: "3",
+        title: "الشفاء يتجاوز الجسد",
+        desc: "تترك الكوارث ندوبًا غير مرئية. برامجنا طويلة الأمد تقدم:",
+        list: [
+          "دعم الصحة النفسية للناجين من الصدمات",
+          "خطط تعافي يقودها المجتمع لتمكين الأصوات المحلية",
+          "تدريب على الاستعداد للكوارث لتقليل المخاطر المستقبلية"
+        ]
+      }
+    ],
+    servicesTitle: "خدمات الإغاثة لدينا",
+    servicesSubtitle: "مساعدات شاملة للمجتمعات المتضررة من الكوارث",
+    impactTitle: "لماذا ينجح هذا",
+    impactDesc: `هذه ليست مجرد إغاثة—بل كرامة وأمل وتغيير دائم. من خلال الجمع بين السرعة والاستدامة والابتكار، لا نعيد بناء المجتمعات فقط—بل نساعدها على النهوض بقوة.`,
+    impactBtn: "انضم إلينا لإعادة تعريف الاستجابة للكوارث"
+  },
+  he: {
+    heroTitle: "תגובה מהירה לאסונות עולמיים",
+    heroSubtitle: "סיוע מציל חיים תוך 72 שעות ממקרי חירום ברחבי העולם",
+    promoTitle: "עולים יחד – תקווה, עזרה וריפוי בכל משבר.",
+    promoDesc: `בעת אסון, אנו עולים יחד—מביאים תקווה לנואשים, עזרה לפגיעים וריפוי לשבורים. כל משבר דורש אומץ, חמלה ופעולה משותפת. בין אם זה אספקה דחופה, בניית קהילות מחדש או תמיכה נפשית, אנו מאוחדים במשימתנו להחזיר אור במקום בו יש חושך. כי כשעולים יחד, אין אתגר גדול מדי ואין לב שנשאר מאחור.
+אנו מאמינים שאף אחד לא צריך להתמודד עם אסון לבד. הצוותים שלנו פועלים ללא לאות כדי לספק סיוע מיידי—אוכל, מים נקיים, עזרה רפואית ומקלט בטוח—לנפגעים ביותר. אבל המשימה שלנו לא מסתיימת כאן. אנו נשארים לטווח הארוך, עוזרים לקהילות לבנות מחדש, להחזיר תקווה ולהחלים מטראומה.`,
+    promoBtn: "תרום עכשיו",
+    campaignsTitle: "קמפיינים פעילים",
+    campaignsSubtitle: "התרומה שלך מאפשרת את מאמצי הסיוע האלה",
+    campaignUrgent: "דחוף",
+    campaignBtn: "תמוך במטרה זו",
+    approachTitle: "גישה חדשה לסיוע באסונות: ",
+    approachSpan: "חמלה בפעולה",
+    approachCards: [
+      {
+        number: "1",
+        title: "תגובה מהירה שמצילה חיים",
+        desc: "כשאסון מכה, כל דקה חשובה. הצוותים שלנו נפרסים תוך שעות ומספקים:",
+        list: [
+          "אספקה מצילת חיים (אוכל, מים נקיים, ערכות רפואיות)",
+          "מקלט חירום למשפחות שנעקרו",
+          "מבצעי חילוץ והצלה באזורי משבר"
+        ]
+      },
+      {
+        number: "2",
+        title: "בנייה מחדש לחוסן",
+        desc: "לאחר המשבר הראשוני, העבודה האמיתית מתחילה. אנו משתפים פעולה עם קהילות כדי:",
+        list: [
+          "לתקן בתים, בתי ספר ובתי חולים—חזקים יותר מבעבר",
+          "להחזיר מקורות פרנסה באמצעות הכשרה מקצועית ותמיכה בעסקים קטנים",
+          "לחזק תשתיות לעמידות בפני אסונות עתידיים"
+        ]
+      },
+      {
+        number: "3",
+        title: "ריפוי מעבר לפיזי",
+        desc: "אסונות משאירים צלקות בלתי נראות. התוכניות ארוכות הטווח שלנו מספקות:",
+        list: [
+          "תמיכה נפשית לנפגעי טראומה",
+          "תוכניות התאוששות בהובלת הקהילה להעצמת קולות מקומיים",
+          "הכשרה להתמודדות עם אסונות להפחתת סיכונים עתידיים"
+        ]
+      }
+    ],
+    servicesTitle: "שירותי הסיוע שלנו",
+    servicesSubtitle: "סיוע מקיף לקהילות שנפגעו מאסון",
+    impactTitle: "למה זה עובד",
+    impactDesc: `זו לא רק סיוע—זו כבוד, תקווה ושינוי מתמשך. בשילוב מהירות, קיימות וחדשנות, אנו לא רק בונים מחדש קהילות—אנו עוזרים להן לעלות חזקות יותר.`,
+    impactBtn: "הצטרף אלינו להגדיר מחדש את הסיוע באסונות"
+  }
+};
+
 function DisasterRelief() {
     const [, setTheme] = useState('light');
+    const { language } = useContext(LanguageContext);
       
       // Load theme preference from localStorage on component mount
       useEffect(() => {
@@ -73,9 +232,9 @@ function DisasterRelief() {
                 <div className="hero-overlay">
                     <div className="container">
                         <div className="hero-content">
-                            <h1>Rapid Response to Global Disasters</h1>
+                            <h1>{disasterTranslations[language].heroTitle}</h1>
                             <p className="hero-subtitle">
-                                Delivering life-saving aid within 72 hours of emergencies worldwide
+                                {disasterTranslations[language].heroSubtitle}
                             </p>
                         </div>
                     </div>
@@ -88,11 +247,9 @@ function DisasterRelief() {
                 </div>
                 <div className="content-side-disaster">
                     <div className=" emotional-appeal-disaster">
-                        <h2>Rising Together – Hope, Help, and Healing in Every Crisis.</h2>
-                        <p style={{ textAlign: "justify" }}>In times of disaster, we rise together—bringing hope to the despairing, help to the vulnerable, and healing to the broken. Every crisis demands courage, compassion, and collective action. Whether it’s delivering emergency supplies, rebuilding shattered communities, or offering a shoulder to lean on, we stand united in our mission to restore light where darkness falls. Because when we rise together, no challenge is too great, and no heart is left behind.
-                            we believe that no one should face disaster alone. Our teams work tirelessly to provide immediate relief—food, clean water, medical aid, and safe shelter—to those hardest hit. But our mission doesn’t end there. We stay for the long haul, helping communities rebuild stronger, restore hope, and heal from trauma.
-                        </p>
-                        <button className="donate-button">Donate Now</button>
+                        <h2>{disasterTranslations[language].promoTitle}</h2>
+                        <p style={{ textAlign: "justify" }}>{disasterTranslations[language].promoDesc}</p>
+                        <button className="donate-button">{disasterTranslations[language].promoBtn}</button>
                     </div>
                 </div>
             </div>
@@ -101,15 +258,15 @@ function DisasterRelief() {
             {/* Campaigns Section */}
             <section className="campaigns-section">
                 <div className="campaigns-container">
-                    <h2 className="campaigns-title">Active Relief Campaigns</h2>
+                    <h2 className="campaigns-title">{disasterTranslations[language].campaignsTitle}</h2>
                     <p className="campaigns-subtitle">
-                        Your support makes these relief efforts possible
+                        {disasterTranslations[language].campaignsSubtitle}
                     </p>
                     <div className="campaigns-grid">
                         {campaignsData.map(c => (
                             <div key={c.id} className="campaign-card">
                                 {c.urgent && (
-                                    <div className="campaign-urgent">Urgent</div>
+                                    <div className="campaign-urgent">{disasterTranslations[language].campaignUrgent}</div>
                                 )}
                                 <h3 className="campaign-title">{c.title}</h3>
                                 <p className="campaign-description">{c.description}</p>
@@ -126,7 +283,7 @@ function DisasterRelief() {
                                     </div>
                                 </div>
                                 <button className="campaign-button">
-                                    Support This Cause
+                                    {disasterTranslations[language].campaignBtn}
                                 </button>
                             </div>
                         ))}
@@ -136,54 +293,26 @@ function DisasterRelief() {
             {/*second section*/}
             <section className="disaster-relief">
                 <div className="relief-container">
-                    <h2 className="relief-title">A New Approach to Disaster Relief: <span>Compassion in Action</span></h2>
+                    <h2 className="relief-title">{disasterTranslations[language].approachTitle} <span>{disasterTranslations[language].approachSpan}</span></h2>
                     <p className="relief-intro">
-                        Disasters don't wait—and neither do we. Traditional relief models often focus on short-term aid,
-                        but true recovery requires <strong>swift action paired with sustainable solutions</strong>.
-                        That's why our approach is different:
+                        {disasterTranslations[language].approachDesc}
                     </p>
 
                     <div className="approach-grid">
-                        <div className="approach-card">
-                            <div className="card-header">
-                                <div className="card-number">1</div>
-                                <h3>Rapid Response That Saves Lives</h3>
+                        {disasterTranslations[language].approachCards.map(card => (
+                            <div className="approach-card" key={card.number}>
+                                <div className="card-header">
+                                    <div className="card-number">{card.number}</div>
+                                    <h3>{card.title}</h3>
+                                </div>
+                                <p>{card.desc}</p>
+                                <ul>
+                                    {card.list.map((item, index) => (
+                                        <li key={index}>{item}</li>
+                                    ))}
+                                </ul>
                             </div>
-                            <p>When catastrophe strikes, every minute counts. Our emergency teams deploy within hours, delivering:</p>
-                            <ul>
-                                <li><strong>Life-saving supplies</strong> (food, clean water, medical kits)</li>
-                                <li><strong>Emergency shelter</strong> for displaced families</li>
-                                <li><strong>Search & rescue</strong> operations in crisis zones</li>
-                            </ul>
-                        </div>
-
-                        <div className="approach-card">
-                            <div className="card-header">
-                                <div className="card-number">2</div>
-                                <h3>Rebuilding for Resilience</h3>
-                            </div>
-                            <p>After the initial crisis, the real work begins. We partner with communities to:</p>
-                            <ul>
-                                <li><strong>Repair homes, schools, and hospitals</strong>—stronger than before</li>
-                                <li><strong>Restore livelihoods</strong> through job training and small-business support</li>
-                                <li><strong>Strengthen infrastructure</strong> to withstand future disasters</li>
-                            </ul>
-                        </div>
-
-                        <div className="approach-card">
-                            <div className="card-header">
-                                <div className="card-number">3</div>
-                                <h3>Healing Beyond the Physical</h3>
-                            </div>
-                            <p>Disasters leave invisible scars. Our long-term programs provide:</p>
-                            <ul>
-                                <li><strong>Mental health support</strong> for trauma survivors</li>
-                                <li><strong>Community-led recovery plans</strong> to empower local voices</li>
-                                <li><strong>Disaster preparedness training</strong> to reduce future risks</li>
-                            </ul>
-                        </div>
-
-
+                        ))}
                     </div>
 
 
@@ -192,8 +321,8 @@ function DisasterRelief() {
             {/* Services Section */}
             <section className="relief-services-container">
                 <div className="section-header">
-                    <h2 className="section-title">Our Relief Services</h2>
-                    <p className="section-subtitle">Comprehensive aid for disaster-affected communities</p>
+                    <h2 className="section-title">{disasterTranslations[language].servicesTitle}</h2>
+                    <p className="section-subtitle">{disasterTranslations[language].servicesSubtitle}</p>
                 </div>
                 <div className="service-items-grid">
                     {servicesData.map(service => (
@@ -206,13 +335,11 @@ function DisasterRelief() {
                 </div>
             </section>
             <div className="impact-statement">
-                <h3>Why It Works</h3>
+                <h3>{disasterTranslations[language].impactTitle}</h3>
                 <p>
-                    This isn't just relief—it's <strong>dignity, hope, and lasting change</strong>. By combining
-                    <strong> speed, sustainability, and innovation</strong>, we don't just rebuild communities—we help them
-                    <strong> rise stronger</strong>.
+                    {disasterTranslations[language].impactDesc}
                 </p>
-                <button className="cta-button">Join Us in Redefining Disaster Response</button>
+                <button className="cta-button">{disasterTranslations[language].impactBtn}</button>
             </div>
         </>
     );

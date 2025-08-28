@@ -56,6 +56,29 @@ body.theme-dark .new-card h3{
 body.theme-dark .partners-title{
   color:black
 }
+body.theme-dark .card-section{
+  background-color:transparent;
+}
+
+/* Dark mode for card-section background */
+.theme-dark .card-section {
+  background: #111 !important;
+}
+
+/* Dark mode for each card */
+.theme-dark .custom-card,
+.theme-dark .card {
+  background: #000 !important;
+  color: #fff !important;
+  border-color: #222 !important;
+}
+
+/* Dark mode for card text */
+.theme-dark .custom-card .card-title,
+.theme-dark .custom-card .card-text {
+  color: #fff !important;
+}
+
 /* Hero Section */
 .hero-home2 {
   position: relative;
@@ -64,6 +87,15 @@ body.theme-dark .partners-title{
   overflow: hidden;
 }
 
+.hero-video-home2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
 
 .hero-overlay-home2 {
   position: relative;
@@ -252,6 +284,18 @@ body.theme-dark .partners-title{
   color: var(--text-color);
 }
 
+.logo-image {
+  max-width: 120px;
+  margin: auto;
+  opacity: 0.7;
+  transition: opacity 0.3s, transform 0.3s;
+  filter: var(--logo-filter);
+}
+
+.logo-image:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
 
 /* Programs Section */
 .upcoming-programs-section-home2 {
@@ -293,6 +337,11 @@ body.theme-dark .partners-title{
   transform: translateY(-5px);
 }
 
+.program-image-home2 {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
 
 .program-info-home2 {
   padding: 1rem;
@@ -338,7 +387,9 @@ body.theme-dark .partners-title{
 .contact-section {
   width: 100vw;
   height: 50vh;
-  background-image: none;
+  background-image:
+    linear-gradient(var(--overlay), var(--overlay)),
+    url('C:\Users\DELL\Desktop\funds\charity\public\Images\c-h2.jpg');
   background-size: cover;
   background-position: center;
   display: flex;

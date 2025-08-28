@@ -1,11 +1,116 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
 // import { useNavigate } from 'react-router-dom';
 import './Blog2.css';
+import { LanguageContext } from '../components/Header'; // adjust path if needed
+
+const blog2Translations = {
+    en: {
+        heroTitle: "Healthcare Support Initiatives",
+        heroDesc: "Our comprehensive healthcare programs ensure elderly community members receive quality medical care, preventive services, and health education.",
+        servicesTitle: "Our Healthcare Services",
+        services: [
+            {
+                icon: "fas fa-clinic-medical",
+                title: "Primary Care Services",
+                desc: "Regular health check-ups, chronic disease management, and basic treatments provided by our team of dedicated healthcare professionals."
+            },
+            {
+                icon: "fas fa-ambulance",
+                title: "Emergency Support",
+                desc: "24/7 emergency response team and transportation services for critical medical situations and hospital transfers."
+            },
+            {
+                icon: "fas fa-brain",
+                title: "Mental Health Programs",
+                desc: "Counseling services, dementia care support, and mental wellness workshops to promote emotional well-being."
+            },
+            {
+                icon: "fas fa-utensils",
+                title: "Nutrition Support",
+                desc: "Dietary planning, supplemental nutrition programs, and cooking demonstrations for seniors with special dietary needs."
+            }
+        ],
+        list: [
+            { icon: "fas fa-heartbeat", text: "Monthly mobile health clinics" },
+            { icon: "fas fa-pills", text: "Free medication distribution" },
+            { icon: "fas fa-user-md", text: "Specialist doctor consultations" },
+            { icon: "fas fa-heart", text: "Cardiac health screenings" }
+        ]
+    },
+    ar: {
+        heroTitle: "مبادرات دعم الرعاية الصحية",
+        heroDesc: "برامجنا الصحية الشاملة تضمن حصول كبار السن على رعاية طبية عالية الجودة وخدمات وقائية وتثقيف صحي.",
+        servicesTitle: "خدمات الرعاية الصحية لدينا",
+        services: [
+            {
+                icon: "fas fa-clinic-medical",
+                title: "خدمات الرعاية الأولية",
+                desc: "فحوصات صحية منتظمة، إدارة الأمراض المزمنة، وعلاجات أساسية يقدمها فريقنا من المتخصصين."
+            },
+            {
+                icon: "fas fa-ambulance",
+                title: "الدعم الطارئ",
+                desc: "فريق استجابة طارئة على مدار الساعة وخدمات نقل للحالات الطبية الحرجة."
+            },
+            {
+                icon: "fas fa-brain",
+                title: "برامج الصحة النفسية",
+                desc: "خدمات استشارية، دعم رعاية الخرف، وورش عمل للصحة النفسية."
+            },
+            {
+                icon: "fas fa-utensils",
+                title: "دعم التغذية",
+                desc: "تخطيط غذائي، برامج تغذية إضافية، وعروض طبخ لكبار السن ذوي الاحتياجات الخاصة."
+            }
+        ],
+        list: [
+            { icon: "fas fa-heartbeat", text: "عيادات صحية متنقلة شهرية" },
+            { icon: "fas fa-pills", text: "توزيع الأدوية مجانًا" },
+            { icon: "fas fa-user-md", text: "استشارات أطباء متخصصين" },
+            { icon: "fas fa-heart", text: "فحوصات صحة القلب" }
+        ]
+    },
+    he: {
+        heroTitle: "יוזמות תמיכה רפואית",
+        heroDesc: "התוכניות הרפואיות שלנו מבטיחות לקשישים טיפול איכותי, שירותים מונעים וחינוך לבריאות.",
+        servicesTitle: "שירותי הבריאות שלנו",
+        services: [
+            {
+                icon: "fas fa-clinic-medical",
+                title: "שירותי רפואה ראשונית",
+                desc: "בדיקות בריאות שגרתיות, ניהול מחלות כרוניות וטיפולים בסיסיים על ידי צוות מקצועי."
+            },
+            {
+                icon: "fas fa-ambulance",
+                title: "תמיכה במקרי חירום",
+                desc: "צוות חירום 24/7 ושירותי הסעה למצבים רפואיים קריטיים."
+            },
+            {
+                icon: "fas fa-brain",
+                title: "תוכניות בריאות הנפש",
+                desc: "ייעוץ, תמיכה בדמנציה וסדנאות לרווחה נפשית."
+            },
+            {
+                icon: "fas fa-utensils",
+                title: "תמיכה תזונתית",
+                desc: "תכנון תזונתי, תוכניות תוספי תזונה והדגמות בישול לקשישים עם צרכים מיוחדים."
+            }
+        ],
+        list: [
+            { icon: "fas fa-heartbeat", text: "מרפאות ניידות חודשיות" },
+            { icon: "fas fa-pills", text: "חלוקת תרופות חינם" },
+            { icon: "fas fa-user-md", text: "התייעצות עם רופאים מומחים" },
+            { icon: "fas fa-heart", text: "בדיקות לב" }
+        ]
+    }
+};
 
 const Blog2 = () => {
     // const navigate = useNavigate();
     const [theme, setTheme] = useState('light');
+    const { language } = useContext(LanguageContext);
+    const t = blog2Translations[language] || blog2Translations.en;
 
     // Load theme preference from localStorage on component mount
     useEffect(() => {
@@ -48,28 +153,17 @@ const Blog2 = () => {
                         </Col>
                         <Col lg={6}>
                             <div className="healthcare-intro">
-                                <h1>Healthcare Support Initiatives</h1>
-                                <p className="lead">
-                                    Our comprehensive healthcare programs ensure elderly community members receive 
-                                    quality medical care, preventive services, and health education.
+                                <h1 style={{ color: theme === 'light' ? 'black' : undefined }}>{t.heroTitle}</h1>
+                                <p className="lead" style={{ color: theme === 'light' ? 'black' : undefined }}>
+                                    {t.heroDesc}
                                 </p>
                                 <ListGroup variant="flush" className="mb-4">
-                                    <ListGroup.Item>
-                                        <i className="fas fa-heartbeat me-2"></i>
-                                        Monthly mobile health clinics
-                                    </ListGroup.Item>
-                                    <ListGroup.Item>
-                                        <i className="fas fa-pills me-2"></i>
-                                        Free medication distribution
-                                    </ListGroup.Item>
-                                    <ListGroup.Item>
-                                        <i className="fas fa-user-md me-2"></i>
-                                        Specialist doctor consultations
-                                    </ListGroup.Item>
-                                    <ListGroup.Item>
-                                        <i className="fas fa-heart me-2"></i>
-                                        Cardiac health screenings
-                                    </ListGroup.Item>
+                                    {t.list.map((item, idx) => (
+                                        <ListGroup.Item key={idx}>
+                                            <i className={`${item.icon} me-2`}></i>
+                                            {item.text}
+                                        </ListGroup.Item>
+                                    ))}
                                 </ListGroup>
                             </div>
                         </Col>
@@ -80,64 +174,23 @@ const Blog2 = () => {
             {/* Section 2: Healthcare Services & Testimonials */}
             <section className="healthcare-services">
                 <Container>
-                    <h2 className="text-center mb-5">Our Healthcare Services</h2>
+                    <h2 className="text-center mb-5" style={{ color: theme === 'light' ? 'black' : undefined }}>
+                        {t.servicesTitle}
+                    </h2>
                     <Row>
-                        <Col md={6} className="mb-4">
-                            <Card className="h-100 border-0 shadow-sm">
-                                <Card.Body>
-                                    <div className="service-icon mb-3">
-                                        <i className="fas fa-clinic-medical"></i>
-                                    </div>
-                                    <Card.Title>Primary Care Services</Card.Title>
-                                    <Card.Text>
-                                        Regular health check-ups, chronic disease management, and basic 
-                                        treatments provided by our team of dedicated healthcare professionals.
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                        <Col md={6} className="mb-4">
-                            <Card className="h-100 border-0 shadow-sm">
-                                <Card.Body>
-                                    <div className="service-icon mb-3">
-                                        <i className="fas fa-ambulance"></i>
-                                    </div>
-                                    <Card.Title>Emergency Support</Card.Title>
-                                    <Card.Text>
-                                        24/7 emergency response team and transportation services for 
-                                        critical medical situations and hospital transfers.
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                        <Col md={6} className="mb-4">
-                            <Card className="h-100 border-0 shadow-sm">
-                                <Card.Body>
-                                    <div className="service-icon mb-3">
-                                        <i className="fas fa-brain"></i>
-                                    </div>
-                                    <Card.Title>Mental Health Programs</Card.Title>
-                                    <Card.Text>
-                                        Counseling services, dementia care support, and mental wellness 
-                                        workshops to promote emotional well-being.
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                        <Col md={6} className="mb-4">
-                            <Card className="h-100 border-0 shadow-sm">
-                                <Card.Body>
-                                    <div className="service-icon mb-3">
-                                        <i className="fas fa-utensils"></i>
-                                    </div>
-                                    <Card.Title>Nutrition Support</Card.Title>
-                                    <Card.Text>
-                                        Dietary planning, supplemental nutrition programs, and cooking 
-                                        demonstrations for seniors with special dietary needs.
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
+                        {t.services.map((service, idx) => (
+                            <Col md={6} className="mb-4" key={idx}>
+                                <Card className="h-100 border-0 shadow-sm">
+                                    <Card.Body>
+                                        <div className="service-icon mb-3">
+                                            <i className={service.icon}></i>
+                                        </div>
+                                        <Card.Title>{service.title}</Card.Title>
+                                        <Card.Text>{service.desc}</Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))}
                     </Row>
                 </Container>
             </section>
