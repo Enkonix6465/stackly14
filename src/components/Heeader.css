@@ -244,11 +244,12 @@ header .hamburger {
   background-color: transparent !important;
 }
 
-[data-theme='dark'] .hamburger,
-[data-theme='dark'] .hamburger svg,
-[data-theme='dark'] .hamburger i {
+[data-theme="dark"] .hamburger,
+[data-theme="dark"] .hamburger i {
   color: #fff !important;
-  fill: #fff !important;
+}
+
+[data-theme="dark"] .hamburger svg {
   stroke: #fff !important;
 }
 
