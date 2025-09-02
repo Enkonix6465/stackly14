@@ -86,8 +86,13 @@ const blog3Translations = {
   }
 };
 
+const rtlLanguages = ["ar", "he"];
+
 const Blog3 = () => {
   const { language } = useContext(LanguageContext);
+
+  // RTL detection
+  const isRTL = rtlLanguages.includes(language);
   const t = blog3Translations[language] || blog3Translations['en'];
   const [theme, setTheme] = useState('light');
 
@@ -114,7 +119,13 @@ const Blog3 = () => {
   }, []);
 
   return (
-    <div className={`stories-container ${theme}`}>
+    <div
+      style={{
+        direction: isRTL ? "rtl" : "ltr",
+        textAlign: isRTL ? "right" : "left",
+      }}
+      className={`stories-container ${theme}`}
+    >
       <div className="content-wrapper">
         <h1>{t.title}</h1>
         

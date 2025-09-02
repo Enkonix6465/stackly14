@@ -336,8 +336,12 @@
     overflow-x: auto;
 }
 
-.metric-comparison.dark {
-    background-color: #000;
+.metric-comparison.dark,
+.metric-comparison.dark table {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-radius: 12px;
+  box-shadow: none !important; /* Remove white shadow */
 }
 
 .metric-comparison.dark h2 {
@@ -392,13 +396,55 @@ tr:nth-child(even) {
     background: #00a0b0;
 }
 
-ul {
-    padding-left: 1.2rem;
-    margin: 0;
+/* Table header in dark mode */
+.metric-comparison.dark th {
+  background: #00CAE0 !important;
+  color: #fff !important;
 }
 
-li {
-    margin-bottom: 0.3rem;
+/* Table rows in dark mode */
+.metric-comparison.dark tr {
+  background: #111 !important;
+  color: #fff !important;
+}
+
+/* Alternate row shading for contrast */
+.metric-comparison.dark tr:nth-child(even) {
+  background: #222 !important;
+}
+
+/* Table cells in dark mode */
+.metric-comparison.dark td {
+  color: #fff !important;
+  background-color: inherit !important;
+}
+
+/* CTA buttons in table remain blue */
+.metric-comparison.dark .metric-cta {
+  background: #00CAE0 !important;
+  color: #fff !important;
+}
+
+/* Make the entire page and all wrappers black in dark mode */
+body.theme-dark,
+body.theme-dark #root {
+  background-color: #000 !important;
+}
+
+/* If you use a wrapper around your content, make it black too */
+body.theme-dark .App,
+body.theme-dark .main-content,
+body.theme-dark .services-page-wrapper {
+  background-color: #000 !important;
+}
+
+/* Remove any padding/margin that shows white around the metric-comparison section */
+body.theme-dark .metric-comparison {
+  background-color: #000 !important;
+  margin: 3rem auto !important;
+  padding: 1rem !important;
+  border-radius: 16px;
+  box-shadow: none !important;
 }
 
 /* Volunteer Section */
@@ -543,4 +589,38 @@ li {
         opacity: 1;
         transform: translateX(0);
     }
+}
+
+/* Services.css */
+
+/* Center CTA container content */
+.cta-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center the paragraph and button */
+.cta-container p {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.cta-container .cta-button {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Make CTA heading and paragraph black in light mode */
+.cta-container h2,
+.cta-container p {
+  color: #222 !important;
+}
+
+/* In dark mode, keep them white */
+body.theme-dark .cta-container h2,
+body.theme-dark .cta-container p {
+  color: #fff !important;
 }

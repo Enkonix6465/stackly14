@@ -3,6 +3,8 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import { LanguageContext } from '../components/Header'; // adjust path if needed
 import './Blog1.css';
 
+const rtlLanguages = ["ar", "he"];
+
 const blog1Translations = {
     en: {
         programTitle: "Community Outreach Program",
@@ -94,37 +96,47 @@ const blog1Translations = {
 };
 
 const Blog1 = () => {
-    const { language } = useContext(LanguageContext);
-    const t = blog1Translations[language] || blog1Translations['en'];
-    const [theme, setTheme] = useState('light');
+  const { language } = useContext(LanguageContext);
 
-    // Load theme preference from localStorage on component mount
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            setTheme(savedTheme);
-        }
-    }, []);
+  // RTL detection
+  const isRTL = rtlLanguages.includes(language);
 
-    // Listen for theme changes from Header component
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const handleThemeChange = () => {
-                const newTheme = localStorage.getItem('theme') || 'light';
-                setTheme(newTheme);
-            };
-            
-            window.addEventListener('theme-changed', handleThemeChange);
-            window.addEventListener('storage', handleThemeChange);
-            
-            return () => {
-                window.removeEventListener('theme-changed', handleThemeChange);
-                window.removeEventListener('storage', handleThemeChange);
-            };
-        }
-    }, []);
+  const t = blog1Translations[language] || blog1Translations['en'];
+  const [theme, setTheme] = useState('light');
 
-    return (
+  // Load theme preference from localStorage on component mount
+  useEffect(() => {
+      if (typeof window !== 'undefined') {
+          const savedTheme = localStorage.getItem('theme') || 'light';
+          setTheme(savedTheme);
+      }
+  }, []);
+
+  // Listen for theme changes from Header component
+  useEffect(() => {
+      if (typeof window !== 'undefined') {
+          const handleThemeChange = () => {
+              const newTheme = localStorage.getItem('theme') || 'light';
+              setTheme(newTheme);
+          };
+          
+          window.addEventListener('theme-changed', handleThemeChange);
+          window.addEventListener('storage', handleThemeChange);
+          
+          return () => {
+              window.removeEventListener('theme-changed', handleThemeChange);
+              window.removeEventListener('storage', handleThemeChange);
+          };
+      }
+  }, []);
+
+  return (
+    <div
+      style={{
+        direction: isRTL ? "rtl" : "ltr",
+        textAlign: isRTL ? "right" : "left",
+      }}
+    >
         <div className={`blog-page ${theme}`}>
             {/* Section 1: Program Overview */}
             <section className="outreach-section">
@@ -192,7 +204,8 @@ const Blog1 = () => {
                 </Container>
             </section>
         </div>
-    );
+    </div>
+  );
 };
 
 export default Blog1;

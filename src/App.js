@@ -5,6 +5,7 @@ import { LanguageProvider } from './components/Header'; // Make sure this is imp
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 import Home from "./pages/Home";
 import Home2 from "./pages/Home2";
@@ -71,6 +72,7 @@ function App() {
   return (
     <LanguageProvider>
       <Router>
+        <ScrollToTop />
         <AppLayout />
       </Router>
     </LanguageProvider>

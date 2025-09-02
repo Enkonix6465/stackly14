@@ -180,6 +180,14 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
   const [theme, setTheme] = useState('light');
+  const [showVolunteerForm, setShowVolunteerForm] = useState(false);
+  const [volunteerData, setVolunteerData] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    interest: "",
+  });
+  const [volunteerThankYou, setVolunteerThankYou] = useState(false);
   const formRef = useRef();
   const { language } = useContext(LanguageContext);
   const t = contactTranslations[language] || contactTranslations.en;
@@ -257,6 +265,26 @@ const Contact = () => {
     }
   };
 
+  const handleVolunteerChange = (e) => {
+    setVolunteerData({ ...volunteerData, [e.target.name]: e.target.value });
+  };
+
+  const handleVolunteerSubmit = (e) => {
+    e.preventDefault();
+    const volunteers = JSON.parse(localStorage.getItem("volunteers") || "[]");
+    volunteers.push(volunteerData);
+    localStorage.setItem("volunteers", JSON.stringify(volunteers));
+    setShowVolunteerForm(false);
+    setVolunteerThankYou(true);
+    setVolunteerData({
+      name: "",
+      email: "",
+      mobile: "",
+      interest: "",
+    });
+    setTimeout(() => setVolunteerThankYou(false), 3000);
+  };
+
   return (
     <div className={`contact-page ${theme}`}>
       {/* Donation Modal */}
@@ -324,7 +352,7 @@ const Contact = () => {
         <div className="container"> 
           <h2>{t.contactInfoTitle}</h2> 
           <div className="info-grid"> 
-            <div className="info-card"> 
+            <div className="info-card" > 
               <FaPhone className="info-icon"/> 
               <h3>{t.phone}</h3> 
               <p>{t.phone1}</p> 
@@ -398,7 +426,101 @@ const Contact = () => {
                   <li key={index}>{item}</li>
                 ))}
               </ul> 
-              <button className="volunteer-btn">{t.volunteerBtn}</button> 
+              <button
+                className="volunteer-btn"
+                onClick={() => {
+                  setShowVolunteerForm(true);
+                  setVolunteerThankYou(false);
+                }}
+              >
+                {t.volunteerBtn}
+              </button>
+              {showVolunteerForm && !volunteerThankYou && (
+                <form
+                  className="volunteer-form"
+                  style={{
+                    marginTop: "2rem",
+                    background: "#fff",
+                    padding: "2rem",
+                    borderRadius: "8px",
+                    maxWidth: "400px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
+                  }}
+                  onSubmit={handleVolunteerSubmit}
+                >
+                  <h3 style={{ marginBottom: "1rem" }}>Volunteer Form</h3>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Your Name"
+                    value={volunteerData.name}
+                    onChange={handleVolunteerChange}
+                    required
+                    style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={volunteerData.email}
+                    onChange={handleVolunteerChange}
+                    required
+                    style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+                  />
+                  <input
+                    type="tel"
+                    name="mobile"
+                    placeholder="Mobile Number"
+                    value={volunteerData.mobile}
+                    onChange={handleVolunteerChange}
+                    required
+                    style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+                  />
+                  <input
+                    type="text"
+                    name="interest"
+                    placeholder="Area of Interest"
+                    value={volunteerData.interest}
+                    onChange={handleVolunteerChange}
+                    required
+                    style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+                  />
+                  <button
+                    type="submit"
+                    style={{
+                      background: "#00bfff",
+                      color: "#fff",
+                      border: "none",
+                      padding: "0.75rem 2rem",
+                      borderRadius: "6px",
+                      fontSize: "1rem",
+                      cursor: "pointer",
+                      width: "100%",
+                    }}
+                  >
+                    Submit
+                  </button>
+                </form>
+              )}
+              {volunteerThankYou && (
+                <div
+                  style={{
+                    marginTop: "2rem",
+                    background: "#f0f8ff",
+                    padding: "2rem",
+                    borderRadius: "8px",
+                    maxWidth: "400px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    textAlign: "center",
+                  }}
+                >
+                  <p style={{ margin: 0 }}>Thank you for your interest in volunteering!</p>
+                  <p style={{ margin: 0 }}>We will get back to you soon.</p>
+                </div>
+              )}
             </div> 
             <div className="volunteer-image"> 
               <img src="/Images/volunteer.jpg" alt="Volunteer with us" className="volunteer-img" /> 

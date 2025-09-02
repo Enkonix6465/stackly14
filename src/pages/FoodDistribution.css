@@ -13,7 +13,7 @@
 [data-theme="dark"] {
   --primary: #00CAE0;
   --secondary: #121212;
-  --light: #121212;
+  --light: #FFFFFF;
   --background: #1a1a1a;
   --text: #FFFFFF;
   --card-bg: #2d2d2d;
@@ -23,9 +23,9 @@
 
 /* Base Styles */
 .food-distribution {
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   color: var(--text);
-  background-color: var(--background);
+  
   transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
 }
@@ -38,15 +38,18 @@
 
 /* Hero Section */
 .hero-section {
-  background-color: var(--secondary);
-  color: var(--light);
-  height: 80vh;
+   /* Make sure this path is correct and image is in public/Images */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   position: relative;
   overflow: hidden;
+  color: var(--light);
 }
 
 .hero-section::before {
@@ -56,7 +59,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('C:\Users\DELL\Desktop\funds\charity\public\Images\food back.jpg') center/cover no-repeat;
   opacity: 0.7;
 }
 
@@ -98,24 +100,11 @@
 /* Second section */
 .promo-container-food {
   display: flex;
+  align-items: stretch;
   width: 100%;
-  flex-wrap: wrap;
-  background-color: var(--background);
+  min-height: 450px; /* Adjust as needed */
 }
 
-.image-side-food,
-.content-side-food {
-  flex: 1 1 50%;
-  box-sizing: border-box;
-  padding: 2rem;
-}
-
-.image-side-food img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-}
 
 .emotional-appeal-food h2 {
   color: var(--text);
@@ -156,108 +145,177 @@
 
 /* Stats Section */
 .stats-section {
-  background: var(--section-bg);
-  padding: 80px 0;
+  background: #00cae0;
+  padding: 60px 0 40px 0;
+  text-align: center;
+}
+
+.stats-heading {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 2.5rem;
+  color: #111;
 }
 
 .stats-section .container {
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stats-cards-row {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+  margin-bottom: 0;
 }
 
 .stat-card {
-  background: var(--primary);
-  color: var(--secondary);
-  padding: 30px;
-  border-radius: 8px;
-  text-align: center;
-  min-width: 200px;
-  flex: 1;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 2.2rem 2rem 1.5rem 2rem;
+  min-width: 220px;
+  max-width: 260px;
+  flex: 0 0 23%; /* Four cards in one row */
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .stat-card h3 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  color: var(--secondary);
+  font-size: 2.2rem;
+  color: #00cae0;
+  margin-bottom: 0.7rem;
+  font-weight: 600;
 }
 
 .stat-card p {
-  color: var(--secondary);
-  font-weight: bold;
+  font-size: 1.1rem;
+  color: #222;
+  font-weight: 500;
+  margin-bottom: 0;
 }
 
-.stats-grid {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: stretch;
-    gap: 32px; /* Optional: space between items */
+/* Responsive: stack cards on small screens */
+@media (max-width: 1100px) {
+  .stats-cards-row {
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    flex: 1 1 45%;
+    margin-bottom: 20px;
+  }
 }
 
-.stat-item {
-    flex: 1;
-    text-align: center;
+@media (max-width: 700px) {
+  .stats-cards-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .stat-card {
+    flex: 1 1 100%;
+    max-width: 100%;
     min-width: 0;
+  }
 }
 
 /* Third section */
 .food-distribution-overview.with-bg {
   position: relative;
-  width: 100%;
-  padding: 60px 20px;
-  height: auto;
-  min-height: 500px;
-  color: #fff;
-
-}
-
-.food-distribution-overview.with-bg .overlay {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.food-distribution-overview.with-bg .overview-content {
-  position: relative;
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-  z-index: 1;
-  padding: 40px 20px;
-}
-
-.overview-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  color: #fff;
-}
-
-.overview-content p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  color: #fff;
-}
-
-.overview-list {
-  list-style-type: none;
+  background: linear-gradient(135deg, #00cae0 0%, #007b8a 100%);
   padding: 0;
-  margin-top: 30px;
-  text-align: left;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.overview-list li {
-  margin: 15px 0;
-  font-size: 1rem;
+.food-distribution-overview .overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(18, 18, 18, 0.75); /* semi-transparent dark overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+}
+
+.food-distribution-overview .overview-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
   color: #fff;
-  line-height: 1.5;
+  text-align: center;
+  padding: 2rem 1rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  background: rgba(0, 202, 224, 0.08);
+  backdrop-filter: blur(2px);
+  animation: fadeInUp 1s cubic-bezier(.42,0,.58,1) both;
+}
+
+.food-distribution-overview .overview-content h2 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 1.2rem;
+  letter-spacing: 1px;
+  animation: slideIn 0.8s cubic-bezier(.42,0,.58,1) both;
+}
+
+.food-distribution-overview .overview-content p {
+  font-size: 1.15rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.7;
+  animation: fadeIn 1.2s cubic-bezier(.42,0,.58,1) both;
+}
+
+.food-distribution-overview .overview-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0 0;
+  animation: fadeIn 1.5s cubic-bezier(.42,0,.58,1) both;
+}
+
+.food-distribution-overview .overview-list li {
+  margin-bottom: 1rem;
+  font-size: 1.08rem;
+  position: relative;
+  padding-left: 1.5rem;
+  text-align: left;
+  color: #fff;
+}
+
+.food-distribution-overview .overview-list li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #00cae0;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-40px);}
+  to { opacity: 1; transform: translateX(0);}
+}
+@keyframes fadeIn {
+  from { opacity: 0;}
+  to { opacity: 1;}
 }
 
 /* Programs Section */
 .programs-section {
-  padding: 10px 0;
+  padding: 60px 0;
   width: 100%;
   background-color: var(--section-bg);
 }
@@ -316,85 +374,142 @@
 }
 
 /* CTA Section */
+/* Attractive CTA Section for Food Drive */
 .food-drive-section {
-  padding: 10px 0;
-  background-color: var(--section-bg);
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+
+[data-theme="dark"] .food-drive-section {
+  background: #111 !important;
 }
 
 .food-drive-section .container {
   display: flex;
   align-items: center;
-  gap: 50px;
+  justify-content: center;
+  gap: 3rem;
 }
 
-.content-col {
-  flex: 1;
-  padding: 20px;
+.food-drive-section .content-col {
+  flex: 1 1 50%;
+  min-width: 320px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-.image-col {
-  flex: 1;
+[data-theme="dark"] .food-drive-section .content-col {
+  background: #222 !important;
+  color: #fff !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.32);
 }
 
-.image-col img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+.food-drive-section .content-col h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.2rem;
+  color: #00cae0;
+  text-align: left;
 }
 
-.content-col h2 {
-  color: var(--text);
-  font-size: 2.2rem;
-  margin-bottom: 20px;
-}
-
-.content-col p {
-  color: var(--text);
+.food-drive-section .content-col p {
   font-size: 1.1rem;
-  margin-bottom: 25px;
-  line-height: 1.6;
+  margin-bottom: 1.2rem;
+  color: #333;
 }
 
-.content-col ul {
-  margin-bottom: 30px;
-  padding-left: 20px;
-  list-style-type: none;
+[data-theme="dark"] .food-drive-section .content-col p {
+  color: #fff !important;
 }
 
-.content-col li {
-  color: var(--text);
-  margin-bottom: 10px;
+.food-drive-section .content-col ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.food-drive-section .content-col ul li {
+  margin-bottom: 1rem;
+  font-size: 1.08rem;
   position: relative;
-  padding-left: 25px;
+  padding-left: 1.5rem;
+  color: #222;
 }
 
-.content-col li:before {
-  content: "✓";
+.food-drive-section .content-col ul li::before {
+  content: "✔";
   position: absolute;
   left: 0;
-  color: var(--primary);
+  color: #00cae0;
   font-weight: bold;
-}
-
-.cta-btn {
-  background-color: var(--primary);
-  color: var(--secondary);
-  border: none;
-  padding: 12px 30px;
   font-size: 1.1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: bold;
 }
 
-.cta-btn:hover {
-  background-color: #00a8c0;
-  transform: translateY(-2px);
+[data-theme="dark"] .food-drive-section .content-col ul li {
+  color: #fff !important;
+}
+
+.food-drive-section .cta-btn {
+  background-color: #00cae0;
+  color: #fff;
+  font-weight: bold;
+  padding: 1rem 2.2rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0,202,224,0.12);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  margin-top: 10px;
+}
+
+.food-drive-section .cta-btn:hover {
+  background-color: #009bb3;
+  transform: scale(1.05);
+}
+
+.food-drive-section .image-col {
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 320px;
+}
+
+.food-drive-section .image-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  display: block;
+  min-height: 450px; /* Match left side image height */
+  max-height: 450px;
 }
 
 /* Responsive Design */
+@media (max-width: 900px) {
+  .food-drive-section .container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .food-drive-section .content-col,
+  .food-drive-section .image-col {
+    width: 100%;
+    min-width: 0;
+    padding: 1rem;
+  }
+  .food-drive-section .image-col {
+    margin-bottom: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .food-drive-section .container {
     flex-direction: column;
@@ -432,6 +547,67 @@
   }
 }
 
+/* FoodDistribution.css */
+
+/* Container for image and content side by side */
+.promo-container-food {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  min-height: 450px; /* Adjust as needed */
+}
+
+/* Left side: image fills height */
+.image-side-food {
+  flex: 1 1 50%;
+  display: flex;
+  align-items: stretch;
+}
+.image-side-food img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+}
+
+/* Right side: content matches image height and is centered vertically */
+.content-side-food {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+  min-height: 100%;
+  background: none;
+}
+
+/* Remove card style from right side */
+.emotional-appeal-food {
+  background: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 900px) {
+  .promo-container-food {
+    flex-direction: column;
+    min-height: 0;
+  }
+  .image-side-food,
+  .content-side-food {
+    min-height: 250px;
+    width: 100%;
+  }
+}
+
 /* Additional fixes for dark mode */
 
 [data-theme="dark"] .header-wrapper h2,
@@ -448,9 +624,64 @@
 [data-theme="dark"] .food-drive-section {
   background-color: var(--section-bg) !important;
 }
-[data-theme="dark"] .content-side p{
- color:black
-}
+
 [data-theme="dark"] .promo-container {
   background-color: var(--background) !important;
+}
+
+/* Make promo section background black and text white in dark mode */
+[data-theme="dark"] .promo-container-food {
+  background-color: #000 !important;
+}
+
+[data-theme="dark"] .content-side-food,
+[data-theme="dark"] .emotional-appeal-food,
+[data-theme="dark"] .emotional-appeal-food h2,
+[data-theme="dark"] .emotional-appeal-food p,
+[data-theme="dark"] .donate-button {
+  color: #fff !important;
+  background: none !important;
+}
+
+/* Keep donate button background same in dark mode */
+[data-theme="dark"] .donate-button {
+  background-color: var(--primary) !important;
+  color: #fff !important;
+  border: none;
+}
+
+/* Food Distribution Mission Section: white bg & black text in light, black bg & white text in dark */
+.food-distribution-overview.with-bg {
+  background: #fff !important;
+  color: #000 !important;
+  transition: background 0.3s, color 0.3s;
+}
+
+.food-distribution-overview .overview-content,
+.food-distribution-overview .overview-content h2,
+.food-distribution-overview .overview-content p,
+.food-distribution-overview .overview-list li {
+  color: #000 !important;
+  background: none !important;
+}
+
+/* Make text white in light mode for Food Distribution Mission section */
+.food-distribution-overview.with-bg,
+.food-distribution-overview .overview-content,
+.food-distribution-overview .overview-content h2,
+.food-distribution-overview .overview-content p,
+.food-distribution-overview .overview-list li {
+  color: #fff !important;
+}
+
+/* In dark mode, keep background black and text white */
+[data-theme="dark"] .food-distribution-overview.with-bg {
+  background: #000 !important;
+  color: #fff !important;
+}
+[data-theme="dark"] .food-distribution-overview .overview-content,
+[data-theme="dark"] .food-distribution-overview .overview-content h2,
+[data-theme="dark"] .food-distribution-overview .overview-content p,
+[data-theme="dark"] .food-distribution-overview .overview-list li {
+  color: #fff !important;
 }

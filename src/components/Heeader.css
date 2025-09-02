@@ -16,6 +16,19 @@
   --hover-color: #2d3748;
 }
 
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+  background: var(--header-bg, #fff);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
 .header {
   position: sticky;
   top: 0;
@@ -135,6 +148,69 @@ body {
   padding-top: 80px; /* ensures content doesn’t underlap the sticky header */
 }
 
+/* Remove space after header */
+body,
+.main-content,
+.page-content {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.header + * {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Hamburger, theme toggle, avatar, language dropdown visible on mobile */
+@media (max-width: 900px) {
+  header .nav-main {
+    display: none;
+  }
+  header .hamburger {
+    display: block !important;
+    cursor: pointer;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    margin-right: 1rem;
+  }
+  header .mobile-menu {
+    display: flex !important;
+    flex-direction: column;
+    gap: 1rem;
+    background: var(--header-bg, #fff);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 1rem 0;
+  }
+  header .theme-toggle,
+  header .avatar,
+  header .language-dropdown {
+    display: block !important;
+    margin-top: 1rem;
+  }
+  header .flex.items-center.space-x-4 {
+    margin-top: 1rem;
+    justify-content: flex-end;
+    width: 100%;
+  }
+}
+
+/* Desktop: show nav, hide hamburger */
+@media (min-width: 901px) {
+  header .nav-main {
+    display: flex !important;
+  }
+  header .hamburger,
+  header .mobile-menu {
+    display: none !important;
+  }
+}
+
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
@@ -156,4 +232,57 @@ body {
   body {
     padding-top: 140px;
   }
+}
+
+/* Hamburger icon color for dark mode */
+header .hamburger {
+  color: #222; /* default for light mode */
+}
+
+[data-theme='dark'] header .hamburger {
+  color: #fff !important; /* <-- Use color, not background-color */
+  background-color: transparent !important;
+}
+
+[data-theme='dark'] .hamburger,
+[data-theme='dark'] .hamburger svg,
+[data-theme='dark'] .hamburger i {
+  color: #fff !important;
+  fill: #fff !important;
+  stroke: #fff !important;
+}
+
+/* Mobile menu background and link color for dark mode */
+header .mobile-menu {
+  background: var(--header-bg, #fff);
+  color: #222;
+}
+
+[data-theme='dark'] header .mobile-menu {
+  background: #222 !important; /* dark background */
+  color: #fff !important;
+}
+
+[data-theme='dark'] header .mobile-menu a {
+  color: #fff !important;
+}
+
+[data-theme='dark'] header .mobile-menu a:hover {
+  background: #333 !important;
+  color: #3b82f6 !important;
+}
+
+/* Remove underlines for nav menu items */
+.nav-main a,
+.nav-main button,
+.mobile-menu a,
+.mobile-menu button {
+  text-decoration: none !important;
+}
+
+/* Active nav link color */
+.nav-main a.active,
+.nav-main button.active,
+.nav-main .active {
+  color: #00CAE0 !important;
 }

@@ -47,7 +47,7 @@ const servicesTranslations = {
       {
         id: 5,
         title: "Women Empowerment",
-        icon: "💪",
+       
         description: "Vocational training and micro-finance programs to help women become financially independent.",
         path: "/women-empowerment",
       },
@@ -216,7 +216,7 @@ const servicesTranslations = {
       }
     ],
     volunteerHeader: "تطوع معنا",
-    volunteerDesc: "سواء كنت تستطيع تخصيص بضع ساعات أو أيام، وقتك يحدث فرقًا حقيقيًا. ساعد في توزيع الطعام، تعليم الأطفال، دعم المخيمات الصحية، أو ببساطة قدم يد العون. كل عمل له قيمة.",
+    volunteerDesc: "سواء كنت تستطيع تخصيص بضع ساعات أو أيام، وقتك يحدث فرقًا حقيقيًا. ساعد في توزيع الطعام، تعليم الأطفال، دعم معسكرات الصحة، أو ببساطة قدم يد المساعدة. كل عمل مهم.",
     volunteerBenefits: [
       "👐 اصنع تأثيرًا حقيقيًا في المجتمعات المحلية",
       "📚 اكتسب خبرة وتدريب عملي",
@@ -235,7 +235,7 @@ const servicesTranslations = {
         title: "תוכניות חינוך",
         icon: "📚",
         description: "מתן חינוך איכותי לילדים מוחלשים באמצעות רשת בתי ספר ומרכזי לימוד.",
-        path: "/education-programs",
+        path: "/education-program",
       },
       {
         id: 2,
@@ -348,8 +348,9 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
+const rtlLanguages = ["ar", "he"];
+
 const Services = () => {
-   
   const [theme, setTheme] = useState('light');
   const { language } = useContext(LanguageContext);
   const navigate = useNavigate();
@@ -393,8 +394,16 @@ const Services = () => {
 
   console.log({ language, translation, services, stories, services3 });
 
+  // RTL detection
+  const isRTL = rtlLanguages.includes(language);
+
   return (
-    <>
+    <div
+      style={{
+        direction: isRTL ? "rtl" : "ltr",
+        textAlign: isRTL ? "right" : "left",
+      }}
+    >
       {/* Hero Section */}
       <section className={`hero-services ${theme === 'dark' ? 'dark' : ''}`}>
         <video className="hero-video-services" src="/Images/services.mp4" autoPlay loop muted playsInline />
@@ -557,7 +566,48 @@ const Services = () => {
           </div>
         </div>
       </section>
-    </>
+
+      {/* CTA Section */}
+      <section className={`cta-section ${theme === 'dark' ? 'dark' : ''}`}>
+        <div
+          className="cta-container"
+          style={{
+            backgroundColor: theme === 'dark' ? '#000' : '#f4f4f4',
+            color: theme === 'dark' ? '#fff' : '#222',
+            padding: '1rem 1rem',
+            textAlign: 'center',
+            borderRadius: '16px',
+            margin: '2rem auto',
+            maxWidth: '700px',
+            boxShadow: theme === 'dark'
+              ? '0 4px 24px rgba(0,0,0,0.7)'
+              : '0 4px 24px rgba(0,0,0,0.1)'
+          }}
+        >
+          <h2 style={{ marginBottom: '1rem' }}>
+            {translation.heroTitle}
+          </h2>
+          <p style={{ marginBottom: '2rem',color:"black",textAlign:"center" }}>
+            {translation.heroDesc}
+          </p>
+          <button
+            className="cta-button"
+            onClick={handleNavigate('/contact')}
+            style={{
+              backgroundColor: "#00CAE0",
+              color: "#000000ff",
+              fontWeight: "bold",
+              padding: "1rem 2rem",
+              borderRadius: "8px",
+              border: "none",
+              fontSize: "1.1rem"
+            }}
+          >
+            {translation.volunteerBtn}
+          </button>
+        </div>
+      </section>
+    </div>
   );
 };
 

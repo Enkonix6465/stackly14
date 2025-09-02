@@ -321,7 +321,7 @@ h2 {
 
 .testimonial-card.main-card {
   background: var(--testimonial-main-bg);
-  color: white;
+  color: rgb(0, 0, 0);
   transform: scale(1.05);
 }
 
@@ -340,7 +340,15 @@ h2 {
 .main-card .author {
   color: white;
 }
+.education-program.light .testimonial-content,
+.education-program.light .testimonial-content .author,p {
+  color: #111 !important;
+}
 
+.education-program.dark .testimonial-content,
+.education-program.dark .testimonial-content .author,p {
+  color: #fff 
+}
 /* Section 6: Animated CTA */
 .animated-cta {
   position: relative;
@@ -391,6 +399,54 @@ h2 {
 .cta-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* EducationProgram.css */
+.cta-section {
+  background: #00cae0;
+  color: #fff;
+  padding: 48px 0;
+  text-align: center;
+  margin-top: 40px;
+  border-radius: 16px;
+}
+
+.cta-section .container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.cta-desc {
+  font-size: 1.15rem;
+  margin-bottom: 2rem;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.cta-btn {
+  background: #fff;
+  color: #00cae0;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cta-btn:hover {
+  background: rgba(255, 255, 255, 0.8);
 }
 
 /* Responsive Design */

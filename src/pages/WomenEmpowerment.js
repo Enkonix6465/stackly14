@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import { LanguageContext } from '../components/Header'; // adjust path if needed
 
+const rtlLanguages = ["ar", "he"];
+
 const WomenEmpowerment = () => {
     const navigate = useNavigate();
     const handleGetStarted = (path) => {
@@ -11,6 +13,9 @@ const WomenEmpowerment = () => {
     }
     const [theme, setTheme] = useState('light');
     const { language } = useContext(LanguageContext);
+
+    // RTL detection
+    const isRTL = rtlLanguages.includes(language);
 
     // Load theme preference from localStorage on component mount
     useEffect(() => {
@@ -179,7 +184,13 @@ const WomenEmpowerment = () => {
     const t = womenTranslations[language] || womenTranslations.en;
 
     return (
-        <div className={`women-empowerment ${theme}`}>
+        <div
+            className={`women-empowerment ${theme}`}
+            style={{
+                direction: isRTL ? "rtl" : "ltr",
+                textAlign: isRTL ? "right" : "left",
+            }}
+        >
             {/* Section 1: Hero Banner */}
             <section className="empowerment-hero" style={{ backgroundImage: 'url(/Images/women-back.jpg)' }}>
                 <div className="hero-content-women">
@@ -236,7 +247,7 @@ const WomenEmpowerment = () => {
 
                     <div className="story-content-grid">
                         <div className="story-text-block">
-                            <p style={{ textAlign: "justify" }}>
+                            <p style={{ textAlign: "justify",color:"black" }}>
                                 {t.storyDesc}
                             </p>
                             <blockquote className="story-quote" style={{ textAlign: 'center' }}>

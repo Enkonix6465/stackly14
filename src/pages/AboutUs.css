@@ -61,6 +61,40 @@
     }
 }
 
+@media (max-width: 600px) {
+  .hero {
+    min-height: 100vh;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: absolute;
+    top: 0; left: 0;
+    z-index: 1;
+  }
+  .hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    padding: 2rem 1rem;
+    background: rgba(0,0,0,0.45);
+    text-align: center;
+  }
+  .hero-overlay h1,
+  .hero-overlay p {
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+}
+
 /* Charity History Timeline */
 .history-section {
     padding: 5rem 0;
@@ -331,18 +365,22 @@
     margin-top: 20px;
     text-align: center;
     background-color: #fff;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .team-header-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: 5px 2rem;
     color: rgb(0, 0, 0);
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .team-header-content h2 {
     font-size: 2.8rem;
-    margin-bottom: 1rem;
+   
 }
 
 .team-header-content .section-underline {
@@ -355,6 +393,8 @@
 .team-header-content p {
     font-size: 1.2rem;
     opacity: 0.9;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 /* Full-width team grid */
@@ -362,6 +402,8 @@
     width: 100%;
     background: #ffffff;
     padding: 4rem 0;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 .team-grid-container {
@@ -481,6 +523,40 @@
     .team-cta-content h3 {
         font-size: 1.8rem;
     }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    min-height: 100vh;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: absolute;
+    top: 0; left: 0;
+    z-index: 1;
+  }
+  .hero-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    padding: 2rem 1rem;
+    background: rgba(0,0,0,0.45);
+    text-align: center;
+  }
+  .hero-overlay h1,
+  .hero-overlay p {
+    color: #fff;
+    margin-bottom: 1rem;
+  }
 }
 
 @media (max-width: 480px) {

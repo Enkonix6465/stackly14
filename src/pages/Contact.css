@@ -177,7 +177,19 @@ h3 {
 }
 
 .contact-page.dark .info-card p {
-  color: #ddd;
+  color: #fff;
+}
+
+/* Make contact info text black in light mode */
+.contact-info-section .info-card h3,
+.contact-info-section .info-card p {
+  color: #111 !important;
+}
+
+/* Make contact info text white in dark mode */
+.contact-page.dark .contact-info-section .info-card h3,
+.contact-page.dark .contact-info-section .info-card p {
+  color: #fff !important;
 }
 
 /* Mobile view for contact info */
@@ -334,23 +346,53 @@ textarea:focus {
 /* Mobile view for contact form */
 @media (max-width: 768px) {
   .contact-form-section {
-    padding: 40px 0;
+    padding: 30px 0;
   }
-  
+
+  .container {
+    padding: 0 10px;
+    max-width: 100%;
+  }
+
+  .form-header {
+    margin-bottom: 20px;
+  }
+
+  .form-header h2 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+
+  .form-header p {
+    font-size: 0.9rem;
+  }
+
+  .contact-form {
+    gap: 15px;
+  }
+
   .form-row {
     flex-direction: column;
     gap: 15px;
   }
-  
+
   .form-group {
     min-width: 100%;
   }
-  
-  .form-header h2 {
-    font-size: 1.8rem;
+
+  label {
+    font-size: 0.9rem;
   }
-  
+
+  input,
+  textarea {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
   .submit-btn {
+    padding: 12px 20px;
+    font-size: 0.9rem;
     max-width: 100%;
   }
 }
@@ -388,7 +430,7 @@ textarea:focus {
 .volunteer-content {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: stretch; /* Make both sides */
   gap: 40px;
 }
 
@@ -424,18 +466,28 @@ textarea:focus {
 .volunteer-text ul {
   margin: 0 0 25px 0;
   padding-left: 20px;
+  list-style: none;
 }
 
-.volunteer-text li {
-  margin-bottom: 10px;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #444444;
-  transition: color 0.3s ease;
+.volunteer-text ul li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
 }
 
-.contact-page.dark .volunteer-text li {
-  color: #ddd;
+.volunteer-text ul li::before {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  background: #00bfff;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .volunteer-btn {
@@ -587,7 +639,7 @@ textarea:focus {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  height: 350px;
+  height: 500px;
 }
 
 .map-image {

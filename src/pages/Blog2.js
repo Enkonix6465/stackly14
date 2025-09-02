@@ -106,10 +106,16 @@ const blog2Translations = {
     }
 };
 
+const rtlLanguages = ["ar", "he"];
+
 const Blog2 = () => {
-    // const navigate = useNavigate();
+  const { language } = useContext(LanguageContext);
+
+  // RTL detection
+  const isRTL = rtlLanguages.includes(language);
+
+  // const navigate = useNavigate();
     const [theme, setTheme] = useState('light');
-    const { language } = useContext(LanguageContext);
     const t = blog2Translations[language] || blog2Translations.en;
 
     // Load theme preference from localStorage on component mount
@@ -139,7 +145,13 @@ const Blog2 = () => {
     }, []);
 
     return (
-        <div className={`healthcare-page ${theme}`}>
+        <div
+      style={{
+        direction: isRTL ? "rtl" : "ltr",
+        textAlign: isRTL ? "right" : "left",
+      }}
+    >
+            <div className={`healthcare-page ${theme}`}>
             {/* Section 1: Healthcare Program Overview */}
             <section className="healthcare-hero">
                 <Container>
@@ -194,6 +206,7 @@ const Blog2 = () => {
                     </Row>
                 </Container>
             </section>
+        </div>
         </div>
     );
 };

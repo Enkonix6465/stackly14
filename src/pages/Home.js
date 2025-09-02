@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { LanguageContext } from "../components/Header";
 import "./Home.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 
 // const data = [
 //   {
@@ -232,7 +232,7 @@ const homeTranslations = {
       },
       {
         name: 'تريفور ميتشل',
-        text: '“يوت تريستيك فيفيرا سيد بورتتيتور سينكتوس. أ فاسيليسيس ميتوس بريتيوم إيد هابيتانت لوريم. فيليت فيلي بيبيندوم إيجيت أليكيت سيم نيك، إيد سيد. تينسينت.”',
+        text: '“يوت تريستيك فيفيرا سيد بورتتيتور سينكتوس. أ فاسيليسيس ميتوس بريتيوم إيد هابيتانت لوريم. فيليت فيلي بيبيندوم إيجت أليكيت سيم نيك، إيد سيد. تينسينت.”',
         rating: 3,
         imgSrc: 'Images/test3.jpg',
       },
@@ -321,10 +321,15 @@ const homeTranslations = {
   }
 };
 
+const rtlLanguages = ["ar", "he"];
+
 const Home = () => {
   const navigate = useNavigate();
   const [theme, setTheme] = useState('light');
-  const { language } = useContext(LanguageContext); // Get selected language
+  const { language } = useContext(LanguageContext);
+
+  // Add RTL detection
+  const isRTL = rtlLanguages.includes(language);
 
   // Load theme preference from localStorage on component mount
   useEffect(() => {
@@ -357,7 +362,7 @@ const Home = () => {
   };
   
   const handleDonateNow = () => {
-    navigate('/donate');
+    navigate('/contact');
   };
   
   const handleContactUs = () => {
@@ -378,20 +383,32 @@ const Home = () => {
 
   return (
     <>
-      <div className={`hero-container ${theme === 'dark' ? 'dark' : ''}`}>
+      <div
+        className={`hero-container ${theme === 'dark' ? 'dark' : ''}`}
+        style={{
+          direction: isRTL ? "rtl" : "ltr",
+          textAlign: isRTL ? "right" : "left",
+        }}
+      >
         <video className="hero-video" autoPlay loop muted>
           <source src="/Images/herohome.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="hero-content">
           <h1 className={theme === 'dark' ? 'text-white' : ''}>{homeTranslations[language].heroTitle}</h1>
-          <p className={theme === 'dark' ? 'text-white' : ''}>{homeTranslations[language].heroDesc}</p>
+          <p className="text-white">{homeTranslations[language].heroDesc}</p>
           <button className="hero-btn" onClick={handleDonateNow}>{homeTranslations[language].donateNow}</button>
         </div>
       </div>
       
       {/* Second Section */}
-      <section className={`second-container ${theme === 'dark' ? 'dark' : ''}`}>
+      <section
+        className={`second-container ${theme === 'dark' ? 'dark' : ''}`}
+        style={{
+          direction: isRTL ? "rtl" : "ltr",
+          textAlign: isRTL ? "right" : "left",
+        }}
+      >
         <div className="second-content">
           <p className={`second-con-greeting ${theme === 'dark' ? 'text-white' : ''}`}>
             {homeTranslations[language].greeting}
@@ -414,7 +431,13 @@ const Home = () => {
       </section>
       
       {/* Third Section */}
-      <section className={`programs-section ${theme === 'dark' ? 'dark' : ''}`}>
+      <section
+        className={`programs-section ${theme === 'dark' ? 'dark' : ''}`}
+        style={{
+          direction: isRTL ? "rtl" : "ltr",
+          textAlign: isRTL ? "right" : "left",
+        }}
+      >
         <h2 className={`programs-title ${theme === 'dark' ? 'text-white' : ''}`}>{homeTranslations[language].ourKeyPrograms}</h2>
         <div className="programs-grid">
           {programs.map((program, index) => (
@@ -429,7 +452,13 @@ const Home = () => {
       </section>
 
       {/* Counter Section */}
-      <section className={`charity-impact-home1 ${theme === 'dark' ? 'dark' : ''}`}>
+      <section
+        className={`charity-impact-home1 ${theme === 'dark' ? 'dark' : ''}`}
+        style={{
+          direction: isRTL ? "rtl" : "ltr",
+          textAlign: isRTL ? "right" : "left",
+        }}
+      >
         <div className="impact-header-home1">
           <h2 className={theme === 'dark' ? 'text-white' : ''}>{homeTranslations[language].ourImpact}</h2>
           <p className={theme === 'dark' ? 'text-white' : ''}>{homeTranslations[language].impactDesc}</p>
@@ -457,7 +486,13 @@ const Home = () => {
       </section>
 
       {/* Fifth Section */}
-      <section className={`testimonials-fullscreen-home1 ${theme === 'dark' ? 'dark' : ''}`}>
+      <section
+        className={`testimonials-fullscreen-home1 ${theme === 'dark' ? 'dark' : ''}`}
+        style={{
+          direction: isRTL ? "rtl" : "ltr",
+          textAlign: isRTL ? "right" : "left",
+        }}
+      >
         <h2 className={`testimonials-title-home1 ${theme === 'dark' ? 'text-white' : ''}`}>{homeTranslations[language].testimonialsTitle}</h2>
         <div className="testimonials-container-home1">
           {homeTranslations[language].testimonials.map((item, idx) => (
@@ -477,7 +512,13 @@ const Home = () => {
       </section>
       
       {/* Contact Section */}
-      <section className={`contact-section-home1 ${theme === 'dark' ? 'dark' : ''}`}>
+      <section
+        className={`contact-section-home1 ${theme === 'dark' ? 'dark' : ''}`}
+        style={{
+          direction: isRTL ? "rtl" : "ltr",
+          textAlign: isRTL ? "right" : "left",
+        }}
+      >
         <div className="container-fluid p-0">
           <div className="row no-gutters align-items-center">
             

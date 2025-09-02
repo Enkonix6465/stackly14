@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import { LanguageContext } from '../components/Header'; // adjust path if needed
 
+const rtlLanguages = ["ar", "he"];
+
 const ElderlyCare = () => {
     const navigate = useNavigate();
     const handleGetStarted = (path) => {
@@ -251,110 +253,120 @@ const ElderlyCare = () => {
         }
     }, []);
 
+    // RTL detection
+    const isRTL = rtlLanguages.includes(language);
+
     return (
-        <div className={`elderly-care ${theme}`}>
-            {/* Hero Section */}
-            <section className="elder-hero" style={{ backgroundImage: 'url(/Images/elderly-care.jpg)' }}>
-                <div className="hero-content">
-                    <h1>{translations.heroTitle}</h1>
-                    <p>{translations.heroDesc}</p>
-                    <button className="hero-cta" onClick={() => handleGetStarted("/contact")}>{translations.heroBtn}</button>
-                </div>
-            </section>
-
-            {/* Promo Section */}
-            <div className="promo-container-elder">
-                <div className="image-side-elder">
-                    <img src="/Images/elderly-care.jpg" alt="Healing Hands" />
-                </div>
-                <div className="content-side-elder">
-                    <div className="emotional-appeal-elder">
-                        <h2>{translations.promoTitle}</h2>
-                        <p style={{ textAlign: "justify" }}>
-                            {translations.promoDesc}
-                        </p>
-                        <button className="donate-button" onClick={() => handleGetStarted("/contact")}>{translations.promoBtn}</button>
+        <div
+          style={{
+            direction: isRTL ? "rtl" : "ltr",
+            textAlign: isRTL ? "right" : "left",
+          }}
+        >
+            <div className={`elderly-care ${theme}`}>
+                {/* Hero Section */}
+                <section className="elder-hero" style={{ backgroundImage: 'url(/Images/elderly-care.jpg)' }}>
+                    <div className="hero-content">
+                        <h1>{translations.heroTitle}</h1>
+                        <p>{translations.heroDesc}</p>
+                        <button className="hero-cta" onClick={() => handleGetStarted("/contact")}>{translations.heroBtn}</button>
                     </div>
-                </div>
-            </div>
+                </section>
 
-            {/* Services Section */}
-            <section className="services-showcase">
-                <h2 className="section-title">{translations.servicesTitle}</h2>
-                <div className="services-grid">
-                    {translations.services.map((service, index) => (
-                        <div className="service-card" key={index}>
-                            <div className="card-icon">{service.icon}</div>
-                            <h3>{service.title}</h3>
-                            <p>{service.desc}</p>
+                {/* Promo Section */}
+                <div className="promo-container-elder">
+                    <div className="image-side-elder">
+                        <img src="/Images/elderly-care.jpg" alt="Healing Hands" />
+                    </div>
+                    <div className="content-side-elder">
+                        <div className="emotional-appeal-elder">
+                            <h2>{translations.promoTitle}</h2>
+                            <p style={{ textAlign: "justify" }}>
+                                {translations.promoDesc}
+                            </p>
+                            <button className="donate-button" onClick={() => handleGetStarted("/contact")}>{translations.promoBtn}</button>
                         </div>
-                    ))}
-                </div>
-            </section>
-            
-            <section className="donation-tiers">
-                <div className="tiers-container">
-                    <h2 className="section-title">{translations.tiersTitle}</h2>
-                    <div className="tiers-grid">
-                        {translations.tiers.map((tier, index) => (
-                            <div className={`tier-card ${tier.featured ? 'featured' : ''}`} key={index}>
-                                {tier.featured && <div className="featured-badge">{translations.tiersBadge}</div>}
-                                <h3>{tier.title}</h3>
-                                <p className="tier-amount">{tier.amount}</p>
-                                <ul className="tier-benefits">
-                                    {tier.benefits.map((benefit, i) => <li key={i}>{benefit}</li>)}
-                                </ul>
-                                <button className="tier-button" onClick={() => handleGetStarted("/contact")}>{tier.btn}</button>
-                            </div>
-                        ))}
                     </div>
                 </div>
-            </section>
 
-            {/* Success Stories Carousel */}
-            <section className="success-stories">
-                <div className="stories-container">
-                    <h2 className="section-title">{translations.storiesTitle}</h2>
-                    <div className="story-carousel">
-                        {translations.stories.map((story, index) => (
-                            <div
-                                className={`story-slide ${index === currentSlide ? 'active' : ''}`}
-                                key={index}
-                            >
-                                <div
-                                    className="story-image"
-                                    style={{ backgroundImage: `url(${story.image})` }}
-                                ></div>
-                                <div className="story-content">
-                                    <blockquote>{story.quote}</blockquote>
-                                    <p className="story-author">- {story.author}</p>
-                                    <div className="story-badge">{story.badge}</div>
-                                </div>
+                {/* Services Section */}
+                <section className="services-showcase">
+                    <h2 className="section-title">{translations.servicesTitle}</h2>
+                    <div className="services-grid">
+                        {translations.services.map((service, index) => (
+                            <div className="service-card" key={index}>
+                                <div className="card-icon">{service.icon}</div>
+                                <h3>{service.title}</h3>
+                                <p>{service.desc}</p>
                             </div>
                         ))}
                     </div>
-                    <div className="carousel-dots">
-                        {translations.stories.map((_, index) => (
-                            <span
-                                key={index}
-                                className={`dot ${index === currentSlide ? 'active' : ''}`}
-                                onClick={() => goToSlide(index)}
-                            ></span>
-                        ))}
+                </section>
+                
+                <section className="donation-tiers">
+                    <div className="tiers-container">
+                        <h2 className="section-title">{translations.tiersTitle}</h2>
+                        <div className="tiers-grid">
+                            {translations.tiers.map((tier, index) => (
+                                <div className={`tier-card ${tier.featured ? 'featured' : ''}`} key={index}>
+                                    {tier.featured && <div className="featured-badge">{translations.tiersBadge}</div>}
+                                    <h3>{tier.title}</h3>
+                                    <p className="tier-amount">{tier.amount}</p>
+                                    <ul className="tier-benefits">
+                                        {tier.benefits.map((benefit, i) => <li key={i}>{benefit}</li>)}
+                                    </ul>
+                                    <button className="tier-button" onClick={() => handleGetStarted("/contact")}>{tier.btn}</button>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </section>
-            
-            <section className="cta-section">
-                <div className="cta-content">
-                    <h2>{translations.ctaTitle}</h2>
-                    <p>{translations.ctaDesc}</p>
-                    <div className="cta-buttons">
-                        <button className="cta-btn donate" onClick={() => handleGetStarted("/contact")}>{translations.ctaDonate}</button>
-                        <button className="cta-btn volunteer" onClick={() => handleGetStarted("/contact")}>{translations.ctaVolunteer}</button>
+                </section>
+
+                {/* Success Stories Carousel */}
+                <section className="success-stories">
+                    <div className="stories-container">
+                        <h2 className="section-title">{translations.storiesTitle}</h2>
+                        <div className="story-carousel">
+                            {translations.stories.map((story, index) => (
+                                <div
+                                    className={`story-slide ${index === currentSlide ? 'active' : ''}`}
+                                    key={index}
+                                >
+                                    <div
+                                        className="story-image"
+                                        style={{ backgroundImage: `url(${story.image})` }}
+                                    ></div>
+                                    <div className="story-content">
+                                        <blockquote>{story.quote}</blockquote>
+                                        <p className="story-author">- {story.author}</p>
+                                        <div className="story-badge">{story.badge}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="carousel-dots">
+                            {translations.stories.map((_, index) => (
+                                <span
+                                    key={index}
+                                    className={`dot ${index === currentSlide ? 'active' : ''}`}
+                                    onClick={() => goToSlide(index)}
+                                ></span>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+                
+                <section className="cta-section">
+                    <div className="cta-content">
+                        <h2>{translations.ctaTitle}</h2>
+                        <p>{translations.ctaDesc}</p>
+                        <div className="cta-buttons">
+                            <button className="cta-btn donate" onClick={() => handleGetStarted("/contact")}>{translations.ctaDonate}</button>
+                            <button className="cta-btn volunteer" onClick={() => handleGetStarted("/contact")}>{translations.ctaVolunteer}</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
     );
 };

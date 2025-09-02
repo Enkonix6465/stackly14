@@ -1,5 +1,7 @@
 /* Global dark mode styles */
-body.dark-mode {
+body.dark-mode,
+html.dark-mode,
+#root.dark-mode {
   background-color: #000 !important;
   color: #fff !important;
 }
@@ -19,6 +21,38 @@ body.dark-mode {
 .program-card.dark,
 .stat-card-home1.dark,
 .testimonial-card-home1.dark {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+/* Fix for programs-section dark background */
+.programs-section.dark {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+/* Also ensure program-card is black in dark mode */
+.program-card.dark {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+/* Light mode: program-card background */
+body:not(.dark-mode) .program-card {
+  background-color: #f4f4f4;
+  color: #000;
+}
+
+/* Dark mode: program-card background */
+.programs-section.dark .program-card,
+.program-card.dark {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: 2px solid #00CAE0;
+}
+
+/* Section background for dark mode */
+.programs-section.dark {
   background-color: #000 !important;
   color: #fff !important;
 }
@@ -167,7 +201,7 @@ body.dark-mode {
 /* Third Section */
 .programs-section {
   padding: 2rem;
-  background-color: #fff;
+  background-color: transparent; /* <--- changed from #fff */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -197,6 +231,13 @@ body.dark-mode {
   flex-direction: column;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Center program logos in program cards */
+.program-card .program-logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .program-card:hover {
@@ -458,6 +499,21 @@ body.dark-mode {
   color: #fff;
 }
 
+/* Add this to Home.css for white icons in dark theme */
+.programs-section.dark .program-card .program-logo {
+  filter: brightness(0) invert(1);
+}
+
+/* Programs section background for dark theme */
+.programs-section.dark {
+  background: #111 !important;
+}
+
+/* Programs section heading
+.programs-section.dark .programs-title {
+  color: #fff !important;
+}
+
 /* Responsive Design */
 @media (max-width: 900px) {
   .second-container {
@@ -536,4 +592,8 @@ body.dark-mode {
   .hero-image {
     border-radius: 0.5rem;
   }
+}
+.nav-main a.active,
+.nav-main .active {
+  color: #00CAE0 !important;
 }

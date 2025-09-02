@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from 'react';
 import { LanguageContext } from '../components/Header'; // Adjust path if needed
 
+const rtlLanguages = ["ar", "he"];
+
 const EducationProgram = () => {
     const navigate = useNavigate();
     const handleGetStarted = (path) => {
@@ -62,6 +64,9 @@ const EducationProgram = () => {
         hidden: { scale: 0.9, opacity: 0 },
         visible: { scale: 1, opacity: 1, transition: { duration: 0.5 } }
     };
+
+    // RTL detection
+    const isRTL = rtlLanguages.includes(language);
 
     return (
         <div className={`education-program ${theme}`}>
@@ -237,47 +242,32 @@ const EducationProgram = () => {
             </section>
 
             {/* Section 5: Animated CTA */}
-            <motion.section
-                className="animated-cta"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={{
-                    visible: { transition: { staggerChildren: 0.2 } }
-                }}
-            >
-                <div className="cta-bg"></div>
-                <div className="container">
-                    <motion.h2 variants={slideUp}>{t.ctaTitle}</motion.h2>
-                    <motion.p variants={slideUp}>{t.ctaDesc}</motion.p>
-                    <div className="cta-buttons">
-                        <motion.button
-                            className="cta-btn primary"
-                            variants={scaleUp}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => handleGetStarted("/contact")}
-                        >
-                            {t.donateBtn}
-                        </motion.button>
-                        <motion.button
-                            className="cta-btn primary"
-                            variants={scaleUp}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => handleGetStarted("/contact")}
-                        >
-                            {t.volunteerBtn}
-                        </motion.button>
-                    </div>
-                </div>
-            </motion.section>
+            <section className="cta-section">
+  <div className="container">
+    <h2 className="cta-title">{t.ctaTitle}</h2>
+    <p className="cta-desc">{t.ctaDesc}</p>
+    <div className="cta-buttons">
+      <button
+        className="cta-btn primary"
+        onClick={() => navigate("/contact")}
+      >
+        {t.donateBtn}
+      </button>
+      <button
+        className="cta-btn secondary"
+        onClick={() => navigate("/contact")}
+      >
+        {t.volunteerBtn}
+      </button>
+    </div>
+  </div>
+</section>
 
             {/* Your Custom Section */}
             <div
                 className="your-section-class"
                 style={{
-                  backgroundImage: "url('/Images/your-image.jpg')",
+                  backgroundColor:'black',
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat"

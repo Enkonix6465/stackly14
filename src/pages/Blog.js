@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import './Blog.css';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
 import { LanguageContext } from '../components/Header'; // adjust path if needed
 
 const blogTranslations = {
@@ -123,7 +122,17 @@ const blogTranslations = {
     ],
     newsletterTitle: "Stay Updated",
     newsletterDesc: "Subscribe to receive our latest blog posts and news.",
-    newsletterBtn: "Subscribe"
+    newsletterBtn: "Subscribe",
+    charityThemeTitle: "Charity: The Heart of Our Mission",
+    charityThemeDesc: "Charity is more than giving—it's about building hope, empowering communities, and inspiring change. Every contribution, whether time, resources, or kindness, helps us create a brighter future for those in need. Join us in making a meaningful impact!",
+    charityThemeList: [
+      "Supporting education for underprivileged children",
+      "Providing healthcare and nutrition to vulnerable groups",
+      "Responding to disasters and emergencies",
+      "Empowering women and elderly care",
+      "Fostering a culture of compassion and inclusion",
+    ],
+    charityThemeBtn: "Donate Now"
   },
   ar: {
     heroTitle: "حيث يجد التعاطف صوته.",
@@ -239,7 +248,17 @@ const blogTranslations = {
     ],
     newsletterTitle: "ابق على اطلاع",
     newsletterDesc: "اشترك لتصلك أحدث منشوراتنا وأخبارنا.",
-    newsletterBtn: "اشترك"
+    newsletterBtn: "اشترك",
+    charityThemeTitle: "العمل الخيري: قلب مهمتنا",
+    charityThemeDesc: "العمل الخيري هو أكثر من مجرد عطاء - إنه بناء الأمل، تمكين المجتمعات، وإلهام التغيير. كل مساهمة، سواء كانت وقتًا، موارد، أو لطفًا، تساعدنا في خلق مستقبل أكثر إشراقًا لأولئك الذين في حاجة. انضم إلينا في إحداث تأثير ذي مغزى!",
+    charityThemeList: [
+      "دعم التعليم للأطفال المحرومين",
+      "توفير الرعاية الصحية والتغذية للفئات الضعيفة",
+      "الاستجابة للكوارث والطوارئ",
+      "تمكين المرأة ورعاية المسنين",
+      "تعزيز ثقافة التعاطف والشمولية",
+    ],
+    charityThemeBtn: "تبرع الآن"
   },
   he: {
     heroTitle: "המקום בו חמלה מוצאת קול.",
@@ -355,168 +374,352 @@ const blogTranslations = {
     ],
     newsletterTitle: "הישאר מעודכן",
     newsletterDesc: "הירשם לקבלת פוסטים ועדכונים חדשים.",
-    newsletterBtn: "הירשם"
+    newsletterBtn: "הירשם",
+    charityThemeTitle: "חסד: לב המטרה שלנו",
+    charityThemeDesc: "חסד זה יותר מלתת - זה לבנות תקווה, להעצים קהילות, ולהשראת שינוי. כל תרומה, בין אם זה זמן, משאבים, או טוב לב, עוזרת לנו ליצור עתיד בהיר יותר עבור אלו הזקוקים לכך. הצטרפו אלינו כדי לעשות השפעה משמעותית!",
+    charityThemeList: [
+      "תמיכה בחינוך ילדים חסרי יכולת",
+      "הענקת טיפול רפואי ותזונה לקבוצות פגיעות",
+      "תגובה למצבי חירום ואסון",
+      "העצמת נשים ודאגה לקשישים",
+      "טיפוח תרבות של חמלה והכלה",
+    ],
+    charityThemeBtn: "תרום עכשיו"
   }
 };
 
 const settings = {
-    dots: true,
-    infinite: true,
-    speed: 600,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    fade: true,
+  dots: true,
+  infinite: true,
+  speed: 600,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 5000,
+  fade: true,
 };
 
+const rtlLanguages = ["ar", "he"];
+
 const Blog = () => {
-    const navigate = useNavigate();
-    const [theme, setTheme] = useState('light');
-    const { language } = useContext(LanguageContext);
-    const t = blogTranslations[language] || blogTranslations.en;
+  const navigate = useNavigate();
+  const [theme, setTheme] = useState('light');
+  const { language } = useContext(LanguageContext);
+  const t = blogTranslations[language] || blogTranslations.en;
 
-    // Load theme preference from localStorage on component mount
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            setTheme(savedTheme);
-        }
-    }, []);
+  // RTL detection
+  const isRTL = rtlLanguages.includes(language);
 
-    // Listen for theme changes from Header component
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const handleThemeChange = () => {
-                const newTheme = localStorage.getItem('theme') || 'light';
-                setTheme(newTheme);
-            };
-            
-            window.addEventListener('theme-changed', handleThemeChange);
-            window.addEventListener('storage', handleThemeChange);
-            
-            return () => {
-                window.removeEventListener('theme-changed', handleThemeChange);
-                window.removeEventListener('storage', handleThemeChange);
-            };
-        }
-    }, []);
+  // Load theme preference from localStorage on component mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      setTheme(savedTheme);
+    }
+  }, []);
 
-    return (
-        <div className={`blog-page ${theme}`}>
-            {/* 1. Hero Banner */}
-            <section className="hero-blog">
-                <video className="hero-video-blog" src="/Images/home2.mp4" autoPlay loop muted playsInline />
-                <div className="hero-overlay-blog">
-                    <h1>{t.heroTitle}</h1>
-                    <p>{t.heroDesc}</p>
-                    <div className="hero-buttons-blog">
-                        <button className="btn-blog" onClick={() => navigate('/contact')}>{t.heroBtn}</button>
-                    </div>
-                </div>
-            </section>
+  // Listen for theme changes from Header component
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleThemeChange = () => {
+        const newTheme = localStorage.getItem('theme') || 'light';
+        setTheme(newTheme);
+      };
 
-            {/* 2. Blog Cards */}
-            <section className="blog-cards-section">
-                {t.blogCards.map((card, idx) => (
-                    <article key={idx} className="card">
-                        <img src={card.image} alt={card.title} className="card-image" />
-                        <div className="card-content">
-                            <h3 className="card-title">{card.title}</h3>
-                            <p className="card-description">{card.description}</p>
-                            <button 
-                                className="card-button"
-                                onClick={() => navigate(card.path)}
-                            >
-                                {card.buttonText}
-                            </button>
-                        </div>
-                    </article>
-                ))}
-            </section>
+      window.addEventListener('theme-changed', handleThemeChange);
+      window.addEventListener('storage', handleThemeChange);
 
-            {/* 3. Impact Carousel */}
-            <section className="impact-carousel">
-                <Slider {...settings}>
-                    {t.impactStories.map((story, idx) => (
-                        <div 
-                            key={idx} 
-                            className="slide"
-                            onClick={() => navigate(story.path)}
-                            style={{ cursor: 'pointer' }}
-                        >
-                            <div
-                                className="parallax-bg"
-                                style={{ backgroundImage: `url(${story.image})` }}
-                            />
-                            <div className="story-content">
-                                <h2>{story.title}</h2>
-                                <p>{story.subtitle}</p>
-                            </div>
-                        </div>
-                    ))}
-                </Slider>
-            </section>
+      return () => {
+        window.removeEventListener('theme-changed', handleThemeChange);
+        window.removeEventListener('storage', handleThemeChange);
+      };
+    }
+  }, []);
 
-            {/* 4. Ways to Give Back Section */}
-            <section className="ways-to-give-back">
-                <Container>
-                    <h2 className="ways-title">{t.waysTitle}</h2>
-                    <p className="ways-intro">{t.waysIntro}</p>
-                    <Row className="g-4">
-                        {t.waysToGiveBack.map((way, index) => (
-                            <Col key={index} md={6} lg={4} className="mb-3">
-                                <Card 
-                                    className="h-100 shadow-sm charity-card"
-                                    onClick={() => navigate(way.path)}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <Card.Body>
-                                        <Card.Title className="text-primary">{way.title}</Card.Title>
-                                        <Card.Text>{way.description}</Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        ))}
-                    </Row>
-                </Container>
-            </section>
+  const [showDonateForm, setShowDonateForm] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
+  const [donateData, setDonateData] = useState({
+    firstName: "",
+    lastName: "",
+    address: "",
+    mobile: "",
+    amount: "",
+  });
 
-            {/* 5. Help Hub Section */}
-            <section className="help-hub-section">
-    <h2 className="help-hub-title">{t.helpHubTitle}</h2>
-    <div className="help-hub-container">
-        {t.resources.map((res, idx) => (
-            <div 
-                key={idx} 
-                className="help-hub-item"
-                onClick={() => navigate(res.path)}
-                style={{ cursor: 'pointer' }}
-            >
-                <div className="help-hub-icon">{res.icon}</div>
-                <div className="help-hub-info">
-                    <h3 className="help-hub-item-title">{res.title}</h3>
-                    <p className="help-hub-item-desc">{res.description}</p>
-                    <div className="help-hub-link">{res.linkText}</div>
-                </div>
-            </div>
-        ))}
-    </div>
-</section>
+  const handleDonateChange = (e) => {
+    setDonateData({ ...donateData, [e.target.name]: e.target.value });
+  };
 
-{/* 6. Newsletter CTA */}
-<section className="newsletter-cta">
-    <h2>{t.newsletterTitle}</h2>
-    <p>{t.newsletterDesc}</p>
-    <form>
-        <input type="email" placeholder="Your email address" />
-        <button type="button" onClick={() => navigate('/contact')}>
-            {t.newsletterBtn}
-        </button>
-    </form>
-</section>
+  const handleDonateSubmit = (e) => {
+    e.preventDefault();
+    const donations = JSON.parse(localStorage.getItem("donations") || "[]");
+    donations.push(donateData);
+    localStorage.setItem("donations", JSON.stringify(donations));
+    setShowDonateForm(false);
+    setShowThankYou(true);
+    setDonateData({
+      firstName: "",
+      lastName: "",
+      address: "",
+      mobile: "",
+      amount: "",
+    });
+  };
+
+  return (
+    <div
+      className={`blog-page ${theme}`}
+      style={{
+        direction: isRTL ? "rtl" : "ltr",
+        textAlign: isRTL ? "right" : "left",
+      }}
+    >
+      {/* 1. Hero Banner */}
+      <section className="hero-blog">
+        <video className="hero-video-blog" src="/Images/hero-blog.mp4" autoPlay loop muted playsInline />
+        <div className="hero-overlay-blog">
+          <h1>{t.heroTitle}</h1>
+          <p>{t.heroDesc}</p>
+          <div className="hero-buttons-blog">
+            <button className="btn-blog" onClick={() => navigate('/contact')}>{t.heroBtn}</button>
+          </div>
         </div>
-    );
+      </section>
+
+      {/* 2. Blog Cards */}
+      <section className="blog-cards-section">
+        {t.blogCards.map((card, idx) => (
+          <article key={idx} className="card">
+            <img src={card.image} alt={card.title} className="card-image" />
+            <div className="card-content">
+              <h3 className="card-title">{card.title}</h3>
+              <p className="card-description">{card.description}</p>
+              <button
+                className="card-button"
+                onClick={() => navigate(card.path)}
+              >
+                {card.buttonText}
+              </button>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      {/* 3. Impact Carousel */}
+      <section className="impact-carousel">
+        <Slider {...settings}>
+          {t.impactStories.map((story, idx) => (
+            <div
+              key={idx}
+              className="slide"
+              onClick={() => navigate(story.path)}
+              style={{ cursor: 'pointer' }}
+            >
+              <div
+                className="parallax-bg"
+                style={{ backgroundImage: `url(${story.image})` }}
+              />
+              <div className="story-content">
+                <h2>{story.title}</h2>
+                <p>{story.subtitle}</p>
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </section>
+
+      {/* 4. Ways to Give Back Section */}
+      <section className="ways-to-give-back">
+        <Container>
+          <h2 className="ways-title">{t.waysTitle}</h2>
+          <p className="ways-intro">{t.waysIntro}</p>
+          <Row className="g-4">
+            {t.waysToGiveBack.map((way, index) => (
+              <Col key={index} md={6} lg={4} className="mb-3">
+                <Card
+                  className="h-100 shadow-sm charity-card"
+                  onClick={() => navigate(way.path)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <Card.Body>
+                    <Card.Title className="text-primary">{way.title}</Card.Title>
+                    <Card.Text>{way.description}</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </section>
+
+      {/* 5. Help Hub Section */}
+      <section className="help-hub-section">
+        <h2 className="help-hub-title">{t.helpHubTitle}</h2>
+        <div className="help-hub-container">
+          {t.resources.map((res, idx) => (
+            <div
+              key={idx}
+              className="help-hub-item"
+              onClick={() => navigate(res.path)}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className="help-hub-icon">{res.icon}</div>
+              <div className="help-hub-info">
+                <h3 className="help-hub-item-title">{res.title}</h3>
+                <p className="help-hub-item-desc">{res.description}</p>
+
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+
+
+      {/* 7. Charity Theme Section */}
+      <section className="charity-theme-section">
+        <div className="charity-theme-container">
+          <h2 className="charity-theme-title">
+            {t.charityThemeTitle || "Charity: The Heart of Our Mission"}
+          </h2>
+          <p className="charity-theme-desc">
+            {t.charityThemeDesc ||
+              "Charity is more than giving—it's about building hope, empowering communities, and inspiring change. Every contribution, whether time, resources, or kindness, helps us create a brighter future for those in need. Join us in making a meaningful impact!"}
+          </p>
+          <ul className="charity-theme-list">
+            {(t.charityThemeList || [
+              "Supporting education for underprivileged children",
+              "Providing healthcare and nutrition to vulnerable groups",
+              "Responding to disasters and emergencies",
+              "Empowering women and elderly care",
+              "Fostering a culture of compassion and inclusion",
+            ]).map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+          <button
+            className="charity-theme-btn"
+            onClick={() => {
+              setShowDonateForm(true);
+              setShowThankYou(false);
+            }}
+          >
+            {t.charityThemeBtn || "Donate Now"}
+          </button>
+
+          {showDonateForm && !showThankYou && (
+            <form
+              className="donate-form"
+              style={{
+                marginTop: "2rem",
+                background: "#fff",
+                padding: "2rem",
+                borderRadius: "8px",
+                maxWidth: "400px",
+                marginLeft: "auto",
+                marginRight: "auto",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
+              }}
+              onSubmit={handleDonateSubmit}
+            >
+              <h3 style={{ marginBottom: "1rem" }}>Donation Form</h3>
+              <input
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                value={donateData.firstName}
+                onChange={handleDonateChange}
+                required
+                style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+              />
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Last Name"
+                value={donateData.lastName}
+                onChange={handleDonateChange}
+                required
+                style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+              />
+              <input
+                type="text"
+                name="address"
+                placeholder="Address"
+                value={donateData.address}
+                onChange={handleDonateChange}
+                required
+                style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+              />
+              <input
+                type="tel"
+                name="mobile"
+                placeholder="Mobile Number"
+                value={donateData.mobile}
+                onChange={handleDonateChange}
+                required
+                style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+              />
+              <input
+                type="number"
+                name="amount"
+                placeholder="Donation Amount"
+                value={donateData.amount}
+                onChange={handleDonateChange}
+                required
+                style={{ marginBottom: "1rem", width: "100%", padding: "0.5rem" }}
+              />
+              <button
+                type="submit"
+                style={{
+                  background: "#00bfff",
+                  color: "#fff",
+                  border: "none",
+                  padding: "0.75rem 2rem",
+                  borderRadius: "6px",
+                  fontSize: "1rem",
+                  cursor: "pointer",
+                  width: "100%",
+                }}
+              >
+                Submit
+              </button>
+            </form>
+          )}
+
+          {showThankYou && (
+            <div
+              style={{
+                marginTop: "2rem",
+                background: "#f0f8ff",
+                padding: "2rem",
+                borderRadius: "8px",
+                maxWidth: "400px",
+                marginLeft: "auto",
+                marginRight: "auto",
+                color: "#00bfff",
+                fontWeight: "bold",
+                fontSize: "1.2rem",
+                textAlign: "center",
+              }}
+            >
+              Thank you for your donation!
+            </div>
+          )}
+        </div>
+      </section>
+      {/* 6. Newsletter CTA */}
+      <section className="newsletter-cta">
+        <h2>{t.newsletterTitle}</h2>
+        <p>{t.newsletterDesc}</p>
+        <form>
+          <input type="email" placeholder="Your email address" />
+          <button type="button" onClick={() => navigate('/contact')}>
+            {t.newsletterBtn}
+          </button>
+        </form>
+      </section>
+    </div>
+  );
 };
 
 export default Blog;

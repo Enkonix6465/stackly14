@@ -9,7 +9,7 @@ const healthcareTranslations = {
     heroTitle: "Healthcare for All",
     heroSubtitle: "Join our mission to bring quality medical care to underserved communities. Every donation helps save lives and build healthier futures.",
     promoTitle: "Healing Hands for Those in Need Your Help Saves Lives!",
-    promoDesc: "Every day, countless individuals suffer without access to basic medical care… But you can change that. Every day, vulnerable individuals—children left untreated, elders enduring unbearable pain, families struggling in silence—are denied access to basic medical care. But together, we can change that narrative. Your support ignites a chain of hope: delivering life-saving treatments, essential medicines, and heartfelt comfort to those who need it most. Your generosity doesn't just offer relief—it breathes life back into suffering souls. Donate today, and be the healing hand that transforms lives.",
+    promoDesc: "Every day, countless individuals suffer without access to basic medical care… But you can change that. Every day, vulnerable individuals—children left untreated, elders enduring unbearable pain, families struggling in silence—are denied access to basic medical care. But together, we can change that narrative. Your support ignites a chain of hope: delivering life-saving treatments, essential medicines",
     donateBtn: "Donate Now",
     programsTitle: "Our Healthcare Programs",
     programsSubtitle: "Comprehensive solutions for diverse medical needs",
@@ -20,14 +20,14 @@ const healthcareTranslations = {
         desc: '24/7 mobile units providing urgent care in crisis situations'
       },
       {
-        icon: '🩺',
+        icon:'🩺',
         title: 'Chronic Disease Management',
         desc: 'Ongoing care for diabetes, hypertension, and other conditions'
       },
       {
         icon: '💉',
         title: 'Vaccination Drives',
-        desc: 'Community immunization programs for preventable diseases'
+        desc: 'Community immunization programs for preventable diseases',
       },
       {
         icon: '🧠',
@@ -38,7 +38,7 @@ const healthcareTranslations = {
     volunteerTitle: "Heroes Behind the Scenes",
     volunteerDesc: "Meet the dedicated individuals powering our healthcare mission",
     volunteerCta: "Nominate a Healthcare Hero",
-    ctaTitle: "Ready to Make an Impact?",
+   
     ctaDesc: "Join us in transforming lives through education",
     ctaDonate: "Donate Now",
     ctaVolunteer: "Volunteer"
@@ -121,12 +121,17 @@ const healthcareTranslations = {
   }
 };
 
+const rtlLanguages = ["ar", "he"];
+
 const HealthcareInitiatives = () => {
-    const { language } = useContext(LanguageContext);
+    const { language, theme } = useContext(LanguageContext); // <-- add theme here
     const [activeVolunteer, setActiveVolunteer] = useState(null);
     const navigate = useNavigate();
 
     const t = healthcareTranslations[language] || healthcareTranslations.en;
+
+    // RTL detection
+    const isRTL = rtlLanguages.includes(language);
 
     // Animation for text elements - corrected class name
     useEffect(() => {
@@ -193,23 +198,49 @@ const HealthcareInitiatives = () => {
     };
 
     return (
-        <>
+        <div
+            style={{
+                direction: isRTL ? "rtl" : "ltr",
+                textAlign: isRTL ? "right" : "left",
+            }}
+        >
             {/* Hero Section */}
             <div
                 className="hero-section"
                 style={{
-                    backgroundImage: "url('/Images/healthcare.png')",
+                    backgroundImage: "url(/Images/healthcare-charity.jpg)",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat"
+                    backgroundRepeat: "no-repeat",
+                    height: "100vh",
+                    position: "relative"
                 }}
             >
-                <div className="hero-overlay-healthcare"></div>
-                <div className="hero-content-healthcare">
-                    <h1 className="hero-title-healthcare">{t.heroTitle}</h1>
-                    <p className="hero-subtitle-healthcare">
+                <div
+                    className="hero-overlay-healthcare"
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        // background: "rgba(0,0,0,1)", // Pure black overlay
+                        zIndex: 1
+                    }}
+                ></div>
+                <div
+                    className="hero-content-healthcare"
+                    style={{
+                        position: "relative",
+                        zIndex: 2,
+                        color: theme === 'dark' ? '#fff' : '#fff', // Always white text on black overlay
+                        textAlign: isRTL ? "right" : "left"
+                    }}
+                >
+                    <h1 className="hero-title-healthcare" style={{ color: "#fff" }}>{t.heroTitle}</h1>
+                    {/* <p className="hero-subtitle-healthcare" style={{ color: "#fff" }}>
                         {t.heroSubtitle}
-                    </p>
+                    </p> */}
                 </div>
             </div>
 
@@ -222,7 +253,7 @@ const HealthcareInitiatives = () => {
                     <div className="section emotional-appeal-healthcare">
                         <h2 style={{color:"black"}}>{t.promoTitle}</h2>
                         <p style={{ textAlign: "justify",color:"black" }}>{t.promoDesc}</p>
-                        <button className="donate-button-health" onClick={() => handleGetStarted("/contact")}>{t.donateBtn}</button>
+                        <button className="donate-button-health" onClick={() => navigate("/contact")}>{t.donateBtn}</button>
                     </div>
                 </div>
             </div>
@@ -244,7 +275,7 @@ const HealthcareInitiatives = () => {
                                 <div className="program-icon-health">{program.icon}</div>
                                 <h3>{program.title}</h3>
                                 <p>{program.desc}</p>
-                                <button className="learn-more" onClick={() => handleGetStarted("/contact")}>Learn More →</button>
+                                <button className="learn-more" onClick={() => navigate("/contact")}>Learn More →</button>
                             </div>
                         ))}
                     </div>
@@ -289,7 +320,7 @@ const HealthcareInitiatives = () => {
                                 <div className="impact-stat">
                                     <span>{activeVolunteer.stats}</span>
                                 </div>
-                                <button className="volunteer-cta" onClick={() => handleGetStarted("/contact")}>
+                                <button className="volunteer-cta" onClick={() => navigate("/contact")}>
                                     {t.volunteerCta}
                                 </button>
                             </div>
@@ -318,7 +349,7 @@ const HealthcareInitiatives = () => {
                             variants={scaleUp}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => handleGetStarted("/contact")}
+                            onClick={() => navigate("/contact")}
                         >
                             {t.ctaDonate}
                         </motion.button>
@@ -326,15 +357,15 @@ const HealthcareInitiatives = () => {
                             className="cta-btn secondary"
                             variants={scaleUp}
                             whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => handleGetStarted("/contact")}
+                           
+                            onClick={() => navigate("/contact")}
                         >
                             {t.ctaVolunteer}
                         </motion.button>
                     </div>
                 </div>
             </motion.section>
-        </>
+        </div>
     );
 };
 

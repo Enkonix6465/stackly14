@@ -129,9 +129,14 @@ const aboutUsTranslations = {
   }
 };
 
+const rtlLanguages = ["ar", "he"];
+
 const AboutUs = () => {
   const [theme, setTheme] = useState('light');
   const { language } = useContext(LanguageContext);
+
+  // RTL detection
+  const isRTL = rtlLanguages.includes(language);
 
   // Load theme preference from localStorage on component mount
   useEffect(() => {
@@ -181,137 +186,142 @@ const AboutUs = () => {
   } = aboutUsTranslations[language] || aboutUsTranslations.en;
 
   return (
-    <>
-        {/* Hero Section */}
-        <section className={`hero ${theme === 'dark' ? 'dark-theme' : ''}`}>
-            <video className="hero-video" src="/Images/home2.mp4" autoPlay loop muted playsInline />
-            <div className="hero-overlay">
-                <h1 className={theme === 'dark' ? 'text-white' : ''}>{heroTitle}</h1>
-                <p className={theme === 'dark' ? 'text-gray-300' : ''}>{heroDesc}</p>
-            </div>
-        </section>
-
-        {/* History Timeline Section */}
-        <section className={`history-section ${theme === 'dark' ? 'dark-theme' : ''}`}>
-            <div className="container">
-                <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className={`section-title ${theme === 'dark' ? 'text-white' : ''}`}
-                >
-                    {historyTitle}
-                </motion.h2>
-
-                <div className="timeline">
-                    {milestones.map((item, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6, delay: index * 0.2 }}
-                            className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}
-                        >
-                            <div className={`timeline-content ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                                <div className={`timeline-year ${theme === 'dark' ? 'dark-theme' : ''}`}>{item.year}</div>
-                                <div className="timeline-icon">{item.icon}</div>
-                                <h3 className={`timeline-title ${theme === 'dark' ? 'text-white' : ''}`}>{item.title}</h3>
-                                <p className={`timeline-description ${theme === 'dark' ? 'text-gray-300' : ''}`}>{item.description}</p>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-        </section>
-        
-        {/* Third section */}
-        <div className={`mission-vision-container ${theme === 'dark' ? 'dark-theme' : ''}`}>
-            {/* Mission Section */}
-            <div className={`split-section mission-section ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                <div className="section-image-container">
-                    <img src="/Images/our-mission.jpg" alt="Children receiving meals" />
-                </div>
-                <div className={`section-content-container ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                    <div className="section-header">
-                        <h2 className={theme === 'dark' ? 'text-white' : ''}>{missionTitle}</h2>
-                        <div className="section-underline"></div>
-                    </div>
-                    <div className="section-text">
-                        <p className={theme === 'dark' ? 'text-gray-300' : ''} style={{ textAlign: "justify" }}>
-                            {missionText}
-                        </p>
-                        <ul className={`section-list ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                            {missionList.map((item, index) => (
-                              <li key={index} className={theme === 'dark' ? 'text-gray-300' : ''}>{item}</li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            {/* Vision Section */}
-            <div className={`split-section vision-section ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                <div className={`section-content-container ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                    <div className="section-header">
-                        <h2 className={theme === 'dark' ? 'text-white' : ''}>{visionTitle}</h2>
-                        <div className="section-underline"></div>
-                    </div>
-                    <div className="section-text">
-                        <p className={theme === 'dark' ? 'text-gray-300' : ''} style={{ textAlign: "justify" }}>
-                            {visionText}
-                        </p>
-                        <ul className={`section-list ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                            {visionList.map((item, index) => (
-                              <li key={index} className={theme === 'dark' ? 'text-gray-300' : ''}>{item}</li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-                <div className="section-image-container">
-                    <img src="/Images/vision.jpg" alt="Happy children learning" />
-                </div>
-            </div>
+    <div
+      style={{
+        direction: isRTL ? "rtl" : "ltr",
+        textAlign: isRTL ? "right" : "left",
+      }}
+    >
+      {/* Hero Section */}
+      <section className={`hero ${theme === 'dark' ? 'dark-theme' : ''}`}>
+        <video className="hero-video" src="/Images/about-first.mp4" autoPlay loop muted playsInline />
+        <div className="hero-overlay">
+          <h1 className={theme === 'dark' ? 'text-white' : ''}>{heroTitle}</h1>
+          <p className="text-white">{heroDesc}</p>
         </div>
-        
-        {/* Team Section */}
-        <div className={`team-section ${theme === 'dark' ? 'dark-theme' : ''}`}>
-            {/* Full-width colored header */}
-            <div className={`team-header-bg ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                <div className="team-header-content">
-                    <h2 className={theme === 'dark' ? 'text-white' : ''}>{teamTitle}</h2>
-                    <div className="section-underline"></div>
-                    <p className={theme === 'dark' ? 'text-gray-300' : ''}>{teamDesc}</p>
-                </div>
-            </div>
+      </section>
 
-            {/* Full-width team grid */}
-            <div className={`team-grid-bg ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                <div className="team-grid-container">
-                    {teamMembers.map((member, index) => (
-                        <div key={index} className={`team-card ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                            <div className="team-image-wrapper">
-                                <img src={member.image} alt={member.name} />
-                            </div>
-                            <div className="team-info">
-                                <h3 className={theme === 'dark' ? 'text-white' : ''}>{member.name}</h3>
-                                <p className={`role ${theme === 'dark' ? 'text-blue-300' : ''}`}>{member.role}</p>
-                                <p className={`bio ${theme === 'dark' ? 'text-gray-300' : ''}`}>{member.bio}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
+      {/* History Timeline Section */}
+      <section className={`history-section ${theme === 'dark' ? 'dark-theme' : ''}`}>
+        <div className="container">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className={`section-title ${theme === 'dark' ? 'text-white' : ''}`}
+          >
+            {historyTitle}
+          </motion.h2>
 
-            {/* Full-width CTA */}
-            <div className={`team-cta-bg ${theme === 'dark' ? 'dark-theme' : ''}`}>
-                <div className="team-cta-content">
-                    <h3 className={theme === 'dark' ? 'text-white' : ''}>{teamCtaTitle}</h3>
-                    <p className={theme === 'dark' ? 'text-gray-300' : ''}>{teamCtaDesc}</p>
-                    <button className="cta-button">{teamCtaBtn}</button>
+          <div className="timeline">
+            {milestones.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className={`timeline-item ${index % 2 === 0 ? 'left' : 'right'}`}
+              >
+                <div className={`timeline-content ${theme === 'dark' ? 'dark-theme' : ''}`}>
+                  <div className={`timeline-year ${theme === 'dark' ? 'dark-theme' : ''}`}>{item.year}</div>
+                  <div className="timeline-icon">{item.icon}</div>
+                  <h3 className={`timeline-title ${theme === 'dark' ? 'text-white' : ''}`}>{item.title}</h3>
+                  <p className={`timeline-description ${theme === 'dark' ? 'text-gray-300' : ''}`}>{item.description}</p>
                 </div>
-            </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
-    </>
+      </section>
+      
+      {/* Third section */}
+      <div className={`mission-vision-container ${theme === 'dark' ? 'dark-theme' : ''}`}>
+        {/* Mission Section */}
+        <div className={`split-section mission-section ${theme === 'dark' ? 'dark-theme' : ''}`}>
+          <div className="section-image-container">
+            <img src="/Images/our-mission.jpg" alt="Children receiving meals" />
+          </div>
+          <div className={`section-content-container ${theme === 'dark' ? 'dark-theme' : ''}`}>
+            <div className="section-header">
+              <h2 className={theme === 'dark' ? 'text-white' : ''}>{missionTitle}</h2>
+              <div className="section-underline"></div>
+            </div>
+            <div className="section-text">
+              <p className={theme === 'dark' ? 'text-gray-300' : ''} style={{ textAlign: "justify" }}>
+                {missionText}
+              </p>
+              <ul className={`section-list ${theme === 'dark' ? 'dark-theme' : ''}`}>
+                {missionList.map((item, index) => (
+                  <li key={index} className={theme === 'dark' ? 'text-gray-300' : ''}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Vision Section */}
+        <div className={`split-section vision-section ${theme === 'dark' ? 'dark-theme' : ''}`}>
+          <div className={`section-content-container ${theme === 'dark' ? 'dark-theme' : ''}`}>
+            <div className="section-header">
+              <h2 className={theme === 'dark' ? 'text-white' : ''}>{visionTitle}</h2>
+              <div className="section-underline"></div>
+            </div>
+            <div className="section-text">
+              <p className={theme === 'dark' ? 'text-gray-300' : ''} style={{ textAlign: "justify" }}>
+                {visionText}
+              </p>
+              <ul className={`section-list ${theme === 'dark' ? 'dark-theme' : ''}`}>
+                {visionList.map((item, index) => (
+                  <li key={index} className={theme === 'dark' ? 'text-gray-300' : ''}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="section-image-container">
+            <img src="/Images/vision.jpg" alt="Happy children learning" />
+          </div>
+        </div>
+      </div>
+      
+      {/* Team Section */}
+      <div className={`team-section ${theme === 'dark' ? 'dark-theme' : ''}`}>
+        {/* Full-width colored header */}
+        <div className={`team-header-bg ${theme === 'dark' ? 'dark-theme' : ''}`}>
+          <div className="team-header-content">
+            <h2 className={theme === 'dark' ? 'text-white' : ''}>{teamTitle}</h2>
+            <div className="section-underline"></div>
+            <p className={theme === 'dark' ? 'text-gray-300' : ''}>{teamDesc}</p>
+          </div>
+        </div>
+
+        {/* Full-width team grid */}
+        <div className={`team-grid-bg ${theme === 'dark' ? 'dark-theme' : ''}`}>
+          <div className="team-grid-container">
+            {teamMembers.map((member, index) => (
+              <div key={index} className={`team-card ${theme === 'dark' ? 'dark-theme' : ''}`}>
+                <div className="team-image-wrapper">
+                  <img src={member.image} alt={member.name} />
+                </div>
+                <div className="team-info">
+                  <h3 className={theme === 'dark' ? 'text-white' : ''}>{member.name}</h3>
+                  <p className={`role ${theme === 'dark' ? 'text-blue-300' : ''}`}>{member.role}</p>
+                  <p className={`bio ${theme === 'dark' ? 'text-gray-300' : ''}`}>{member.bio}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Full-width CTA */}
+        <div className={`team-cta-bg ${theme === 'dark' ? 'dark-theme' : ''}`}>
+          <div className="team-cta-content">
+            <h3 className={theme === 'dark' ? 'text-white' : ''}>{teamCtaTitle}</h3>
+            <p className={theme === 'dark' ? 'text-gray-300' : ''}>{teamCtaDesc}</p>
+            <button className="cta-button">{teamCtaBtn}</button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

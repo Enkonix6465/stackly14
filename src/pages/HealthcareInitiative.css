@@ -544,6 +544,31 @@ body {
   color: #fff !important;
 }
 
+/* Remove card style from right side in promo-container-health */
+.content-side-health {
+  background: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 1rem !important;
+}
+
+/* Remove card style from the inner section */
+.emotional-appeal-healthcare {
+  background: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+/* In dark mode, keep text white */
+[data-theme="dark"] .content-side-health,
+[data-theme="dark"] .emotional-appeal-healthcare,
+[data-theme="dark"] .emotional-appeal-healthcare h2,
+[data-theme="dark"] .emotional-appeal-healthcare p {
+  background: none !important;
+  color: #fff !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .programs-grid {

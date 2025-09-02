@@ -240,9 +240,9 @@ const home2Translations = {
 
 const logos = [
   { src: '/Images/logo111.png', alt: 'Partner One' },
-  { src: '/Images/sbi.jpg', alt: 'Partner Two' },
-  { src: '/images/ibm.jpg', alt: 'Partner Three' },
-  { src: '/images/infosys.jpg', alt: 'Partner Four' },
+  { src: '/Images/sbi1.jpg', alt: 'Partner Two' },
+  { src: '/images/ibm1.jpg', alt: 'Partner Three' },
+  { src: '/images/infosys1.jpg', alt: 'Partner Four' },
   { src: '/images/tcs.jpg', alt: 'Partner Five' },
 ];
 
@@ -260,10 +260,15 @@ const settings = {
   ],
 };
 
+const rtlLanguages = ["ar", "he"];
+
 const Home2 = () => {
   const navigate = useNavigate();
   const [theme, setTheme] = useState('light');
   const { language } = useContext(LanguageContext);
+
+  // RTL detection
+  const isRTL = rtlLanguages.includes(language);
 
   const handleNavigate = (path) => () => {
     navigate(path);
@@ -295,7 +300,13 @@ const Home2 = () => {
   }, []);
 
   return (
-    <div className={`home2-container theme-${theme}`}>
+    <div
+      className={`home2-container theme-${theme}`}
+      style={{
+        direction: isRTL ? "rtl" : "ltr",
+        textAlign: isRTL ? "right" : "left",
+      }}
+    >
       {/* Hero Section */}
       <section className="hero-home2">
         <video className="hero-video-home2" src="/Images/home2.mp4" autoPlay loop muted playsInline />
@@ -323,11 +334,11 @@ const Home2 = () => {
               <div className="step-content">
                 <h3>{step.title}</h3>
                 <p style={{ textAlign: 'justify' }}>{step.desc}</p>
-                {/* {idx === 3 && (
+                {idx === 3 && step.button && (
                   <button className="impact-button">
-                    {home2Translations[language].impactReport}
+                    {step.button}
                   </button>
-                )} */}
+                )}
               </div>
             </div>
           ))}
@@ -383,7 +394,7 @@ const Home2 = () => {
                 <h3>{program.title}</h3>
                 <time>{program.date}</time>
                 <p>{program.description}</p>
-                <button className="btn btn-primary" style={{ backgroundColor: "#00CAE0" }}>
+                <button className="btn btn-primary" style={{ backgroundColor: "#00CAE0" }} onClick={handleNavigate('/contact')}>
                   {home2Translations[language].getStarted}
                 </button>
               </div>

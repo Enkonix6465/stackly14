@@ -1,43 +1,43 @@
 import './DisasterRelief.css';
 
-import { useState,useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { LanguageContext } from '../components/Header'; // adjust path if needed
 
 const campaignsData = [
-    {
-        id: 1,
-        title: "Turkey Earthquake Relief",
-        description: "Providing shelter and medical aid to survivors",
-        progress: 65,
-        raised: "1.2M",
-        goal: "2M",
-        urgent: true
-    },
-    {
-        id: 2,
-        title: "Bangladesh Flood Relief",
-        description: "Emergency supplies for affected families",
-        progress: 42,
-        raised: "840K",
-        goal: "2M",
-        urgent: true
-    },
-    {
-        id: 3,
-        title: "Horn of Africa Drought",
-        description: "Food and water for famine-stricken regions",
-        progress: 38,
-        raised: "760K",
-        goal: "2M",
-        urgent: false
-    }
+  {
+    id: 1,
+    title: "Turkey Earthquake Relief",
+    description: "Providing shelter and medical aid to survivors",
+    progress: 65,
+    raised: "1.2M",
+    goal: "2M",
+    urgent: true
+  },
+  {
+    id: 2,
+    title: "Bangladesh Flood Relief",
+    description: "Emergency supplies for affected families",
+    progress: 42,
+    raised: "840K",
+    goal: "2M",
+    urgent: true
+  },
+  {
+    id: 3,
+    title: "Horn of Africa Drought",
+    description: "Food and water for famine-stricken regions",
+    progress: 38,
+    raised: "760K",
+    goal: "2M",
+    urgent: false
+  }
 ];
 
 const servicesData = [
-    { id: 1, icon: "🏥", title: "Medical Aid", description: "Emergency medical teams and supplies" },
-    { id: 2, icon: "🏠", title: "Shelter", description: "Temporary housing for displaced families" },
-    { id: 3, icon: "💧", title: "Clean Water", description: "Water purification and distribution" },
-    { id: 4, icon: "🍲", title: "Food Relief", description: "Emergency food packages" }
+  { id: 1, icon: "🏥", title: "Medical Aid", description: "Emergency medical teams and supplies" },
+  { id: 2, icon: "🏠", title: "Shelter", description: "Temporary housing for displaced families" },
+  { id: 3, icon: "💧", title: "Clean Water", description: "Water purification and distribution" },
+  { id: 4, icon: "🍲", title: "Food Relief", description: "Emergency food packages" }
 ];
 
 const disasterTranslations = {
@@ -196,153 +196,174 @@ we believe that no one should face disaster alone. Our teams work tirelessly to 
   }
 };
 
+const rtlLanguages = ["ar", "he"];
+
 function DisasterRelief() {
-    const [, setTheme] = useState('light');
-    const { language } = useContext(LanguageContext);
-      
-      // Load theme preference from localStorage on component mount
-      useEffect(() => {
-        if (typeof window !== 'undefined') {
-          const savedTheme = localStorage.getItem('theme') || 'light';
-          setTheme(savedTheme);
-        }
-      }, []);
-    
-      // Listen for theme changes from Header component
-      useEffect(() => {
-        if (typeof window !== 'undefined') {
-          const handleThemeChange = () => {
-            const newTheme = localStorage.getItem('theme') || 'light';
-            setTheme(newTheme);
-          };
-          
-          window.addEventListener('theme-changed', handleThemeChange);
-          window.addEventListener('storage', handleThemeChange);
-          
-          return () => {
-            window.removeEventListener('theme-changed', handleThemeChange);
-            window.removeEventListener('storage', handleThemeChange);
-          };
-        }
-      }, []);
-    return (
-        <>
-            {/* Hero Section */}
-            <section className="hero-section">
-                <div className="hero-overlay">
-                    <div className="container">
-                        <div className="hero-content">
-                            <h1>{disasterTranslations[language].heroTitle}</h1>
-                            <p className="hero-subtitle">
-                                {disasterTranslations[language].heroSubtitle}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            {/*second section*/}
-            <div className="promo-container-disaster">
-                <div className="image-side-disaster">
-                    <img src="/Images/disaster.jpg" alt="Healing Hands" />
-                </div>
-                <div className="content-side-disaster">
-                    <div className=" emotional-appeal-disaster">
-                        <h2>{disasterTranslations[language].promoTitle}</h2>
-                        <p style={{ textAlign: "justify" }}>{disasterTranslations[language].promoDesc}</p>
-                        <button className="donate-button">{disasterTranslations[language].promoBtn}</button>
-                    </div>
-                </div>
+  const [, setTheme] = useState('light');
+  const { language } = useContext(LanguageContext);
+
+  // Load theme preference from localStorage on component mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  // Listen for theme changes from Header component
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleThemeChange = () => {
+        const newTheme = localStorage.getItem('theme') || 'light';
+        setTheme(newTheme);
+      };
+
+      window.addEventListener('theme-changed', handleThemeChange);
+      window.addEventListener('storage', handleThemeChange);
+
+      return () => {
+        window.removeEventListener('theme-changed', handleThemeChange);
+        window.removeEventListener('storage', handleThemeChange);
+      };
+    }
+  }, []);
+
+  // RTL detection
+  const isRTL = rtlLanguages.includes(language);
+
+  return (
+    <div
+      style={{
+        direction: isRTL ? "rtl" : "ltr",
+        textAlign: isRTL ? "right" : "left",
+      }}
+    >
+      {/* Hero Section */}
+      <section
+        className="hero-section"
+        style={{
+          backgroundImage: "url('/Images/disaster.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          minHeight: "400px", // adjust as needed
+          position: "relative"
+        }}
+      >
+        <div className="hero-overlay">
+          <div className="container">
+            <div className="hero-content">
+              <h1>{disasterTranslations[language].heroTitle}</h1>
+              <p className="hero-subtitle">
+                {disasterTranslations[language].heroSubtitle}
+              </p>
             </div>
+          </div>
+        </div>
+      </section>
+      {/*second section*/}
+      <div className="promo-container-disaster">
+        <div className="image-side-disaster">
+          <img src="/Images/distaster.jpg" alt="Healing Hands" />
+        </div>
+        <div className="content-side-disaster">
+          <div className=" emotional-appeal-disaster">
+            <h2>{disasterTranslations[language].promoTitle}</h2>
+            <p style={{ textAlign: "justify" }}>{disasterTranslations[language].promoDesc}</p>
+            <button className="donate-button">{disasterTranslations[language].promoBtn}</button>
+          </div>
+        </div>
+      </div>
 
 
-            {/* Campaigns Section */}
-            <section className="campaigns-section">
-                <div className="campaigns-container">
-                    <h2 className="campaigns-title">{disasterTranslations[language].campaignsTitle}</h2>
-                    <p className="campaigns-subtitle">
-                        {disasterTranslations[language].campaignsSubtitle}
-                    </p>
-                    <div className="campaigns-grid">
-                        {campaignsData.map(c => (
-                            <div key={c.id} className="campaign-card">
-                                {c.urgent && (
-                                    <div className="campaign-urgent">{disasterTranslations[language].campaignUrgent}</div>
-                                )}
-                                <h3 className="campaign-title">{c.title}</h3>
-                                <p className="campaign-description">{c.description}</p>
-                                <div className="campaign-progress-container">
-                                    <div className="campaign-progress-bar">
-                                        <div
-                                            className="campaign-progress-fill"
-                                            style={{ width: `${c.progress}%` }}
-                                        />
-                                    </div>
-                                    <div className="campaign-progress-stats">
-                                        <span>${c.raised}</span>
-                                        <span>${c.goal}</span>
-                                    </div>
-                                </div>
-                                <button className="campaign-button">
-                                    {disasterTranslations[language].campaignBtn}
-                                </button>
-                            </div>
-                        ))}
-                    </div>
+      {/* Campaigns Section */}
+      <section className="campaigns-section">
+        <div className="campaigns-container">
+          <h2 className="campaigns-title">{disasterTranslations[language].campaignsTitle}</h2>
+          <p className="campaigns-subtitle">
+            {disasterTranslations[language].campaignsSubtitle}
+          </p>
+          <div className="campaigns-grid">
+            {campaignsData.map(c => (
+              <div key={c.id} className="campaign-card">
+                {c.urgent && (
+                  <div className="campaign-urgent">{disasterTranslations[language].campaignUrgent}</div>
+                )}
+                <h3 className="campaign-title">{c.title}</h3>
+                <p className="campaign-description">{c.description}</p>
+                <div className="campaign-progress-container">
+                  <div className="campaign-progress-bar">
+                    <div
+                      className="campaign-progress-fill"
+                      style={{ width: `${c.progress}%` }}
+                    />
+                  </div>
+                  <div className="campaign-progress-stats">
+                    <span>${c.raised}</span>
+                    <span>${c.goal}</span>
+                  </div>
                 </div>
-            </section>
-            {/*second section*/}
-            <section className="disaster-relief">
-                <div className="relief-container">
-                    <h2 className="relief-title">{disasterTranslations[language].approachTitle} <span>{disasterTranslations[language].approachSpan}</span></h2>
-                    <p className="relief-intro">
-                        {disasterTranslations[language].approachDesc}
-                    </p>
+                <button className="campaign-button">
+                  {disasterTranslations[language].campaignBtn}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/*second section*/}
+      <section className="disaster-relief">
+        <div className="relief-container">
+          <h2 className="relief-title">{disasterTranslations[language].approachTitle} <span>{disasterTranslations[language].approachSpan}</span></h2>
+          <p className="relief-intro">
+            {disasterTranslations[language].approachDesc}
+          </p>
 
-                    <div className="approach-grid">
-                        {disasterTranslations[language].approachCards.map(card => (
-                            <div className="approach-card" key={card.number}>
-                                <div className="card-header">
-                                    <div className="card-number">{card.number}</div>
-                                    <h3>{card.title}</h3>
-                                </div>
-                                <p>{card.desc}</p>
-                                <ul>
-                                    {card.list.map((item, index) => (
-                                        <li key={index}>{item}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
+          <div className="approach-grid">
+            {disasterTranslations[language].approachCards.map(card => (
+              <div className="approach-card" key={card.number}>
+                <div className="card-header">
+                  <div className="card-number">{card.number}</div>
+                  <h3>{card.title}</h3>
+                </div>
+                <p>{card.desc}</p>
+                <ul>
+                  {card.list.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
 
 
-                </div>
-            </section>
-            {/* Services Section */}
-            <section className="relief-services-container">
-                <div className="section-header">
-                    <h2 className="section-title">{disasterTranslations[language].servicesTitle}</h2>
-                    <p className="section-subtitle">{disasterTranslations[language].servicesSubtitle}</p>
-                </div>
-                <div className="service-items-grid">
-                    {servicesData.map(service => (
-                        <div key={service.id} className="individual-service-item">
-                            <div className="service-icon">{service.icon}</div>
-                            <h3>{service.title}</h3>
-                            <p>{service.description}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-            <div className="impact-statement">
-                <h3>{disasterTranslations[language].impactTitle}</h3>
-                <p>
-                    {disasterTranslations[language].impactDesc}
-                </p>
-                <button className="cta-button">{disasterTranslations[language].impactBtn}</button>
+        </div>
+      </section>
+      {/* Services Section */}
+      <section className="relief-services-container">
+        <div className="section-header">
+          <h2 className="section-title">{disasterTranslations[language].servicesTitle}</h2>
+          <p className="section-subtitle">{disasterTranslations[language].servicesSubtitle}</p>
+        </div>
+        <div className="service-items-grid">
+          {servicesData.map(service => (
+            <div key={service.id} className="individual-service-item">
+              <div className="service-icon">{service.icon}</div>
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
             </div>
-        </>
-    );
+          ))}
+        </div>
+      </section>
+      <div className="impact-statement">
+        <h3>{disasterTranslations[language].impactTitle}</h3>
+        <p>
+          {disasterTranslations[language].impactDesc}
+        </p>
+        <button className="cta-button">{disasterTranslations[language].impactBtn}</button>
+      </div>
+    </div>
+  );
 }
 
 export default DisasterRelief;
