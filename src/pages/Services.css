@@ -625,6 +625,14 @@ body.theme-dark .cta-container p {
   color: #fff !important;
 }
 
+[data-theme="dark"] .hamburger svg {
+  stroke: #fff !important;
+}
+
+.slick-list.dragging {
+  cursor: grab; /* Use 'grab' instead of 'hand' */
+}
+
 /* Swiper 3D shadow pointer events fix */
 .swiper-3d .swiper-slide-shadow,
 .swiper-3d .swiper-slide-shadow-bottom,
@@ -652,4 +660,86 @@ body.theme-dark .cta-container p {
 
 .btn-check {
   pointer-events: none;
+}
+
+.btn-check:disabled + .btn,
+.btn-check[disabled] + .btn {
+  pointer-events: none;
+}
+
+.form-range:disabled {
+  pointer-events: none;
+}
+
+.form-floating > label {
+  pointer-events: none;
+}
+
+.btn.disabled,
+.btn:disabled,
+fieldset:disabled .btn {
+  pointer-events: none;
+}
+
+.dropdown-item.disabled,
+.dropdown-item:disabled {
+  pointer-events: none;
+}
+
+.slick-slide.dragging img {
+  pointer-events: none;
+}
+
+.nav-link.disabled,
+.nav-link:disabled {
+  pointer-events: none;
+}
+
+.disabled > .page-link,
+.page-link.disabled {
+  pointer-events: none;
+}
+
+.list-group-item.disabled,
+.list-group-item:disabled {
+  pointer-events: none;
+}
+
+.btn-close.disabled,
+.btn-close:disabled {
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+}
+
+.toast-container {
+  pointer-events: none;
+}
+
+.modal-dialog {
+  pointer-events: none;
+}
+
+.modal-content {
+  pointer-events: auto;
+}
+
+.placeholder-wave {
+  mask-image: linear-gradient(130deg, #000 55%, #000c 75%, #000 95%);
+  mask-size: 200% 100%;
+  mask-position: -200% 0;
+}
+
+.icon-link > .bi {
+  fill: currentColor;
+}
+
+.pe-none {
+  pointer-events: none;
+}
+
+.pe-auto {
+  pointer-events: auto;
 }
