@@ -260,7 +260,7 @@ header .hamburger {
 }
 
 [data-theme="dark"] .hamburger svg {
-  stroke: #fff !important;
+  stroke: #fff !important; /* Correct usage for SVG */
 }
 
 /* Mobile menu background and link color for dark mode */

@@ -624,3 +624,32 @@ body.theme-dark .cta-container h2,
 body.theme-dark .cta-container p {
   color: #fff !important;
 }
+
+/* Swiper 3D shadow pointer events fix */
+.swiper-3d .swiper-slide-shadow,
+.swiper-3d .swiper-slide-shadow-bottom,
+.swiper-3d .swiper-slide-shadow-left,
+.swiper-3d .swiper-slide-shadow-right,
+.swiper-3d .swiper-slide-shadow-top {
+  pointer-events: none;
+}
+
+.App-logo {
+  pointer-events: none; /* Correct property and value */
+}
+
+.form-control::-webkit-file-upload-button {
+  pointer-events: none;
+}
+
+.form-control::file-selector-button {
+  pointer-events: none;
+}
+
+.form-check-input:disabled {
+  pointer-events: none;
+}
+
+.btn-check {
+  pointer-events: none;
+}
