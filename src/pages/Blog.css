@@ -737,3 +737,7 @@
   background: #00bfff;
   color: #fff;
 }
+
+.slick-list.dragging {
+  cursor: grab;
+}
