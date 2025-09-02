@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from 'react';
 import { LanguageContext } from '../components/Header'; // Adjust path if needed
 
-const rtlLanguages = ["ar", "he"];
+// const rtlLanguages = ["ar", "he"];
 
 const EducationProgram = () => {
     const navigate = useNavigate();
@@ -66,7 +66,7 @@ const EducationProgram = () => {
     };
 
     // RTL detection
-    const isRTL = rtlLanguages.includes(language);
+    // const isRTL = rtlLanguages.includes(language);
 
     return (
         <div className={`education-program ${theme}`}>

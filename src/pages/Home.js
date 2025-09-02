@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { LanguageContext } from "../components/Header";
 import "./Home.css";
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // const data = [
 //   {

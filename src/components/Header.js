@@ -96,7 +96,7 @@ const Header = () => {
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
   const [theme, setTheme] = useState('light');
   const [userInitials, setUserInitials] = useState('AD');
-  const [userData, setUserData] = useState({ firstname: '', lastname: '', email: '' });
+  const [ setUserData] = useState({ firstname: '', lastname: '', email: '' });
 
   // Language context
   const { language, setLanguage } = useContext(LanguageContext);

@@ -193,9 +193,9 @@ const HealthcareInitiatives = () => {
         visible: { scale: 1, opacity: 1, transition: { duration: 0.5 } }
     };
 
-    const handleGetStarted = (path) => {
-        navigate(path);
-    };
+    // const handleGetStarted = (path) => {
+    //     navigate(path);
+    // };
 
     return (
         <div
