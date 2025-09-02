@@ -50,6 +50,7 @@
   position: relative;
   overflow: hidden;
   color: var(--light);
+  margin-bottom: 20px;
 }
 
 .hero-section::before {
@@ -103,6 +104,8 @@
   align-items: stretch;
   width: 100%;
   min-height: 450px; /* Adjust as needed */
+  margin-bottom: 10px;
+  margin-left: 10px;
 }
 
 
