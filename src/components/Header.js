@@ -27,6 +27,7 @@ export const LanguageProvider = ({ children }) => {
   );
 };
 
+// Translations object
 const translations = {
   en: {
     home: "Home",
@@ -96,7 +97,7 @@ const Header = () => {
   const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
   const [theme, setTheme] = useState('light');
   const [userInitials, setUserInitials] = useState('AD');
-  const [ setUserData] = useState({ firstname: '', lastname: '', email: '' });
+  const [userData, setUserData] = useState({ firstname: '', lastname: '', email: '' });
 
   // Language context
   const { language, setLanguage } = useContext(LanguageContext);
@@ -121,6 +122,7 @@ const Header = () => {
     if (typeof window !== 'undefined') {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('theme', theme);
+      // Notify other tabs/pages
       window.dispatchEvent(new Event('theme-changed'));
     }
   }, [theme]);
@@ -155,16 +157,51 @@ const Header = () => {
     navigate('/Login');
   };
 
-  // Check if a path is active
-  const isActivePath = (path) => {
-    if (path === '/home' && (location.pathname === '/home' || location.pathname === '/home2')) {
-      return true;
+  const getUserInitials = () => {
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const loggedInEmail = localStorage.getItem("loggedInUserEmail");
+    const currentUser = users.find(user => user.email === loggedInEmail);
+
+    if (currentUser) {
+      // First letter from first name, second letter from last name
+      const firstInitial = currentUser.firstName?.trim().charAt(0).toUpperCase() || "";
+      const secondInitial = currentUser.lastName?.trim().charAt(0)?.toUpperCase() || "";
+      return firstInitial + secondInitial;
     }
+    return "AD";
+  };
+
+  useEffect(() => {
+    setUserInitials(getUserInitials());
+    const handleStorage = () => setUserInitials(getUserInitials());
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, [location.pathname]);
+
+  // Helper function to determine if a path is active
+  const isActivePath = (path) => {
     return location.pathname === path;
   };
 
+  // Helper function for services dropdown items
+  const isServicesActive = () => {
+    const servicesPaths = [
+      '/services',
+      '/education-programs',
+      '/healthcare-initiatives',
+      '/food-distribution',
+      '/disaster-relief',
+      '/women-empowerment',
+      '/elderly-care'
+    ];
+    return servicesPaths.includes(location.pathname);
+  };
+
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 w-full transition-colors duration-300 ${theme === 'dark' ? 'bg-[#181818] border-b border-[#222]' : 'bg-white border-b border-gray-200'}`}>
+    <header
+      dir={["ar", "he"].includes(language) ? "rtl" : "ltr"}
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-colors duration-300 ${theme === 'dark' ? 'bg-[#181818] border-b border-[#222]' : 'bg-white border-b border-gray-200'}`}
+    >
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -189,32 +226,32 @@ const Header = () => {
 
           {/* Navigation */}
           <nav className="nav-main hidden sm:flex items-center space-x-8">
-            {/* Home with dropdown */}
+            {/* Home with dropdown symbol */}
             <div className="relative inline-block">
               <button
-                className={`flex items-center px-3 py-2 rounded-md transition-colors ${theme === 'dark' ? "text-white" : "text-black"} ${isActivePath('/home') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100'}`}
+                className={`flex items-center ${theme === 'dark' ? "text-white" : "text-black"} ${isActivePath('/home') || isActivePath('/home2') ? 'active' : ''}`}
                 onClick={() => setIsHomeDropdownOpen(!isHomeDropdownOpen)}
                 aria-haspopup="true"
                 aria-expanded={isHomeDropdownOpen}
               >
-                <span>{translations[language].home}</span>
-                <span className="ml-1 text-xs">▼</span>
+                <span onClick={() => navigate('/home')}>{translations[language].home}</span>
+                <span className="ml-1">▼</span>
               </button>
               {isHomeDropdownOpen && (
                 <div
-                  className={`absolute ${theme === 'dark' ? "bg-[#222] text-white" : "bg-white text-black"} border mt-2 rounded-md shadow-lg z-10 overflow-hidden`}
+                  className={`absolute ${theme === 'dark' ? "bg-[#222] text-white" : "bg-white text-black"} border mt-2 rounded shadow-lg z-10`}
                   style={{ minWidth: "120px" }}
                 >
                   <Link
                     to="/home"
-                    className={`block px-4 py-2 transition-colors ${location.pathname === '/home' ? 'bg-blue-100 text-blue-700 font-medium' : 'hover:bg-gray-100'}`}
+                    className={`block px-4 py-2 ${isActivePath('/home') ? 'active' : ''}`}
                     onClick={() => setIsHomeDropdownOpen(false)}
                   >
                     {translations[language].home}
                   </Link>
                   <Link
                     to="/home2"
-                    className={`block px-4 py-2 transition-colors ${location.pathname === '/home2' ? 'bg-blue-100 text-blue-700 font-medium' : 'hover:bg-gray-100'}`}
+                    className={`block px-4 py-2 ${isActivePath('/home2') ? 'active' : ''}`}
                     onClick={() => setIsHomeDropdownOpen(false)}
                   >
                     {translations[language].home2}
@@ -226,69 +263,69 @@ const Header = () => {
             {/* About Us */}
             <Link 
               to="/aboutus" 
-              className={`px-3 py-2 rounded-md transition-colors ${theme === 'dark' ? "text-white" : "text-black"} ${isActivePath('/aboutus') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100'}`}
+              className={`${theme === 'dark' ? "text-white" : "text-black"} ${isActivePath('/aboutus') ? 'active' : ''}`}
             >
               {translations[language].about}
             </Link>
 
-            {/* Services with dropdown */}
+            {/* Services with dropdown symbol */}
             <div className="relative inline-block">
               <button
-                className={`flex items-center px-3 py-2 rounded-md transition-colors ${theme === 'dark' ? "text-white" : "text-black"} ${isActivePath('/services') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100'}`}
+                className={`flex items-center ${theme === 'dark' ? "text-white" : "text-black"} ${isServicesActive() ? 'active' : ''}`}
                 onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)}
                 aria-haspopup="true"
                 aria-expanded={isServicesDropdownOpen}
               >
                 <span>{translations[language].services}</span>
-                <span className="ml-1 text-xs">▼</span>
+                <span className="ml-1">▼</span>
               </button>
               {isServicesDropdownOpen && (
-                <div className={`absolute ${theme === 'dark' ? "bg-[#222] text-white" : "bg-white text-black"} border mt-2 rounded-md shadow-lg z-10 overflow-hidden`}>
+                <div className={`absolute ${theme === 'dark' ? "bg-[#222] text-white" : "bg-white text-black"} border mt-2 rounded shadow-lg z-10`}>
                   <Link 
                     to="/services" 
-                    className={`block px-4 py-2 transition-colors ${location.pathname === '/services' ? 'bg-blue-100 text-blue-700 font-medium' : 'hover:bg-gray-100'}`}
+                    className={`block px-4 py-2 ${isActivePath('/services') ? 'active' : ''}`}
                     onClick={() => setIsServicesDropdownOpen(false)}
                   >
                     {translations[language].allServices}
                   </Link>
                   <Link 
                     to="/education-programs" 
-                    className={`block px-4 py-2 transition-colors ${location.pathname === '/education-programs' ? 'bg-blue-100 text-blue-700 font-medium' : 'hover:bg-gray-100'}`}
+                    className={`block px-4 py-2 ${isActivePath('/education-programs') ? 'active' : ''}`}
                     onClick={() => setIsServicesDropdownOpen(false)}
                   >
                     {translations[language].education}
                   </Link>
                   <Link 
                     to="/healthcare-initiatives" 
-                    className={`block px-4 py-2 transition-colors ${location.pathname === '/healthcare-initiatives' ? 'bg-blue-100 text-blue-700 font-medium' : 'hover:bg-gray-100'}`}
+                    className={`block px-4 py-2 ${isActivePath('/healthcare-initiatives') ? 'active' : ''}`}
                     onClick={() => setIsServicesDropdownOpen(false)}
                   >
                     {translations[language].healthcare}
                   </Link>
                   <Link 
                     to="/food-distribution" 
-                    className={`block px-4 py-2 transition-colors ${location.pathname === '/food-distribution' ? 'bg-blue-100 text-blue-700 font-medium' : 'hover:bg-gray-100'}`}
+                    className={`block px-4 py-2 ${isActivePath('/food-distribution') ? 'active' : ''}`}
                     onClick={() => setIsServicesDropdownOpen(false)}
                   >
                     {translations[language].food}
                   </Link>
                   <Link 
                     to="/disaster-relief" 
-                    className={`block px-4 py-2 transition-colors ${location.pathname === '/disaster-relief' ? 'bg-blue-100 text-blue-700 font-medium' : 'hover:bg-gray-100'}`}
+                    className={`block px-4 py-2 ${isActivePath('/disaster-relief') ? 'active' : ''}`}
                     onClick={() => setIsServicesDropdownOpen(false)}
                   >
                     {translations[language].disaster}
                   </Link>
                   <Link 
                     to="/women-empowerment" 
-                    className={`block px-4 py-2 transition-colors ${location.pathname === '/women-empowerment' ? 'bg-blue-100 text-blue-700 font-medium' : 'hover:bg-gray-100'}`}
+                    className={`block px-4 py-2 ${isActivePath('/women-empowerment') ? 'active' : ''}`}
                     onClick={() => setIsServicesDropdownOpen(false)}
                   >
                     {translations[language].women}
                   </Link>
                   <Link 
                     to="/elderly-care" 
-                    className={`block px-4 py-2 transition-colors ${location.pathname === '/elderly-care' ? 'bg-blue-100 text-blue-700 font-medium' : 'hover:bg-gray-100'}`}
+                    className={`block px-4 py-2 ${isActivePath('/elderly-care') ? 'active' : ''}`}
                     onClick={() => setIsServicesDropdownOpen(false)}
                   >
                     {translations[language].elderly}
@@ -297,16 +334,18 @@ const Header = () => {
               )}
             </div>
             
+            {/* Blog */}
             <Link 
               to="/blog" 
-              className={`px-3 py-2 rounded-md transition-colors ${theme === 'dark' ? "text-white" : "text-black"} ${isActivePath('/blog') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100'}`}
+              className={`${theme === 'dark' ? "text-white" : "text-black"} ${isActivePath('/blog') ? 'active' : ''}`}
             >
               {translations[language].blog}
             </Link>
             
+            {/* Contact */}
             <Link 
               to="/contact" 
-              className={`px-3 py-2 rounded-md transition-colors ${theme === 'dark' ? "text-white" : "text-black"} ${isActivePath('/contact') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100'}`}
+              className={`${theme === 'dark' ? "text-white" : "text-black"} ${isActivePath('/contact') ? 'active' : ''}`}
             >
               {translations[language].contact}
             </Link>
@@ -314,38 +353,34 @@ const Header = () => {
 
           {/* Mobile Menu */}
           {mobileOpen && (
-            <div className={`mobile-menu sm:hidden absolute top-full left-0 right-0 ${theme === 'dark' ? 'bg-[#222] text-white' : 'bg-white text-black'} border-t ${theme === 'dark' ? 'border-[#333]' : 'border-gray-200'} mt-2 rounded-b-lg shadow-lg z-10`}>
+            <div className="mobile-menu sm:hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 mt-2 rounded-b-lg shadow-lg z-10">
               <div className="flex flex-col p-4 space-y-2">
-                {/* Home with dropdown */}
+                {/* Home with dropdown symbol */}
                 <div className="relative">
                   <button
-                    className={`flex items-center w-full text-left px-3 py-2 rounded-md ${isActivePath('/home') ? 'bg-blue-100 text-blue-700 font-semibold' : ''}`}
+                    className={`flex items-center w-full text-left ${theme === 'dark' ? "text-white" : "text-black"} ${isActivePath('/home') || isActivePath('/home2') ? 'active' : ''}`}
                     onClick={() => setIsHomeDropdownOpen(!isHomeDropdownOpen)}
                     aria-haspopup="true"
                     aria-expanded={isHomeDropdownOpen}
                   >
-                    <span>{translations[language].home}</span>
-                    <span className="ml-1 text-xs">▼</span>
+                    <span onClick={() => navigate('/home')}>{translations[language].home}</span>
+                    <span className="ml-1">▼</span>
                   </button>
                   {isHomeDropdownOpen && (
-                    <div className={`ml-4 mt-1 ${theme === 'dark' ? "bg-[#333]" : "bg-gray-50"} rounded-md overflow-hidden`}>
+                    <div
+                      className={`absolute ${theme === 'dark' ? "bg-[#222] text-white" : "bg-white text-black"} border mt-2 rounded shadow-lg w-full`}
+                    >
                       <Link
                         to="/home"
-                        className={`block px-4 py-2 ${location.pathname === '/home' ? 'bg-blue-100 text-blue-700 font-medium' : ''}`}
-                        onClick={() => {
-                          setIsHomeDropdownOpen(false);
-                          setMobileOpen(false);
-                        }}
+                        className={`block px-4 py-2 ${isActivePath('/home') ? 'active' : ''}`}
+                        onClick={() => setIsHomeDropdownOpen(false)}
                       >
                         {translations[language].home}
                       </Link>
                       <Link
                         to="/home2"
-                        className={`block px-4 py-2 ${location.pathname === '/home2' ? 'bg-blue-100 text-blue-700 font-medium' : ''}`}
-                        onClick={() => {
-                          setIsHomeDropdownOpen(false);
-                          setMobileOpen(false);
-                        }}
+                        className={`block px-4 py-2 ${isActivePath('/home2') ? 'active' : ''}`}
+                        onClick={() => setIsHomeDropdownOpen(false)}
                       >
                         {translations[language].home2}
                       </Link>
@@ -356,92 +391,71 @@ const Header = () => {
                 {/* About Us */}
                 <Link 
                   to="/aboutus" 
-                  className={`px-3 py-2 rounded-md ${isActivePath('/aboutus') ? 'bg-blue-100 text-blue-700 font-semibold' : ''}`}
+                  className={`text-black hover:text-blue-500 ${isActivePath('/aboutus') ? 'active' : ''}`} 
                   onClick={() => setMobileOpen(false)}
                 >
                   {translations[language].about}
                 </Link>
 
-                {/* Services with dropdown */}
+                {/* Services with dropdown symbol */}
                 <div className="relative">
                   <button
-                    className={`flex items-center w-full text-left px-3 py-2 rounded-md ${isActivePath('/services') ? 'bg-blue-100 text-blue-700 font-semibold' : ''}`}
+                    className={`flex items-center w-full text-left ${theme === 'dark' ? "text-white" : "text-black"} ${isServicesActive() ? 'active' : ''}`}
                     onClick={() => setIsServicesDropdownOpen(!isServicesDropdownOpen)}
                     aria-haspopup="true"
                     aria-expanded={isServicesDropdownOpen}
                   >
                     <span>{translations[language].services}</span>
-                    <span className="ml-1 text-xs">▼</span>
+                    <span className="ml-1">▼</span>
                   </button>
                   {isServicesDropdownOpen && (
-                    <div className={`ml-4 mt-1 ${theme === 'dark' ? "bg-[#333]" : "bg-gray-50"} rounded-md overflow-hidden`}>
+                    <div className={`absolute ${theme === 'dark' ? "bg-[#222] text-white" : "bg-white text-black"} border mt-2 rounded shadow-lg w-full`}>
                       <Link 
                         to="/services" 
-                        className={`block px-4 py-2 ${location.pathname === '/services' ? 'bg-blue-100 text-blue-700 font-medium' : ''}`}
-                        onClick={() => {
-                          setIsServicesDropdownOpen(false);
-                          setMobileOpen(false);
-                        }}
+                        className={`block px-4 py-2 ${isActivePath('/services') ? 'active' : ''}`}
+                        onClick={() => setIsServicesDropdownOpen(false)}
                       >
                         {translations[language].allServices}
                       </Link>
                       <Link 
                         to="/education-programs" 
-                        className={`block px-4 py-2 ${location.pathname === '/education-programs' ? 'bg-blue-100 text-blue-700 font-medium' : ''}`}
-                        onClick={() => {
-                          setIsServicesDropdownOpen(false);
-                          setMobileOpen(false);
-                        }}
+                        className={`block px-4 py-2 ${isActivePath('/education-programs') ? 'active' : ''}`}
+                        onClick={() => setIsServicesDropdownOpen(false)}
                       >
                         {translations[language].education}
                       </Link>
                       <Link 
                         to="/healthcare-initiatives" 
-                        className={`block px-4 py-2 ${location.pathname === '/healthcare-initiatives' ? 'bg-blue-100 text-blue-700 font-medium' : ''}`}
-                        onClick={() => {
-                          setIsServicesDropdownOpen(false);
-                          setMobileOpen(false);
-                        }}
+                        className={`block px-4 py-2 ${isActivePath('/healthcare-initiatives') ? 'active' : ''}`}
+                        onClick={() => setIsServicesDropdownOpen(false)}
                       >
                         {translations[language].healthcare}
                       </Link>
                       <Link 
                         to="/food-distribution" 
-                        className={`block px-4 py-2 ${location.pathname === '/food-distribution' ? 'bg-blue-100 text-blue-700 font-medium' : ''}`}
-                        onClick={() => {
-                          setIsServicesDropdownOpen(false);
-                          setMobileOpen(false);
-                        }}
+                        className={`block px-4 py-2 ${isActivePath('/food-distribution') ? 'active' : ''}`}
+                        onClick={() => setIsServicesDropdownOpen(false)}
                       >
                         {translations[language].food}
                       </Link>
                       <Link 
                         to="/disaster-relief" 
-                        className={`block px-4 py-2 ${location.pathname === '/disaster-relief' ? 'bg-blue-100 text-blue-700 font-medium' : ''}`}
-                        onClick={() => {
-                          setIsServicesDropdownOpen(false);
-                          setMobileOpen(false);
-                        }}
+                        className={`block px-4 py-2 ${isActivePath('/disaster-relief') ? 'active' : ''}`}
+                        onClick={() => setIsServicesDropdownOpen(false)}
                       >
                         {translations[language].disaster}
                       </Link>
                       <Link 
                         to="/women-empowerment" 
-                        className={`block px-4 py-2 ${location.pathname === '/women-empowerment' ? 'bg-blue-100 text-blue-700 font-medium' : ''}`}
-                        onClick={() => {
-                          setIsServicesDropdownOpen(false);
-                          setMobileOpen(false);
-                        }}
+                        className={`block px-4 py-2 ${isActivePath('/women-empowerment') ? 'active' : ''}`}
+                        onClick={() => setIsServicesDropdownOpen(false)}
                       >
                         {translations[language].women}
                       </Link>
                       <Link 
                         to="/elderly-care" 
-                        className={`block px-4 py-2 ${location.pathname === '/elderly-care' ? 'bg-blue-100 text-blue-700 font-medium' : ''}`}
-                        onClick={() => {
-                          setIsServicesDropdownOpen(false);
-                          setMobileOpen(false);
-                        }}
+                        className={`block px-4 py-2 ${isActivePath('/elderly-care') ? 'active' : ''}`}
+                        onClick={() => setIsServicesDropdownOpen(false)}
                       >
                         {translations[language].elderly}
                       </Link>
@@ -449,17 +463,19 @@ const Header = () => {
                   )}
                 </div>
                 
+                {/* Blog */}
                 <Link 
                   to="/blog" 
-                  className={`px-3 py-2 rounded-md ${isActivePath('/blog') ? 'bg-blue-100 text-blue-700 font-semibold' : ''}`}
+                  className={`text-black hover:text-blue-500 ${isActivePath('/blog') ? 'active' : ''}`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {translations[language].blog}
                 </Link>
                 
+                {/* Contact */}
                 <Link 
                   to="/contact" 
-                  className={`px-3 py-2 rounded-md ${isActivePath('/contact') ? 'bg-blue-100 text-blue-700 font-semibold' : ''}`}
+                  className={`text-black hover:text-blue-500 ${isActivePath('/contact') ? 'active' : ''}`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {translations[language].contact}
@@ -468,13 +484,13 @@ const Header = () => {
             </div>
           )}
 
-          {/* Right side controls */}
+          {/* Right side controls - always visible */}
           <div className="flex items-center space-x-4">
             {/* Language Dropdown */}
             <select
               value={language}
               onChange={e => setLanguage(e.target.value)}
-              className={`border rounded px-2 py-1 ${theme === 'dark' ? 'bg-[#222] text-white border-[#444]' : 'bg-white text-black border-gray-300'}`}
+              className="border rounded px-2 py-1"
               aria-label="Select language"
             >
               <option value="en">English</option>
@@ -485,13 +501,13 @@ const Header = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-full transition-colors ${theme === 'dark' ? "bg-[#222] text-white hover:bg-[#333]" : "bg-gray-100 text-black hover:bg-gray-200"}`}
+              className={`p-2 rounded-full ${theme === 'dark' ? "bg-[#222] text-white hover:bg-[#333]" : "bg-gray-100 text-black hover:bg-gray-200"}`}
               aria-label="Toggle theme"
             >
               {theme === 'light' ? (
                 <span role="img" aria-label="Dark mode">🌙</span>
               ) : (
-                <span role="img" aria-label="Light mode">☀️</span>
+                <span role="img" aria-label="Light mode">☀</span>
               )}
             </button>
 
@@ -499,16 +515,16 @@ const Header = () => {
             <div className="relative">
               <button
                 onClick={() => setIsAvatarDropdownOpen(!isAvatarDropdownOpen)}
-                className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold hover:bg-blue-600 transition-colors"
+                className="w-10 h-10 rounded-full bg-blue-400 text-white flex items-center justify-center font-bold"
                 aria-label="User menu"
               >
                 {userInitials}
               </button>
               {isAvatarDropdownOpen && (
-                <div className={`absolute right-0 mt-2 w-40 ${theme === 'dark' ? "bg-[#222] text-white border-[#333]" : "bg-white text-black border-gray-200"} border rounded-md shadow-lg z-10 overflow-hidden`}>
+                <div className={`absolute right-0 mt-2 w-40 ${theme === 'dark' ? "bg-[#222] text-white" : "bg-white text-black"} border rounded shadow-lg z-10`}>
                   <button
                     onClick={handleLogout}
-                    className={`block w-full text-left px-4 py-2 transition-colors ${theme === 'dark' ? "hover:bg-[#333]" : "hover:bg-gray-100"}`}
+                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
                   >
                     {translations[language].logout}
                   </button>

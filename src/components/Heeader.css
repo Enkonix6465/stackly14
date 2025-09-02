@@ -3,7 +3,7 @@
   --text-color: #333333;
   --dropdown-bg: #f8f9fa;
   --border-color: #e0e0e0;
-  --active-color: #2563eb;
+  --active-color: #00CAE0;
   --hover-color: #f1f5f9;
 }
 
@@ -12,7 +12,7 @@
   --text-color: #f8f9fa;
   --dropdown-bg: #2d3748;
   --border-color: #4a5568;
-  --active-color: #3b82f6;
+  --active-color: #00CAE0;
   --hover-color: #2d3748;
 }
 
@@ -145,7 +145,7 @@ header {
 }
 
 body {
-  padding-top: 80px; /* ensures content doesn’t underlap the sticky header */
+  padding-top: 80px; /* ensures content doesn't underlap the sticky header */
 }
 
 /* Remove space after header */
@@ -159,6 +159,16 @@ body,
 .header + * {
   margin-top: 0 !important;
   padding-top: 0 !important;
+}
+
+/* Active link styling */
+.nav-main a.active,
+.nav-main button.active,
+.mobile-menu a.active,
+.mobile-menu button.active,
+.dropdown a.active {
+  color: var(--active-color) !important;
+  font-weight: 600 !important;
 }
 
 /* Hamburger, theme toggle, avatar, language dropdown visible on mobile */
@@ -240,7 +250,7 @@ header .hamburger {
 }
 
 [data-theme='dark'] header .hamburger {
-  color: #fff !important; /* <-- Use color, not background-color */
+  color: #fff !important; /* Use color, not background-color */
   background-color: transparent !important;
 }
 
@@ -279,11 +289,4 @@ header .mobile-menu {
 .mobile-menu a,
 .mobile-menu button {
   text-decoration: none !important;
-}
-
-/* Active nav link color */
-.nav-main a.active,
-.nav-main button.active,
-.nav-main .active {
-  color: #00CAE0 !important;
 }
