@@ -987,3 +987,20 @@ textarea:focus {
     font-size: 1rem;
   }
 }
+
+/* Toast and Modal Pointer Events */
+.toast {
+  pointer-events: auto;
+}
+
+.toast-container {
+  pointer-events: none;
+}
+
+.modal-dialog {
+  pointer-events: none;
+}
+
+.modal-content {
+  pointer-events: auto;
+}

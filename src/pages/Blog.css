@@ -739,7 +739,7 @@
 }
 
 .slick-list.dragging {
-  cursor: grab; /* Use 'grab' or 'pointer', not 'hand' */
+  cursor: grab; /* Use 'grab' instead of 'hand' */
 }
 
 .slick-slide.dragging img {
