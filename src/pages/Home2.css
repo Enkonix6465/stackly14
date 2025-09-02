@@ -388,9 +388,9 @@ body.theme-dark .card-section{
 .contact-section {
   width: 100vw;
   height: 50vh;
-  background-image:
+  /* background-image:
     linear-gradient(var(--overlay), var(--overlay)),
-    url('C:\Users\DELL\Desktop\funds\charity\public\Images\c-h2.jpg');
+    url('C:\Users\DELL\Desktop\funds\charity\public\Images\c-h2.jpg'); */
   background-size: cover;
   background-position: center;
   display: flex;

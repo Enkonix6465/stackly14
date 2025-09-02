@@ -532,7 +532,7 @@ const Home = () => {
             </div>
 
             {/* Content Side */}
-            <div className="col-md-6">
+            <div className="col-md-6 ">
               <div className="p-5">
                 <h2 className={`contact-title ${theme === 'dark' ? 'text-white' : ''}`}>{homeTranslations[language].contactTitle}</h2>
                 <p className={`contact-text ${theme === 'dark' ? 'text-white' : ''}`} style={{color:"black"}}>

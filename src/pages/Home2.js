@@ -404,7 +404,7 @@ const Home2 = () => {
       </section>
       
       {/* Contact section */}
-      <section className="contact-section">
+      <section className="contact-section" style={{backgroundImage:"url('images/c-h2.jpg')"}}>
         <h1>{home2Translations[language].contactTitle}</h1>
         <p>{home2Translations[language].contactDesc}</p>
         <button onClick={handleNavigate('/contact')}>
